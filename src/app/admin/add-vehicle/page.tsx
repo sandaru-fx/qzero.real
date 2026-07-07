@@ -1,15 +1,34 @@
 'use client';
 
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import Image from 'next/image';
+import { useState, ChangeEvent, FormEvent } from 'react';
 import { uploadVehicleImage } from '@/actions/upload';
 import { createVehicle } from '@/actions/vehicle';
 import { UploadCloud, X, Loader2, CheckCircle2 } from 'lucide-react';
+import { VehicleFormInput } from '@/types/vehicle';
+
+type VehicleFormState = {
+  brand: string;
+  model: string;
+  year: string;
+  price: string;
+  mileage: string;
+  fuelType: VehicleFormInput['fuelType'];
+  transmission: VehicleFormInput['transmission'];
+  engineCapacity: string;
+  description: string;
+  isFeatured: boolean;
+};
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : 'An unexpected error occurred';
+}
 
 export default function AddVehiclePage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<VehicleFormState>({
     brand: '',
     model: '',
-    year: new Date().getFullYear(),
+    year: String(new Date().getFullYear()),
     price: '',
     mileage: '',
     fuelType: 'Petrol',
@@ -56,8 +75,8 @@ export default function AddVehiclePage() {
         } else {
           setError(res.error || 'Failed to upload one or more images');
         }
-      } catch (err: any) {
-        setError(err.message || 'Image upload error');
+      } catch (err: unknown) {
+        setError(getErrorMessage(err));
       }
     }
 
@@ -87,15 +106,21 @@ export default function AddVehiclePage() {
     }
 
     try {
-      const payload = {
-        ...formData,
+      const payload: VehicleFormInput = {
+        brand: formData.brand.trim(),
+        model: formData.model.trim(),
         year: Number(formData.year),
         price: Number(formData.price),
         mileage: Number(formData.mileage),
+        fuelType: formData.fuelType,
+        transmission: formData.transmission,
+        engineCapacity: formData.engineCapacity.trim(),
+        description: formData.description.trim(),
+        isFeatured: formData.isFeatured,
         images,
       };
 
-      const res = await createVehicle(payload as any);
+      const res = await createVehicle(payload);
       
       if (res.success) {
         setSuccess(true);
@@ -103,7 +128,7 @@ export default function AddVehiclePage() {
         setFormData({
           brand: '',
           model: '',
-          year: new Date().getFullYear(),
+          year: String(new Date().getFullYear()),
           price: '',
           mileage: '',
           fuelType: 'Petrol',
@@ -118,8 +143,8 @@ export default function AddVehiclePage() {
       } else {
         setError(res.error || 'Failed to publish vehicle.');
       }
-    } catch (err: any) {
-      setError('An unexpected error occurred while saving.');
+    } catch (err: unknown) {
+      setError(getErrorMessage(err));
     } finally {
       setIsSubmitting(false);
     }
@@ -238,11 +263,18 @@ export default function AddVehiclePage() {
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                   {images.map((url, idx) => (
                     <div key={idx} className="relative group rounded-xl overflow-hidden bg-brand-black aspect-[4/3] border border-gray-800">
-                      <img src={url} alt={`Preview ${idx}`} className="w-full h-full object-cover" />
+                      <Image
+                        src={url}
+                        alt={`Preview ${idx + 1}`}
+                        fill
+                        sizes="(min-width: 768px) 25vw, 50vw"
+                        className="object-cover"
+                      />
                       <button 
                         type="button" 
                         onClick={() => removeImage(idx)}
                         className="absolute top-2 right-2 bg-black/70 hover:bg-red-600 text-white rounded-full p-1.5 transition-colors"
+                        aria-label={`Remove image ${idx + 1}`}
                       >
                         <X className="w-4 h-4" />
                       </button>

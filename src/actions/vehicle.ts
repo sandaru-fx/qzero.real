@@ -2,23 +2,19 @@
 
 import connectToDatabase from '@/lib/mongodb';
 import Vehicle from '@/models/Vehicle';
-import { IVehicle } from '@/types/vehicle';
+import { IVehicle, VehicleFormInput } from '@/types/vehicle';
+import { createVehicleSlug } from '@/utils/slug';
 import { revalidatePath } from 'next/cache';
 
-function generateSlug(brand: string, model: string): string {
-  const baseSlug = `${brand} ${model}`
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-  const uniqueSuffix = Date.now().toString(36);
-  return `${baseSlug}-${uniqueSuffix}`;
+function getErrorMessage(error: unknown, fallback: string): string {
+  return error instanceof Error ? error.message : fallback;
 }
 
-export async function createVehicle(data: Omit<IVehicle, 'slug' | 'createdAt' | 'updatedAt'>) {
+export async function createVehicle(data: VehicleFormInput) {
   try {
     await connectToDatabase();
     
-    const slug = generateSlug(data.brand, data.model);
+    const slug = createVehicleSlug(data.brand, data.model);
     
     const newVehicle = await Vehicle.create({
       ...data,
@@ -32,9 +28,9 @@ export async function createVehicle(data: Omit<IVehicle, 'slug' | 'createdAt' | 
       success: true, 
       vehicle: JSON.parse(JSON.stringify(newVehicle)) 
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error creating vehicle:', error);
-    return { success: false, error: error.message || 'Failed to create vehicle' };
+    return { success: false, error: getErrorMessage(error, 'Failed to create vehicle') };
   }
 }
 
@@ -54,7 +50,7 @@ export async function updateVehicle(id: string, data: Partial<IVehicle>) {
       const newBrand = data.brand || existingVehicle.brand;
       const newModel = data.model || existingVehicle.model;
       
-      updateData.slug = generateSlug(newBrand, newModel);
+      updateData.slug = createVehicleSlug(newBrand, newModel);
     }
     
     const updatedVehicle = await Vehicle.findByIdAndUpdate(id, updateData, { new: true });
@@ -74,9 +70,9 @@ export async function updateVehicle(id: string, data: Partial<IVehicle>) {
     }
 
     return { success: true, vehicle: JSON.parse(JSON.stringify(updatedVehicle)) };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating vehicle:', error);
-    return { success: false, error: error.message || 'Failed to update vehicle' };
+    return { success: false, error: getErrorMessage(error, 'Failed to update vehicle') };
   }
 }
 
@@ -97,8 +93,8 @@ export async function deleteVehicle(id: string) {
     }
 
     return { success: true };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting vehicle:', error);
-    return { success: false, error: error.message || 'Failed to delete vehicle' };
+    return { success: false, error: getErrorMessage(error, 'Failed to delete vehicle') };
   }
 }

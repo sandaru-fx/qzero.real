@@ -3,6 +3,8 @@
 @theme {
   --color-brand-black: #050505;
   --color-brand-card: #121212;
+  --color-brand-line: #242424;
+  --color-brand-muted: #9CA3AF;
   --color-brand-gold: #D4AF37;
   --color-brand-gold-light: #F3E5AB;
   --color-brand-gold-dark: #AA7C11;
@@ -11,6 +13,53 @@
 :root {
   background-color: var(--color-brand-black);
   color: #FFFFFF;
+  color-scheme: dark;
 }
 
-/* Base custom styles can go here */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+}
+
+::selection {
+  background: rgba(212, 175, 55, 0.35);
+  color: #FFFFFF;
+}
+
+.gold-gradient {
+  background-image: linear-gradient(135deg, #AA7C11 0%, #D4AF37 48%, #F3E5AB 100%);
+}
+
+.gold-text {
+  background: linear-gradient(135deg, #AA7C11 0%, #D4AF37 45%, #F3E5AB 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.shimmer {
+  background-image: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.04) 0%,
+    rgba(212, 175, 55, 0.12) 20%,
+    rgba(255, 255, 255, 0.04) 40%
+  );
+  background-size: 220% 100%;
+  animation: shimmer 1.25s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -120% 0;
+  }
+}

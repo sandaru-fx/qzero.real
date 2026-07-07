@@ -1,6 +1,11 @@
 'use server'
 
 import cloudinary from '@/lib/cloudinary';
+import { UploadApiResponse } from 'cloudinary';
+
+function getErrorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : 'Failed to upload image';
+}
 
 export async function uploadVehicleImage(formData: FormData) {
   try {
@@ -13,12 +18,15 @@ export async function uploadVehicleImage(formData: FormData) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    const result = await new Promise((resolve, reject) => {
+    const result = await new Promise<UploadApiResponse>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         { folder: 'qzero_vehicles' },
         (error, result) => {
-          if (error) reject(error);
-          else resolve(result);
+          if (error || !result) {
+            reject(error ?? new Error('Cloudinary did not return an upload result'));
+          } else {
+            resolve(result);
+          }
         }
       );
       
@@ -28,11 +36,11 @@ export async function uploadVehicleImage(formData: FormData) {
 
     return { 
       success: true, 
-      url: (result as any).secure_url 
+      url: result.secure_url 
     };
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Cloudinary upload error:', error);
-    return { success: false, error: error.message || 'Failed to upload image' };
+    return { success: false, error: getErrorMessage(error) };
   }
 }

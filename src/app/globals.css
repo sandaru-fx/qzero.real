@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-black: #050505;
+  --color-brand-card: #121212;
+  --color-brand-gold: #D4AF37;
+  --color-brand-gold-light: #F3E5AB;
+  --color-brand-gold-dark: #AA7C11;
+}
+
+:root {
+  background-color: var(--color-brand-black);
+  color: #FFFFFF;
+}
+
+/* Base custom styles can go here */

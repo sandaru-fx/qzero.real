@@ -1,20 +1,30 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowLeft } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-brand-black px-4 py-16 text-center">
-      <div className="max-w-md">
-        <div className="mx-auto flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-brand-gold/40 bg-black">
-          <Image src="/qzero-logo.png" alt="QZERO International" width={86} height={86} className="object-contain" />
-        </div>
-        <p className="mt-8 text-sm font-semibold text-brand-gold">404</p>
-        <h1 className="mt-3 text-4xl font-semibold text-white">Page not found</h1>
-        <p className="mt-4 text-brand-muted">The requested QZERO page does not exist or has moved.</p>
-        <Link href="/" className="mt-8 inline-flex rounded-full px-6 py-3 text-sm font-semibold text-black gold-gradient">
-          Back home
+    <div className="flex min-h-screen flex-col items-center justify-center bg-brand-black px-4 text-center">
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-gold/5 via-brand-black to-brand-black"></div>
+      
+      <div className="relative z-10 flex flex-col items-center">
+        <p className="text-sm font-bold uppercase tracking-[0.3em] text-brand-gold">
+          404 Error
+        </p>
+        <h1 className="mt-4 text-6xl font-bold tracking-tight text-white sm:text-8xl">
+          Page Not Found
+        </h1>
+        <p className="mt-6 max-w-md text-lg text-brand-muted">
+          The vehicle or page you are looking for is no longer available in our collection.
+        </p>
+
+        <Link
+          href="/"
+          className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-brand-card px-8 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:border-brand-gold/50 hover:bg-white/5 hover:text-brand-gold"
+        >
+          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+          Return to Showroom
         </Link>
       </div>
-    </main>
+    </div>
   );
 }

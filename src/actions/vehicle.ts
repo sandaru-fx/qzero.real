@@ -5,6 +5,7 @@ import Vehicle from '@/models/Vehicle';
 import { IVehicle, VehicleFormInput } from '@/types/vehicle';
 import { createVehicleSlug } from '@/utils/slug';
 import { revalidatePath } from 'next/cache';
+import { protectServerAction } from '@/lib/auth';
 
 function getErrorMessage(error: unknown, fallback: string): string {
   return error instanceof Error ? error.message : fallback;
@@ -12,6 +13,7 @@ function getErrorMessage(error: unknown, fallback: string): string {
 
 export async function createVehicle(data: VehicleFormInput) {
   try {
+    await protectServerAction();
     await connectToDatabase();
     
     const slug = createVehicleSlug(data.brand, data.model);
@@ -36,6 +38,7 @@ export async function createVehicle(data: VehicleFormInput) {
 
 export async function updateVehicle(id: string, data: Partial<IVehicle>) {
   try {
+    await protectServerAction();
     await connectToDatabase();
     
     const updateData: Partial<IVehicle> = { ...data };
@@ -78,6 +81,7 @@ export async function updateVehicle(id: string, data: Partial<IVehicle>) {
 
 export async function deleteVehicle(id: string) {
   try {
+    await protectServerAction();
     await connectToDatabase();
     
     const deletedVehicle = await Vehicle.findByIdAndDelete(id);

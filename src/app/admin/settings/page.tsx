@@ -1,4 +1,8 @@
-export default function AdminSettingsPage() {
+import { protectAdminRoute } from '@/lib/auth';
+
+export default async function AdminSettingsPage() {
+  await protectAdminRoute();
+
   return (
     <main className="min-h-screen bg-brand-black px-4 py-10 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-4xl">

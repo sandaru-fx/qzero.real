@@ -2,6 +2,7 @@
 
 import cloudinary from '@/lib/cloudinary';
 import { UploadApiResponse } from 'cloudinary';
+import { protectServerAction } from '@/lib/auth';
 
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : 'Failed to upload image';
@@ -9,6 +10,7 @@ function getErrorMessage(error: unknown): string {
 
 export async function uploadVehicleImage(formData: FormData) {
   try {
+    await protectServerAction();
     const file = formData.get('file') as File | null;
     
     if (!file) {

@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import { Car, Plus, Settings } from 'lucide-react';
 import { getVehicles } from '@/actions/search';
+import { protectAdminRoute } from '@/lib/auth';
 
 export const revalidate = 60;
 
 export default async function AdminDashboardPage() {
+  await protectAdminRoute();
+
   const vehicles = await getVehicles({ limit: 8 });
   const featuredCount = vehicles.filter((vehicle) => vehicle.isFeatured).length;
 

@@ -14,6 +14,10 @@ type LeanVehicle = Omit<IVehicle, 'createdAt' | 'updatedAt'> & {
 
 type VehicleSearchOptions = {
   query?: string;
+  make?: string;
+  model?: string;
+  year?: string;
+  price?: string;
   fuelType?: string;
   transmission?: string;
   featured?: boolean;
@@ -51,7 +55,7 @@ export async function getVehicles(options: VehicleSearchOptions = {}): Promise<V
   try {
     await connectToDatabase();
 
-    const filter: QueryFilter<IVehicle> = {};
+    const filter: any = {};
     const limit = Math.min(Math.max(options.limit ?? 24, 1), 48);
     const query = options.query?.trim();
 
@@ -62,6 +66,26 @@ export async function getVehicles(options: VehicleSearchOptions = {}): Promise<V
         { model: regex },
         { description: regex },
       ];
+    }
+
+    if (options.make && options.make !== 'Any Make') {
+      filter.brand = new RegExp(escapeRegex(options.make.trim()), 'i');
+    }
+
+    if (options.model && options.model !== 'Any Model') {
+      filter.model = new RegExp(escapeRegex(options.model.trim()), 'i');
+    }
+
+    if (options.year && !isNaN(Number(options.year))) {
+      filter.year = Number(options.year);
+    }
+
+    if (options.price) {
+      if (options.price.includes('Under Rs 5M')) filter.price = { $lt: 5000000 };
+      else if (options.price.includes('Rs 5M - 10M')) filter.price = { $gte: 5000000, $lte: 10000000 };
+      else if (options.price.includes('Rs 10M - 20M')) filter.price = { $gte: 10000000, $lte: 20000000 };
+      else if (options.price.includes('Rs 20M - 30M')) filter.price = { $gte: 20000000, $lte: 30000000 };
+      else if (options.price.includes('Over Rs 30M')) filter.price = { $gt: 30000000 };
     }
 
     if (fuelTypes.includes(options.fuelType as FuelType)) {
@@ -100,6 +124,21 @@ export async function getVehicleBySlug(slug: string): Promise<VehicleView | null
     return vehicle ? serializeVehicle(vehicle) : null;
   } catch (error) {
     console.warn('Vehicle detail query skipped:', error instanceof Error ? error.message : 'Unknown error');
+    return null;
+  }
+}
+
+export async function getVehicleById(id: string): Promise<VehicleView | null> {
+  try {
+    await connectToDatabase();
+    
+    // Check if valid ObjectId
+    if (!Types.ObjectId.isValid(id)) return null;
+
+    const vehicle = await Vehicle.findById(id).lean<LeanVehicle | null>();
+    return vehicle ? serializeVehicle(vehicle) : null;
+  } catch (error) {
+    console.warn('Vehicle by ID query skipped:', error instanceof Error ? error.message : 'Unknown error');
     return null;
   }
 }

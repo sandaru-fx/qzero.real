@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { getVehicles } from '@/actions/search';
 import { protectAdminRoute } from '@/lib/auth';
 import AdminVehicleCard from '@/components/AdminVehicleCard';

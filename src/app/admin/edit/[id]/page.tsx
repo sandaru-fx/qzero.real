@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getVehicleById } from '@/actions/search';
 import { protectAdminRoute } from '@/lib/auth';
-import EditVehicleForm from '@/components/EditVehicleForm';
+import EditVehicleForm from '@/components/admin/EditVehicleForm';
 
 export const revalidate = 0;
 

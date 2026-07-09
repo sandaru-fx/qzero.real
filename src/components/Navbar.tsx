@@ -5,6 +5,7 @@ const navItems = [
   { href: '/', label: 'Home' },
   { href: '/vehicles', label: 'Showroom' },
   { href: '/import', label: 'Import' },
+  { href: '/promotions', label: 'Promotions' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -30,8 +31,8 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* 5-column grid for mobile now since we have 5 items */}
-        <div className="grid w-full grid-cols-5 items-center gap-1 rounded-full border border-white/5 bg-brand-card/70 p-1 sm:flex sm:w-auto">
+        {/* 6-column grid for mobile to fit all nav items */}
+        <div className="grid w-full grid-cols-6 items-center gap-1 rounded-full border border-white/5 bg-brand-card/70 p-1 sm:flex sm:w-auto">
           {navItems.map((item) => (
             <Link
               key={item.href}

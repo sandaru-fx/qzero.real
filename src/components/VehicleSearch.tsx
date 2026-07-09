@@ -5,7 +5,6 @@ import { ChevronDown, Search } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 type DropdownProps = {
-  label: string;
   value: string;
   options: string[];
   placeholder: string;
@@ -14,7 +13,7 @@ type DropdownProps = {
   onSelect: (value: string) => void;
 };
 
-const CustomDropdown = ({ label, value, options, placeholder, isOpen, onToggle, onSelect }: DropdownProps) => {
+const CustomDropdown = ({ value, options, placeholder, isOpen, onToggle, onSelect }: DropdownProps) => {
   return (
     <div className="relative">
       <button
@@ -106,7 +105,6 @@ export default function VehicleSearch() {
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:items-end">
         
         <CustomDropdown
-          label="Make"
           placeholder="Select Make"
           value={filters.make}
           options={filterOptions.make}
@@ -116,7 +114,6 @@ export default function VehicleSearch() {
         />
 
         <CustomDropdown
-          label="Model"
           placeholder="Select Model"
           value={filters.model}
           options={filterOptions.model}
@@ -126,7 +123,6 @@ export default function VehicleSearch() {
         />
 
         <CustomDropdown
-          label="Year"
           placeholder="Select Year"
           value={filters.year}
           options={filterOptions.year}
@@ -136,7 +132,6 @@ export default function VehicleSearch() {
         />
 
         <CustomDropdown
-          label="Condition"
           placeholder="Select Condition"
           value={filters.condition}
           options={filterOptions.condition}
@@ -146,7 +141,6 @@ export default function VehicleSearch() {
         />
 
         <CustomDropdown
-          label="Price Range"
           placeholder="Select Price"
           value={filters.priceRange}
           options={filterOptions.priceRange}

@@ -55,7 +55,7 @@ export async function getVehicles(options: VehicleSearchOptions = {}): Promise<V
   try {
     await connectToDatabase();
 
-    const filter: any = {};
+    const filter: QueryFilter<IVehicle> = {};
     const limit = Math.min(Math.max(options.limit ?? 24, 1), 48);
     const query = options.query?.trim();
 

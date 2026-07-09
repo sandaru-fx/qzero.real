@@ -2,13 +2,14 @@ import Link from 'next/link';
 import { Car, Plus, Settings } from 'lucide-react';
 import { getVehicles } from '@/actions/search';
 import { protectAdminRoute } from '@/lib/auth';
+import VehicleTable from '@/components/admin/VehicleTable';
 
 export const revalidate = 60;
 
 export default async function AdminDashboardPage() {
   await protectAdminRoute();
 
-  const vehicles = await getVehicles({ limit: 8 });
+  const vehicles = await getVehicles({ limit: 50 });
   const featuredCount = vehicles.filter((vehicle) => vehicle.isFeatured).length;
 
   return (
@@ -32,23 +33,12 @@ export default async function AdminDashboardPage() {
           <Metric icon={Plus} label="Fast actions" value="Server" />
         </div>
 
-        <section className="mt-8 rounded-lg border border-brand-line bg-brand-card p-6">
-          <h2 className="text-xl font-semibold">Recent inventory</h2>
-          <div className="mt-5 grid gap-3">
-            {vehicles.length > 0 ? vehicles.map((vehicle) => (
-              <div key={vehicle._id} className="flex items-center justify-between gap-4 rounded-lg border border-brand-line bg-black p-4">
-                <div>
-                  <p className="font-semibold">{vehicle.brand} {vehicle.model}</p>
-                  <p className="mt-1 text-sm text-brand-muted">{vehicle.year} · {vehicle.fuelType} · {vehicle.transmission}</p>
-                </div>
-                <Link href={`/vehicles/${vehicle.slug}`} className="rounded-full border border-brand-line px-4 py-2 text-sm text-brand-muted hover:border-brand-gold/50 hover:text-brand-gold">
-                  View
-                </Link>
-              </div>
-            )) : (
-              <p className="rounded-lg border border-brand-line bg-black p-4 text-sm text-brand-muted">No inventory loaded yet.</p>
-            )}
+        <section className="mt-8 rounded-xl border border-brand-line bg-brand-card p-6 shadow-xl">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold text-white">Recent inventory</h2>
+            <span className="text-sm text-brand-muted">{vehicles.length} vehicles</span>
           </div>
+          <VehicleTable vehicles={vehicles} />
         </section>
       </div>
     </main>
@@ -57,12 +47,12 @@ export default async function AdminDashboardPage() {
 
 function Metric({ icon: Icon, label, value }: { icon: typeof Car; label: string; value: string }) {
   return (
-    <div className="rounded-lg border border-brand-line bg-brand-card p-6">
-      <span className="flex h-11 w-11 items-center justify-center rounded-full border border-brand-gold/40 bg-black">
+    <div className="rounded-xl border border-[#242424] bg-[#121212] p-6 shadow-md">
+      <span className="flex h-11 w-11 items-center justify-center rounded-full border border-brand-gold/20 bg-[#050505]">
         <Icon className="h-5 w-5 text-brand-gold" />
       </span>
-      <p className="mt-5 text-sm text-brand-muted">{label}</p>
-      <p className="mt-2 text-3xl font-semibold text-white">{value}</p>
+      <p className="mt-5 text-sm font-medium text-gray-400">{label}</p>
+      <p className="mt-2 text-3xl font-bold text-white tracking-tight">{value}</p>
     </div>
   );
 }

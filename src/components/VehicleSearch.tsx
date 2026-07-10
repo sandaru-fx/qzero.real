@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { ChevronDown, Search } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import type { FilterOptions } from '@/types/filters';
 
 type DropdownProps = {
   value: string;
@@ -14,6 +15,14 @@ type DropdownProps = {
 };
 
 const CustomDropdown = ({ value, options, placeholder, isOpen, onToggle, onSelect }: DropdownProps) => {
+  if (options.length === 0) {
+    return (
+      <div className="flex h-12 w-full items-center rounded-md border border-brand-line bg-brand-card px-4 text-sm text-brand-muted">
+        {placeholder}
+      </div>
+    );
+  }
+
   return (
     <div className="relative">
       <button
@@ -50,28 +59,37 @@ const CustomDropdown = ({ value, options, placeholder, isOpen, onToggle, onSelec
   );
 };
 
-export default function VehicleSearch() {
+type VehicleSearchProps = {
+  filterOptions: FilterOptions;
+  showTextSearch?: boolean;
+};
+
+export default function VehicleSearch({ filterOptions, showTextSearch = false }: VehicleSearchProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [filters, setFilters] = useState({
-    year: '',
-    make: '',
-    model: '',
-    condition: '',
-    priceRange: '',
+    year: searchParams.get('year') || '',
+    make: searchParams.get('make') || '',
+    model: searchParams.get('model') || '',
+    condition: searchParams.get('condition') || '',
+    priceRange: searchParams.get('price') || '',
+    query: searchParams.get('q') || '',
   });
 
-  const filterOptions = {
-    year: ['2026', '2025', '2024', '2023', '2022', '2021', '2020'],
-    make: ['Toyota', 'Nissan', 'Honda', 'Mercedes-Benz', 'BMW', 'Tesla', 'Audi'],
-    model: ['Any Model', 'Land Cruiser', 'Civic', 'Leaf', 'Model 3', 'C-Class', 'X5', 'Q7'], // Simplified for mockup
-    condition: ['Brand New', 'Reconditioned', 'Used'],
-    priceRange: ['Under Rs 5M', 'Rs 5M - 10M', 'Rs 10M - 20M', 'Rs 20M - 30M', 'Over Rs 30M'],
-  };
+  useEffect(() => {
+    setFilters({
+      year: searchParams.get('year') || '',
+      make: searchParams.get('make') || '',
+      model: searchParams.get('model') || '',
+      condition: searchParams.get('condition') || '',
+      priceRange: searchParams.get('price') || '',
+      query: searchParams.get('q') || '',
+    });
+  }, [searchParams]);
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
@@ -84,30 +102,42 @@ export default function VehicleSearch() {
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    
+
     if (filters.make) params.append('make', filters.make);
-    if (filters.model) params.append('model', filters.model);
+    if (filters.model && filters.model !== 'Any Model') params.append('model', filters.model);
     if (filters.year) params.append('year', filters.year);
     if (filters.condition) params.append('condition', filters.condition);
     if (filters.priceRange) params.append('price', filters.priceRange);
-    
+    if (filters.query.trim()) params.append('q', filters.query.trim());
+
     const queryString = params.toString();
-    const targetUrl = queryString ? `/vehicles?${queryString}` : '/vehicles';
-    
-    router.push(targetUrl);
+    router.push(queryString ? `/vehicles?${queryString}` : '/vehicles');
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="mx-auto w-full max-w-7xl rounded-xl border border-white/5 bg-brand-card/80 p-4 shadow-2xl backdrop-blur-md sm:p-6"
     >
+      {showTextSearch && (
+        <div className="relative mb-4">
+          <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
+          <input
+            type="search"
+            value={filters.query}
+            onChange={(e) => setFilters({ ...filters, query: e.target.value })}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            placeholder="Search brand, model, or feature"
+            className="h-12 w-full rounded-full border border-brand-line bg-black pl-11 pr-4 text-sm text-white outline-none transition-colors placeholder:text-brand-muted focus:border-brand-gold"
+          />
+        </div>
+      )}
+
       <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 lg:items-end">
-        
         <CustomDropdown
           placeholder="Select Make"
           value={filters.make}
-          options={filterOptions.make}
+          options={filterOptions.makes}
           isOpen={activeDropdown === 'make'}
           onToggle={() => setActiveDropdown(activeDropdown === 'make' ? null : 'make')}
           onSelect={(val) => setFilters({ ...filters, make: val })}
@@ -116,16 +146,16 @@ export default function VehicleSearch() {
         <CustomDropdown
           placeholder="Select Model"
           value={filters.model}
-          options={filterOptions.model}
+          options={['Any Model', ...filterOptions.models]}
           isOpen={activeDropdown === 'model'}
           onToggle={() => setActiveDropdown(activeDropdown === 'model' ? null : 'model')}
-          onSelect={(val) => setFilters({ ...filters, model: val })}
+          onSelect={(val) => setFilters({ ...filters, model: val === 'Any Model' ? '' : val })}
         />
 
         <CustomDropdown
           placeholder="Select Year"
           value={filters.year}
-          options={filterOptions.year}
+          options={filterOptions.years}
           isOpen={activeDropdown === 'year'}
           onToggle={() => setActiveDropdown(activeDropdown === 'year' ? null : 'year')}
           onSelect={(val) => setFilters({ ...filters, year: val })}
@@ -134,7 +164,7 @@ export default function VehicleSearch() {
         <CustomDropdown
           placeholder="Select Condition"
           value={filters.condition}
-          options={filterOptions.condition}
+          options={filterOptions.conditions}
           isOpen={activeDropdown === 'condition'}
           onToggle={() => setActiveDropdown(activeDropdown === 'condition' ? null : 'condition')}
           onSelect={(val) => setFilters({ ...filters, condition: val })}
@@ -143,7 +173,7 @@ export default function VehicleSearch() {
         <CustomDropdown
           placeholder="Select Price"
           value={filters.priceRange}
-          options={filterOptions.priceRange}
+          options={filterOptions.priceRanges}
           isOpen={activeDropdown === 'priceRange'}
           onToggle={() => setActiveDropdown(activeDropdown === 'priceRange' ? null : 'priceRange')}
           onSelect={(val) => setFilters({ ...filters, priceRange: val })}
@@ -156,7 +186,6 @@ export default function VehicleSearch() {
           <Search className="h-4 w-4 transition-transform group-hover:rotate-12" />
           <span>Search Vehicle</span>
         </button>
-
       </div>
     </div>
   );

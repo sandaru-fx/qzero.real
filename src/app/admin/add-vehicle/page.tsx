@@ -15,6 +15,7 @@ type VehicleFormState = {
   mileage: string;
   fuelType: VehicleFormInput['fuelType'];
   transmission: VehicleFormInput['transmission'];
+  condition: VehicleFormInput['condition'];
   engineCapacity: string;
   description: string;
   isFeatured: boolean;
@@ -33,6 +34,7 @@ export default function AddVehiclePage() {
     mileage: '',
     fuelType: 'Petrol',
     transmission: 'Automatic',
+    condition: 'Reconditioned',
     engineCapacity: '',
     description: '',
     isFeatured: false,
@@ -114,6 +116,7 @@ export default function AddVehiclePage() {
         mileage: Number(formData.mileage),
         fuelType: formData.fuelType,
         transmission: formData.transmission,
+        condition: formData.condition,
         engineCapacity: formData.engineCapacity.trim(),
         description: formData.description.trim(),
         isFeatured: formData.isFeatured,
@@ -133,6 +136,7 @@ export default function AddVehiclePage() {
           mileage: '',
           fuelType: 'Petrol',
           transmission: 'Automatic',
+          condition: 'Reconditioned',
           engineCapacity: '',
           description: '',
           isFeatured: false,
@@ -198,7 +202,7 @@ export default function AddVehiclePage() {
           </div>
 
           {/* Specs Section */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
             <div>
               <label className={labelClasses}>Mileage (km)</label>
               <input type="number" name="mileage" required min="0" value={formData.mileage} onChange={handleChange} className={inputClasses} placeholder="e.g. 15000" />
@@ -217,6 +221,14 @@ export default function AddVehiclePage() {
               <select name="transmission" value={formData.transmission} onChange={handleChange} className={inputClasses}>
                 <option value="Automatic">Automatic</option>
                 <option value="Manual">Manual</option>
+              </select>
+            </div>
+            <div>
+              <label className={labelClasses}>Condition</label>
+              <select name="condition" value={formData.condition} onChange={handleChange} className={inputClasses}>
+                <option value="Brand New">Brand New</option>
+                <option value="Reconditioned">Reconditioned</option>
+                <option value="Used">Used</option>
               </select>
             </div>
           </div>

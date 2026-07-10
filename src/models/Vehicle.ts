@@ -19,6 +19,12 @@ const VehicleSchema = new Schema<IVehicle>(
       enum: ['Automatic', 'Manual']
     },
     engineCapacity: { type: String, required: true },
+    condition: {
+      type: String,
+      required: true,
+      enum: ['Brand New', 'Reconditioned', 'Used'],
+      default: 'Reconditioned',
+    },
     images: { type: [String], required: true },
     description: { type: String, required: true },
     slug: { type: String, required: true, unique: true, index: true },

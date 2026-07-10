@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Globe, Camera, CirclePlay, BriefcaseBusiness, Phone } from 'lucide-react';
+import { siteConfig } from '@/config/site';
 
 /* ────────────────────────────────────────────
    Live Sri Lanka Clock Hook
@@ -42,21 +43,21 @@ const quickLinks = [
   { label: 'Home', href: '/' },
   { label: 'Showroom', href: '/vehicles' },
   { label: 'Import Service', href: '/import' },
-  { label: 'Promotions', href: '/vehicles' },
+  { label: 'Promotions', href: '/promotions' },
 ];
 
 const infoLinks = [
   { label: 'About Us', href: '/about' },
-  { label: 'Careers', href: '/about' },
+  { label: 'Careers', href: '/careers' },
   { label: 'Contact Us', href: '/contact' },
   { label: 'Privacy Policy', href: '/privacy' },
 ];
 
 const socials = [
-  { Icon: Globe, href: 'https://facebook.com', label: 'Facebook' },
-  { Icon: Camera, href: 'https://instagram.com', label: 'Instagram' },
-  { Icon: CirclePlay, href: 'https://youtube.com', label: 'YouTube' },
-  { Icon: BriefcaseBusiness, href: 'https://linkedin.com', label: 'LinkedIn' },
+  { Icon: Globe, href: siteConfig.social.facebook, label: 'Facebook' },
+  { Icon: Camera, href: siteConfig.social.instagram, label: 'Instagram' },
+  { Icon: CirclePlay, href: siteConfig.social.youtube, label: 'YouTube' },
+  { Icon: BriefcaseBusiness, href: siteConfig.social.linkedin, label: 'LinkedIn' },
 ];
 
 export default function Footer() {
@@ -94,15 +95,15 @@ export default function Footer() {
             
             <div className="flex flex-col gap-1 text-sm text-gray-400">
               <p className="font-semibold text-white">Head Office</p>
-              <p>Colombo 02, Sri Lanka</p>
+              <p>{siteConfig.contact.address.line2}</p>
             </div>
             
             <div className="flex flex-col gap-1 text-sm text-gray-400">
               <a
-                href="mailto:info@qzerointernational.com"
+                href={`mailto:${siteConfig.contact.email}`}
                 className="transition-all duration-300 hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] hover:bg-clip-text hover:text-transparent w-fit"
               >
-                info@qzerointernational.com
+                {siteConfig.contact.email}
               </a>
             </div>
           </div>
@@ -187,10 +188,10 @@ export default function Footer() {
               <span className="mt-0.5 text-xs text-gray-400">
                 Mon to Fri - 8.30 am to 5.30 pm |{' '}
                 <a
-                  href="tel:+94700000000"
+                  href={`tel:${siteConfig.contact.phoneTel}`}
                   className="text-sm font-bold text-white transition-all duration-300 hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] hover:bg-clip-text hover:text-transparent"
                 >
-                  +94 70 000 0000
+                  {siteConfig.contact.phone}
                 </a>
               </span>
             </div>

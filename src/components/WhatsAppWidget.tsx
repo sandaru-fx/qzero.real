@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { buildWhatsAppUrl } from '@/config/site';
 
 export default function WhatsAppWidget() {
   const [mounted, setMounted] = useState(false);
@@ -13,7 +14,7 @@ export default function WhatsAppWidget() {
 
   return (
     <a
-      href="https://wa.me/qr/JOJ65BJMSGZDN1"
+      href={buildWhatsAppUrl('Hello QZERO International, I would like to inquire about your vehicles.')}
       target="_blank"
       rel="noopener noreferrer"
       className="group fixed bottom-6 right-6 z-50 flex items-center justify-center p-3 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-white shadow-[0_0_20px_rgba(37,211,102,0.3)] hover:shadow-[0_0_25px_rgba(37,211,102,0.5)] hover:-translate-y-1 transition-all duration-300 ease-in-out"

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { ArrowRight, Gauge, Globe2, ShieldCheck, Sparkles } from 'lucide-react';
 import Hero from '@/components/Hero';
 import VehicleCard from '@/components/VehicleCard';
-import VehicleSearch from '@/components/VehicleSearch';
+import VehicleSearchSection from '@/components/VehicleSearchSection';
 import { getFeaturedVehicles, getVehicles } from '@/actions/search';
 export const revalidate = 60;
 
@@ -33,7 +33,7 @@ export default async function HomePage() {
       <Hero />
 
       <div className="relative z-20 -mt-8 px-4 sm:-mt-10 sm:px-6 lg:px-8">
-        <VehicleSearch />
+        <VehicleSearchSection />
       </div>
 
       <section className="mt-8 border-y border-brand-line bg-black pt-8 sm:mt-10">

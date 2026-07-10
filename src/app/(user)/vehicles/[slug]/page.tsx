@@ -2,12 +2,13 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ArrowLeft, CalendarDays, Fuel, Gauge, MessageCircle, Settings, Zap } from 'lucide-react';
 import ImageGallery from '@/components/ImageGallery';
-import { getVehicleBySlug } from '@/actions/search';
+import VehicleCard from '@/components/VehicleCard';
+import ShareVehicleButton from '@/components/ShareVehicleButton';
+import { getVehicleBySlug, getRelatedVehicles } from '@/actions/search';
 import { formatPrice } from '@/utils/formatPrice';
+import { buildWhatsAppUrl } from '@/config/site';
 
 export const revalidate = 60;
-
-const WHATSAPP_NUMBER = '94770000000';
 
 type VehicleDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -21,9 +22,17 @@ export async function generateMetadata({ params }: VehicleDetailPageProps) {
     return { title: 'Vehicle not found — QZERO' };
   }
 
+  const title = `${vehicle.brand} ${vehicle.model}`;
+  const image = vehicle.images[0];
+
   return {
-    title: `${vehicle.brand} ${vehicle.model} — QZERO International`,
+    title,
     description: vehicle.description,
+    openGraph: {
+      title: `${title} — QZERO International`,
+      description: vehicle.description,
+      images: image ? [{ url: image, alt: title }] : [],
+    },
   };
 }
 
@@ -35,13 +44,12 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
     notFound();
   }
 
+  const relatedVehicles = await getRelatedVehicles(vehicle, 3);
   const title = `${vehicle.brand} ${vehicle.model}`;
   const formattedPrice = formatPrice(vehicle.price);
 
-  const whatsappMessage = encodeURIComponent(
-    `Hello QZERO International, I am interested in the ${vehicle.year} ${vehicle.brand} ${vehicle.model} priced at ${formattedPrice}. Is this vehicle still available?`
-  );
-  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`;
+  const whatsappMessage = `Hello QZERO International, I am interested in the ${vehicle.year} ${vehicle.brand} ${vehicle.model} priced at ${formattedPrice}. Is this vehicle still available?`;
+  const whatsappUrl = buildWhatsAppUrl(whatsappMessage);
 
   const specs = [
     { icon: CalendarDays, label: 'Year', value: String(vehicle.year) },
@@ -49,12 +57,11 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
     { icon: Fuel, label: 'Fuel Type', value: vehicle.fuelType },
     { icon: Settings, label: 'Transmission', value: vehicle.transmission },
     { icon: Zap, label: 'Engine', value: vehicle.engineCapacity },
+    { icon: Settings, label: 'Condition', value: vehicle.condition },
   ];
 
   return (
     <div className="min-h-screen bg-brand-black">
-
-      {/* ── Breadcrumb ── */}
       <div className="border-b border-white/5">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <Link
@@ -67,32 +74,23 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
         </div>
       </div>
 
-      {/* ── Main Content ── */}
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_0.6fr]">
-
-          {/* ── Left: Image Gallery ── */}
           <div>
             <ImageGallery images={vehicle.images} title={title} />
           </div>
 
-          {/* ── Right: Details Sidebar (Sticky) ── */}
           <aside className="lg:sticky lg:top-24 lg:self-start">
-            {/* Brand & Model */}
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">{vehicle.brand}</p>
             <h1 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">{vehicle.model}</h1>
-
-            {/* Price */}
             <p className="mt-6 text-3xl font-bold gold-text">{formattedPrice}</p>
 
-            {/* Featured badge */}
             {vehicle.isFeatured && (
               <span className="mt-4 inline-block rounded-full border border-brand-gold/30 bg-brand-gold/5 px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-brand-gold">
                 Featured Vehicle
               </span>
             )}
 
-            {/* ── Specs Micro-Grid ── */}
             <div className="mt-8 grid gap-2">
               {specs.map((spec) => (
                 <div
@@ -108,7 +106,6 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
               ))}
             </div>
 
-            {/* ── WhatsApp Inquiry CTA ── */}
             <a
               href={whatsappUrl}
               target="_blank"
@@ -119,17 +116,30 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
               Inquire via WhatsApp
             </a>
 
+            <ShareVehicleButton title={title} slug={vehicle.slug} />
+
             <p className="mt-3 text-center text-xs text-brand-muted">
               Instant response · Available 24/7
             </p>
           </aside>
         </div>
 
-        {/* ── Vehicle Description ── */}
         {vehicle.description && (
           <section className="mt-16 border-t border-white/5 pt-10">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">Overview</p>
             <p className="mt-5 max-w-3xl text-base leading-8 text-gray-300">{vehicle.description}</p>
+          </section>
+        )}
+
+        {relatedVehicles.length > 0 && (
+          <section className="mt-16 border-t border-white/5 pt-10">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">You may also like</p>
+            <h2 className="mt-3 text-2xl font-bold text-white">Related vehicles</h2>
+            <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {relatedVehicles.map((related) => (
+                <VehicleCard key={related._id} vehicle={related} />
+              ))}
+            </div>
           </section>
         )}
       </div>

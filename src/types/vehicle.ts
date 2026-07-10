@@ -1,5 +1,6 @@
 export type FuelType = 'Petrol' | 'Diesel' | 'Hybrid' | 'Electric';
 export type Transmission = 'Automatic' | 'Manual';
+export type VehicleCondition = 'Brand New' | 'Reconditioned' | 'Used';
 
 export interface IVehicle {
   brand: string;
@@ -10,6 +11,7 @@ export interface IVehicle {
   fuelType: FuelType;
   transmission: Transmission;
   engineCapacity: string;
+  condition: VehicleCondition;
   images: string[];
   description: string;
   slug: string;

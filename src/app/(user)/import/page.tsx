@@ -1,5 +1,12 @@
 import Link from 'next/link';
 import { ArrowRight, Anchor, ClipboardCheck, Globe, Handshake } from 'lucide-react';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Import Service',
+  description:
+    'Bespoke automotive sourcing from Japan, UK, and Australia — curated and delivered by QZERO International.',
+};
 
 const timeline = [
   {

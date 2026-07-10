@@ -16,6 +16,7 @@ import * as z from 'zod';
 
 const fuelTypes = ['Petrol', 'Diesel', 'Hybrid', 'Electric'] as const;
 const transmissionTypes = ['Automatic', 'Manual'] as const;
+const conditionTypes = ['Brand New', 'Reconditioned', 'Used'] as const;
 
 const vehicleFormSchema = z.object({
   brand: z.string().min(1, 'Brand is required'),
@@ -28,6 +29,9 @@ const vehicleFormSchema = z.object({
   }),
   transmission: z.enum(transmissionTypes, {
     error: 'Please select a valid transmission',
+  }),
+  condition: z.enum(conditionTypes, {
+    error: 'Please select a valid condition',
   }),
   engineCapacity: z.string().min(1, 'Engine capacity is required'),
   description: z.string().min(1, 'Description is required').max(500, 'Description cannot exceed 500 characters'),
@@ -61,6 +65,7 @@ export default function EditVehicleForm({ vehicle }: { vehicle: VehicleView }) {
       mileage: vehicle.mileage,
       fuelType: vehicle.fuelType,
       transmission: vehicle.transmission,
+      condition: vehicle.condition || 'Reconditioned',
       engineCapacity: vehicle.engineCapacity,
       description: vehicle.description || '',
       isFeatured: vehicle.isFeatured || false,
@@ -203,7 +208,7 @@ export default function EditVehicleForm({ vehicle }: { vehicle: VehicleView }) {
           </div>
 
           {/* Specs Section */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-6">
             <div>
               <label className={labelClasses}>Mileage (km)</label>
               <input type="number" {...register('mileage')} disabled={isSubmitting} className={inputClasses} placeholder="e.g. 15000" />
@@ -226,6 +231,15 @@ export default function EditVehicleForm({ vehicle }: { vehicle: VehicleView }) {
                 <option value="Manual">Manual</option>
               </select>
               {errors.transmission && <p className={errorClasses}>{errors.transmission.message}</p>}
+            </div>
+            <div>
+              <label className={labelClasses}>Condition</label>
+              <select {...register('condition')} disabled={isSubmitting} className={inputClasses}>
+                <option value="Brand New">Brand New</option>
+                <option value="Reconditioned">Reconditioned</option>
+                <option value="Used">Used</option>
+              </select>
+              {errors.condition && <p className={errorClasses}>{errors.condition.message}</p>}
             </div>
           </div>
 

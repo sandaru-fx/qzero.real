@@ -5,6 +5,7 @@ const VehicleSchema = new Schema<IVehicle>(
   {
     brand: { type: String, required: true },
     model: { type: String, required: true },
+    grade: { type: String, default: '' },
     year: { type: Number, required: true },
     price: { type: Number, required: true, index: true },
     mileage: { type: Number, required: true },
@@ -19,6 +20,11 @@ const VehicleSchema = new Schema<IVehicle>(
       enum: ['Automatic', 'Manual']
     },
     engineCapacity: { type: String, required: true },
+    bodyType: {
+      type: String,
+      enum: ['Car', 'SUV', 'Van', 'Truck', 'Pickup', 'Wagon', 'Hatchback', 'Sedan', 'Coupe', 'Convertible', 'Other'],
+      default: 'Car',
+    },
     condition: {
       type: String,
       required: true,

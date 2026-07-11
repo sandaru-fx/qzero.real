@@ -1,11 +1,14 @@
 import { BadgeCheck, CircleDot, Globe2, Users, Award, Building2 } from 'lucide-react';
 import type { Metadata } from 'next';
-import { siteConfig } from '@/config/site';
+import { getSiteConfig } from '@/actions/settings';
 
-export const metadata: Metadata = {
-  title: 'About',
-  description: `Learn about ${siteConfig.name} — premium automotive showroom and import partner in Sri Lanka.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const siteConfig = await getSiteConfig();
+  return {
+    title: 'About',
+    description: `Learn about ${siteConfig.name} — premium automotive showroom and import partner in Sri Lanka.`,
+  };
+}
 
 const values = [
   {
@@ -37,7 +40,8 @@ const trustPoints = [
   { icon: Building2, label: 'Colombo showroom experience' },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const siteConfig = await getSiteConfig();
   return (
     <div className="min-h-screen bg-brand-black">
       <section className="border-b border-white/5">

@@ -1,12 +1,15 @@
 import Link from 'next/link';
 import { ArrowRight, Gift, Percent, Ship, Sparkles } from 'lucide-react';
 import type { Metadata } from 'next';
-import { siteConfig } from '@/config/site';
+import { getSiteConfig } from '@/actions/settings';
 
-export const metadata: Metadata = {
-  title: 'Promotions',
-  description: 'Exclusive offers on premium vehicles and import services from QZERO International.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const siteConfig = await getSiteConfig();
+  return {
+    title: 'Promotions',
+    description: `Exclusive offers on premium vehicles and import services from ${siteConfig.name}.`,
+  };
+}
 
 const promotions = [
   {
@@ -47,7 +50,8 @@ const promotions = [
   },
 ];
 
-export default function PromotionsPage() {
+export default async function PromotionsPage() {
+  const siteConfig = await getSiteConfig();
   return (
     <div className="min-h-screen bg-brand-black">
       <section className="border-b border-white/5">

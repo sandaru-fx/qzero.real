@@ -1,7 +1,9 @@
 'use server';
 
 import { Resend } from 'resend';
-import { siteConfig } from '@/config/site';
+import { getSiteConfig } from '@/actions/settings';
+import connectToDatabase from '@/lib/mongodb';
+import Inquiry from '@/models/Inquiry';
 
 export type ContactFormState = {
   success: boolean;
@@ -12,10 +14,11 @@ export async function submitContactForm(
   _prevState: ContactFormState,
   formData: FormData
 ): Promise<ContactFormState> {
+  const siteConfig = await getSiteConfig();
   const name = (formData.get('name') as string)?.trim();
   const email = (formData.get('email') as string)?.trim();
   const phone = (formData.get('phone') as string)?.trim();
-  const inquiryType = (formData.get('inquiryType') as string)?.trim();
+  const inquiryType = (formData.get('inquiryType') as string)?.trim() || 'General Inquiry';
   const message = (formData.get('message') as string)?.trim();
 
   if (!name || !email || !phone || !message) {
@@ -26,13 +29,29 @@ export async function submitContactForm(
     return { success: false, error: 'Please enter a valid email address.' };
   }
 
+  // Save to Database
+  try {
+    await connectToDatabase();
+    await Inquiry.create({
+      name,
+      email,
+      phone,
+      inquiryType,
+      message,
+      status: 'New',
+    });
+  } catch (dbError) {
+    console.error('Failed to save inquiry to DB:', dbError);
+    // We continue even if DB fails, to at least try sending the email
+  }
+
   const emailBody = `
 New contact inquiry from ${siteConfig.name}
 
 Name: ${name}
 Email: ${email}
 Phone: ${phone}
-Inquiry Type: ${inquiryType || 'General Inquiry'}
+Inquiry Type: ${inquiryType}
 
 Message:
 ${message}

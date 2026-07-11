@@ -1,12 +1,15 @@
 import Link from 'next/link';
 import { ArrowRight, Briefcase, MapPin, Users } from 'lucide-react';
 import type { Metadata } from 'next';
-import { siteConfig } from '@/config/site';
+import { getSiteConfig } from '@/actions/settings';
 
-export const metadata: Metadata = {
-  title: 'Careers',
-  description: `Join the ${siteConfig.name} team — careers in premium automotive sales and import services.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const siteConfig = await getSiteConfig();
+  return {
+    title: 'Careers',
+    description: `Join the ${siteConfig.name} team — careers in premium automotive sales and import services.`,
+  };
+}
 
 const openings = [
   {
@@ -29,7 +32,8 @@ const openings = [
   },
 ];
 
-export default function CareersPage() {
+export default async function CareersPage() {
+  const siteConfig = await getSiteConfig();
   return (
     <div className="min-h-screen bg-brand-black">
       <section className="border-b border-white/5">

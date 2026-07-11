@@ -2,15 +2,19 @@ export type FuelType = 'Petrol' | 'Diesel' | 'Hybrid' | 'Electric';
 export type Transmission = 'Automatic' | 'Manual';
 export type VehicleCondition = 'Brand New' | 'Reconditioned' | 'Used';
 
+export type BodyType = 'Car' | 'SUV' | 'Van' | 'Truck' | 'Pickup' | 'Wagon' | 'Hatchback' | 'Sedan' | 'Coupe' | 'Convertible' | 'Other';
+
 export interface IVehicle {
   brand: string;
   model: string;
+  grade: string;
   year: number;
   price: number;
   mileage: number;
   fuelType: FuelType;
   transmission: Transmission;
   engineCapacity: string;
+  bodyType: BodyType;
   condition: VehicleCondition;
   images: string[];
   description: string;

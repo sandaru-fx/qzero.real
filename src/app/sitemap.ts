@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next';
-import { siteConfig } from '@/config/site';
+import { getSiteConfig } from '@/actions/settings';
 import connectToDatabase from '@/lib/mongodb';
 import Vehicle from '@/models/Vehicle';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const siteConfig = await getSiteConfig();
   const baseUrl = siteConfig.url;
 
   const staticRoutes: MetadataRoute.Sitemap = [

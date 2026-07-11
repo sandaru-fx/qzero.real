@@ -1,43 +1,8 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Globe, Camera, CirclePlay, BriefcaseBusiness, Phone } from 'lucide-react';
-import { siteConfig } from '@/config/site';
-
-/* ────────────────────────────────────────────
-   Live Sri Lanka Clock Hook
-   ──────────────────────────────────────────── */
-function useSriLankaTime() {
-  const [timeData, setTimeData] = useState<{ time: string; date: string } | null>(null);
-
-  useEffect(() => {
-    const updateClock = () => {
-      const now = new Date();
-      const time = now.toLocaleTimeString('en-US', {
-        timeZone: 'Asia/Colombo',
-        hour: 'numeric',
-        minute: '2-digit',
-        hour12: true,
-      });
-      const date = now.toLocaleDateString('en-US', {
-        timeZone: 'Asia/Colombo',
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
-      setTimeData({ time: time.toLowerCase(), date });
-    };
-
-    updateClock(); // Initialize immediately
-    const id = setInterval(updateClock, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  return timeData;
-}
+import { getSiteConfig } from '@/actions/settings';
+import LiveClock from './LiveClock';
 
 const quickLinks = [
   { label: 'Home', href: '/' },
@@ -53,23 +18,21 @@ const infoLinks = [
   { label: 'Privacy Policy', href: '/privacy' },
 ];
 
-const socials = [
-  { Icon: Globe, href: siteConfig.social.facebook, label: 'Facebook' },
-  { Icon: Camera, href: siteConfig.social.instagram, label: 'Instagram' },
-  { Icon: CirclePlay, href: siteConfig.social.youtube, label: 'YouTube' },
-  { Icon: BriefcaseBusiness, href: siteConfig.social.linkedin, label: 'LinkedIn' },
-];
+export default async function Footer() {
+  const siteConfig = await getSiteConfig();
 
-export default function Footer() {
-  const sriLankaTime = useSriLankaTime();
+  const socials = [
+    { Icon: Globe, href: siteConfig.social.facebook, label: 'Facebook' },
+    { Icon: Camera, href: siteConfig.social.instagram, label: 'Instagram' },
+    { Icon: CirclePlay, href: siteConfig.social.youtube, label: 'YouTube' },
+    { Icon: BriefcaseBusiness, href: siteConfig.social.linkedin, label: 'LinkedIn' },
+  ];
 
   return (
     <footer className="bg-[#050505] border-t border-white/5 font-sans">
-      {/* ── Top Section: 4-Column Grid ── */}
       <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:px-10">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           
-          {/* Column 1 — Brand & Contact */}
           <div className="flex flex-col space-y-6">
             <Link href="/" className="inline-block w-fit">
               <div className="flex items-center gap-3 group">
@@ -108,7 +71,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Column 2 — Quick Links */}
           <div className="flex flex-col space-y-6">
             <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-white">
               Quick Links
@@ -127,7 +89,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 3 — Information */}
           <div className="flex flex-col space-y-6">
             <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-white">
               Information
@@ -146,7 +107,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column 4 — Social Media */}
           <div className="flex flex-col space-y-6">
             <h3 className="text-xs font-semibold uppercase tracking-[0.15em] text-white">
               Connect
@@ -172,11 +132,9 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ── Bottom Section ── */}
       <div className="border-t border-white/5">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-6 px-5 py-8 text-sm sm:px-8 lg:flex-row lg:justify-between lg:px-10">
           
-          {/* Left — Customer Care */}
           <div className="flex flex-col sm:flex-row items-center gap-3 text-gray-400 text-center sm:text-left">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#121212] border border-white/5">
               <Phone className="h-4 w-4 text-brand-gold" />
@@ -197,29 +155,12 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Center — Copyright */}
           <div className="text-center text-xs text-gray-500 lg:order-none order-last">
             Copyright &copy; {new Date().getFullYear()} QZERO International. All Rights Reserved.
           </div>
 
-          {/* Right — Live Sri Lanka Time */}
           <div className="flex items-center gap-2 text-xs text-gray-500">
-            {sriLankaTime ? (
-              <div className="flex items-center gap-2.5">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-gold/50" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-gold" />
-                </span>
-                <span className="font-mono tracking-tight">
-                  {sriLankaTime.time} <span className="mx-1.5 text-white/20">|</span> Sri Lanka <span className="mx-1.5 text-white/20">|</span> {sriLankaTime.date}
-                </span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <span className="h-2 w-2 rounded-full bg-gray-700 animate-pulse" />
-                <span className="font-mono text-gray-600">Loading…</span>
-              </div>
-            )}
+            <LiveClock />
           </div>
           
         </div>

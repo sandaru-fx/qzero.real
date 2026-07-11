@@ -7,9 +7,10 @@ import { buildWhatsAppUrl } from '@/config/site';
 type ShareVehicleButtonProps = {
   title: string;
   slug: string;
+  whatsappUrl: string;
 };
 
-export default function ShareVehicleButton({ title, slug }: ShareVehicleButtonProps) {
+export default function ShareVehicleButton({ title, slug, whatsappUrl }: ShareVehicleButtonProps) {
   const [copied, setCopied] = useState(false);
 
   const pageUrl = typeof window !== 'undefined'
@@ -37,7 +38,7 @@ export default function ShareVehicleButton({ title, slug }: ShareVehicleButtonPr
         {copied ? 'Copied' : 'Copy Link'}
       </button>
       <a
-        href={buildWhatsAppUrl(`Check out this vehicle: ${title} — ${pageUrl}`)}
+        href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-4 py-3 text-sm font-semibold text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"

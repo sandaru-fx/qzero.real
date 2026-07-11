@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Gauge, Gem, Timer } from 'lucide-react';
+import { Gauge, Gem, Timer, ArrowRight } from 'lucide-react';
 import { VehicleView } from '@/types/vehicle';
 import { formatPrice } from '@/utils/formatPrice';
 
@@ -46,7 +46,7 @@ export default function VehicleCard({ vehicle, priority = false }: VehicleCardPr
 
         <p className="mt-5 text-2xl font-bold gold-text">{formatPrice(vehicle.price)}</p>
 
-        <div className="mt-6 flex flex-wrap gap-2 text-[13px] text-brand-muted">
+        <div className="mt-5 flex flex-wrap gap-2 text-[13px] text-brand-muted">
           <span className="flex items-center gap-1.5 rounded-full bg-black/40 px-3 py-1.5">
             <Gauge className="h-3.5 w-3.5 text-brand-gold/70" />
             {vehicle.mileage.toLocaleString()} km
@@ -59,6 +59,11 @@ export default function VehicleCard({ vehicle, priority = false }: VehicleCardPr
             <Gem className="h-3.5 w-3.5 text-brand-gold/70" />
             {vehicle.fuelType}
           </span>
+        </div>
+
+        <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-brand-gold transition-all duration-300 group-hover:gap-3">
+          Explore More
+          <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </div>
       </div>
     </Link>

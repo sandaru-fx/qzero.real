@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
-import { siteConfig } from '@/config/site';
+import { getSiteConfig } from '@/actions/settings';
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy',
-  description: `Privacy policy for ${siteConfig.name}.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const siteConfig = await getSiteConfig();
+  return {
+    title: 'Privacy Policy',
+    description: `Privacy policy for ${siteConfig.name}.`,
+  };
+}
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const siteConfig = await getSiteConfig();
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
       <p className="text-sm font-semibold text-brand-gold">Privacy</p>

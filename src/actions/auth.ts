@@ -2,17 +2,30 @@
 
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import connectToDatabase from '@/lib/mongodb';
+import Admin from '@/models/Admin';
+import { hashPassword } from '@/lib/password';
 
 export async function loginAdmin(formData: FormData) {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
-  // Extremely basic MVP hardcoded credentials. 
-  // In a real production scenario, use database checks or NextAuth.
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@qzero.lk';
-  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'qzero123';
+  await connectToDatabase();
 
-  if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+  // Seed default admin if none exists
+  const adminCount = await Admin.countDocuments();
+  if (adminCount === 0) {
+    const defaultEmail = process.env.ADMIN_EMAIL || 'admin@qzero.lk';
+    const defaultPassword = process.env.ADMIN_PASSWORD || 'qzero123';
+    await Admin.create({
+      email: defaultEmail,
+      passwordHash: hashPassword(defaultPassword),
+    });
+  }
+
+  const admin = await Admin.findOne({ email });
+  
+  if (admin && admin.passwordHash === hashPassword(password)) {
     const cookieStore = await cookies();
     cookieStore.set('qzero_admin_session', 'authenticated', {
       httpOnly: true,
@@ -22,7 +35,7 @@ export async function loginAdmin(formData: FormData) {
       path: '/',
     });
     
-    redirect('/admin/dashboard');
+    redirect('/admin');
   }
 
   return { success: false, error: 'Invalid email or password' };

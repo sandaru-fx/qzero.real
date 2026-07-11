@@ -1,38 +1,44 @@
 import { Clock, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
-import { siteConfig, buildWhatsAppUrl } from '@/config/site';
+import { buildWhatsAppUrl } from '@/config/site';
+import { getSiteConfig } from '@/actions/settings';
 
-export const metadata: Metadata = {
-  title: 'Contact',
-  description: `Get in touch with ${siteConfig.name} for vehicle inquiries and import services.`,
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const siteConfig = await getSiteConfig();
+  return {
+    title: 'Contact',
+    description: `Get in touch with ${siteConfig.name} for vehicle inquiries and import services.`,
+  };
+}
 
-const channels = [
-  {
-    icon: Phone,
-    label: 'Call Concierge',
-    value: siteConfig.contact.phone,
-    href: `tel:${siteConfig.contact.phoneTel}`,
-    description: 'Speak directly with our vehicle specialists',
-  },
-  {
-    icon: MessageCircle,
-    label: 'WhatsApp Inquiry',
-    value: 'Start a Consultation',
-    href: buildWhatsAppUrl('Hello QZERO International, I would like to inquire about your vehicles.'),
-    description: 'Instant messaging — available 24/7',
-  },
-  {
-    icon: Mail,
-    label: 'Email Support',
-    value: siteConfig.contact.email,
-    href: `mailto:${siteConfig.contact.email}`,
-    description: 'Detailed inquiries and documentation',
-  },
-];
+export default async function ContactPage() {
+  const siteConfig = await getSiteConfig();
 
-export default function ContactPage() {
+  const channels = [
+    {
+      icon: Phone,
+      label: 'Call Concierge',
+      value: siteConfig.contact.phone,
+      href: `tel:${siteConfig.contact.phoneTel}`,
+      description: 'Speak directly with our vehicle specialists',
+    },
+    {
+      icon: MessageCircle,
+      label: 'WhatsApp Inquiry',
+      value: 'Start a Consultation',
+      href: buildWhatsAppUrl(siteConfig.contact.whatsapp, 'Hello QZERO International, I would like to inquire about your vehicles.'),
+      description: 'Instant messaging — available 24/7',
+    },
+    {
+      icon: Mail,
+      label: 'Email Support',
+      value: siteConfig.contact.email,
+      href: `mailto:${siteConfig.contact.email}`,
+      description: 'Detailed inquiries and documentation',
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-brand-black">
       <section className="border-b border-white/5">

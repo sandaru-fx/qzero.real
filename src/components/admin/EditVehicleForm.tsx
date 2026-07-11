@@ -18,9 +18,12 @@ const fuelTypes = ['Petrol', 'Diesel', 'Hybrid', 'Electric'] as const;
 const transmissionTypes = ['Automatic', 'Manual'] as const;
 const conditionTypes = ['Brand New', 'Reconditioned', 'Used'] as const;
 
+const bodyTypes = ['Car', 'SUV', 'Van', 'Truck', 'Pickup', 'Wagon', 'Hatchback', 'Sedan', 'Coupe', 'Convertible', 'Other'] as const;
+
 const vehicleFormSchema = z.object({
   brand: z.string().min(1, 'Brand is required'),
   model: z.string().min(1, 'Model is required'),
+  grade: z.string().default(''),
   year: z.coerce.number().int().min(1900, 'Year must be at least 1900').max(new Date().getFullYear() + 1, 'Invalid future year'),
   price: z.coerce.number().positive('Price must be greater than 0'),
   mileage: z.coerce.number().nonnegative('Mileage cannot be negative'),
@@ -34,7 +37,8 @@ const vehicleFormSchema = z.object({
     error: 'Please select a valid condition',
   }),
   engineCapacity: z.string().min(1, 'Engine capacity is required'),
-  description: z.string().min(1, 'Description is required').max(500, 'Description cannot exceed 500 characters'),
+  bodyType: z.enum(bodyTypes).default('Car'),
+  description: z.string().min(1, 'Description is required').max(2000, 'Description cannot exceed 2000 characters'),
   isFeatured: z.boolean(),
 });
 
@@ -60,6 +64,7 @@ export default function EditVehicleForm({ vehicle }: { vehicle: VehicleView }) {
     defaultValues: {
       brand: vehicle.brand,
       model: vehicle.model,
+      grade: vehicle.grade || '',
       year: vehicle.year,
       price: vehicle.price,
       mileage: vehicle.mileage,
@@ -67,6 +72,7 @@ export default function EditVehicleForm({ vehicle }: { vehicle: VehicleView }) {
       transmission: vehicle.transmission,
       condition: vehicle.condition || 'Reconditioned',
       engineCapacity: vehicle.engineCapacity,
+      bodyType: vehicle.bodyType || 'Car',
       description: vehicle.description || '',
       isFeatured: vehicle.isFeatured || false,
     },
@@ -196,6 +202,11 @@ export default function EditVehicleForm({ vehicle }: { vehicle: VehicleView }) {
               {errors.model && <p className={errorClasses}>{errors.model.message}</p>}
             </div>
             <div>
+              <label className={labelClasses}>Grade</label>
+              <input type="text" {...register('grade')} disabled={isSubmitting} className={inputClasses} placeholder="e.g. X, G, Z (optional)" />
+              {errors.grade && <p className={errorClasses}>{errors.grade.message}</p>}
+            </div>
+            <div>
               <label className={labelClasses}>Year</label>
               <input type="number" {...register('year')} disabled={isSubmitting} className={inputClasses} placeholder="e.g. 2024" />
               {errors.year && <p className={errorClasses}>{errors.year.message}</p>}
@@ -243,10 +254,29 @@ export default function EditVehicleForm({ vehicle }: { vehicle: VehicleView }) {
             </div>
           </div>
 
-          <div>
-            <label className={labelClasses}>Engine Capacity / Power</label>
-            <input type="text" {...register('engineCapacity')} disabled={isSubmitting} className={inputClasses} placeholder="e.g. 2800cc or 150kW" />
-            {errors.engineCapacity && <p className={errorClasses}>{errors.engineCapacity.message}</p>}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
+              <label className={labelClasses}>Engine Capacity / Power</label>
+              <input type="text" {...register('engineCapacity')} disabled={isSubmitting} className={inputClasses} placeholder="e.g. 2800cc or 150kW" />
+              {errors.engineCapacity && <p className={errorClasses}>{errors.engineCapacity.message}</p>}
+            </div>
+            <div>
+              <label className={labelClasses}>Body Type</label>
+              <select {...register('bodyType')} disabled={isSubmitting} className={inputClasses}>
+                <option value="Car">Car</option>
+                <option value="SUV">SUV</option>
+                <option value="Van">Van</option>
+                <option value="Truck">Truck</option>
+                <option value="Pickup">Pickup</option>
+                <option value="Wagon">Wagon</option>
+                <option value="Hatchback">Hatchback</option>
+                <option value="Sedan">Sedan</option>
+                <option value="Coupe">Coupe</option>
+                <option value="Convertible">Convertible</option>
+                <option value="Other">Other</option>
+              </select>
+              {errors.bodyType && <p className={errorClasses}>{errors.bodyType.message}</p>}
+            </div>
           </div>
 
           <div>

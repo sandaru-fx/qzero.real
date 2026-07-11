@@ -1,4 +1,4 @@
-export const siteConfig = {
+export const fallbackSiteConfig = {
   name: 'QZERO International',
   tagline: 'Premium Automotive Showroom & Import Partner',
   url: 'https://qzerointernational.com',
@@ -32,6 +32,6 @@ export const siteConfig = {
   },
 } as const;
 
-export function buildWhatsAppUrl(message: string) {
-  return `https://wa.me/${siteConfig.contact.whatsapp}?text=${encodeURIComponent(message)}`;
+export function buildWhatsAppUrl(whatsappNumber: string, message: string) {
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
 }

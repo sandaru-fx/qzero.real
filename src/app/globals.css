@@ -27,9 +27,9 @@ html {
 body {
   margin: 0;
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  font-size: 1.125rem;
+  font-size: 1.2rem;
   font-weight: 600;
-  line-height: 1.7;
+  line-height: 1.75;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -66,7 +66,7 @@ button {
   color: transparent;
 }
 
-/* Big display titles — keep as-is (not larger) */
+/* Big display titles ? keep as-is (not larger) */
 .type-display-xl {
   font-family: var(--font-display), ui-serif, Georgia, serif;
   font-size: clamp(3.25rem, 8vw, 7.5rem);
@@ -93,28 +93,28 @@ button {
 
 .type-eyebrow {
   font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.85rem;
-  line-height: 1.25;
+  font-size: 0.95rem;
+  line-height: 1.3;
   font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 .type-body {
-  font-size: clamp(1.125rem, 1.35vw, 1.25rem);
-  line-height: 1.85;
+  font-size: clamp(1.25rem, 1.7vw, 1.5rem);
+  line-height: 1.8;
   font-weight: 600;
 }
 
 .type-muted {
-  font-size: 1.1rem;
+  font-size: clamp(1.2rem, 1.5vw, 1.35rem);
   line-height: 1.8;
   font-weight: 600;
   color: #c0c7d1;
 }
 
 .type-card-title {
-  font-size: clamp(1.4rem, 1.7vw, 1.85rem);
+  font-size: clamp(1.5rem, 1.85vw, 2rem);
   line-height: 1.15;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -122,8 +122,8 @@ button {
 
 .type-meta {
   font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.9rem;
-  line-height: 1.45;
+  font-size: 1.05rem;
+  line-height: 1.5;
   font-weight: 700;
   letter-spacing: 0.04em;
 }
@@ -148,6 +148,21 @@ button {
   }
 }
 
+/* WhatsApp floating button ? orbiting rings */
+@keyframes whatsapp-orbit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.whatsapp-orbit {
+  animation: whatsapp-orbit-spin 8s linear infinite;
+}
+
+.whatsapp-orbit-reverse {
+  animation: whatsapp-orbit-spin 12s linear infinite reverse;
+}
+
 /* Hero carousel ken-burns zoom effect */
 @keyframes ken-burns {
   0% {
@@ -158,8 +173,74 @@ button {
   }
 }
 
-.hero-slide-active img {
+.hero-ken-burns {
   animation: ken-burns 8s ease-out forwards;
+}
+
+@keyframes hero-progress-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.hero-progress {
+  animation-name: hero-progress-fill;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+.hero-progress-paused {
+  transform: scaleX(0.35);
+}
+
+/* Scroll reveal */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease-out,
+    transform 0.7s ease-out;
+  will-change: opacity, transform;
+}
+
+.scroll-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes micro-bump {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.micro-bump {
+  animation: micro-bump 0.32s ease-out;
+}
+
+/* Button micro-interaction */
+.btn-micro {
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.btn-micro:hover {
+  transform: translateY(-2px);
+}
+
+.btn-micro:active {
+  transform: translateY(0) scale(0.98);
 }
 
 /* Hero content fade-up entrance */
@@ -198,7 +279,7 @@ button {
   animation: promo-ken-burns 14s ease-out forwards;
 }
 
-/* Footer — Indra-style feathered left image */
+/* Footer ? Indra-style feathered left image */
 .footer-bg-mask {
   -webkit-mask-image: linear-gradient(
     to right,
@@ -233,5 +314,76 @@ button {
       transparent 100%
     );
     opacity: 0.45;
+  }
+}
+
+/* Admin panel polish */
+.admin-shell {
+  background:
+    radial-gradient(ellipse 80% 50% at 0% 0%, rgba(212, 175, 55, 0.06), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 100% 0%, rgba(255, 255, 255, 0.03), transparent 45%),
+    #050505;
+}
+
+.admin-stat-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: linear-gradient(165deg, #161616 0%, #0F0F0F 100%);
+  padding: 1.25rem;
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.admin-stat-card:hover {
+  border-color: rgba(212, 175, 55, 0.28);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.admin-stat-card::after {
+  content: '';
+  position: absolute;
+  inset: auto -20% -40% auto;
+  width: 140px;
+  height: 140px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.12), transparent 70%);
+  pointer-events: none;
+}
+
+/* Accessibility - respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-ken-burns,
+  .hero-progress,
+  .whatsapp-orbit,
+  .whatsapp-orbit-reverse,
+  .hero-content-animate,
+  .micro-bump,
+  .promo-hero-zoom,
+  .shimmer {
+    animation: none !important;
+  }
+
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .btn-micro:hover,
+  .btn-micro:active {
+    transform: none !important;
+  }
+
+  .hero-progress-paused {
+    transform: none !important;
   }
 }

@@ -25,19 +25,19 @@ export default function Pagination({ currentPage, totalPages, baseParams }: Pagi
       {currentPage > 1 ? (
         <Link
           href={buildHref(currentPage - 1)}
-          className="inline-flex items-center gap-1 rounded-full border border-brand-line px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
+          className="inline-flex items-center gap-1 rounded-full border border-brand-line px-5 py-2.5 text-base font-semibold text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
         >
           <ChevronLeft className="h-4 w-4" />
           Previous
         </Link>
       ) : (
-        <span className="inline-flex items-center gap-1 rounded-full border border-brand-line/50 px-4 py-2 text-sm text-brand-muted opacity-50">
+        <span className="inline-flex items-center gap-1 rounded-full border border-brand-line/50 px-5 py-2.5 text-base text-brand-muted opacity-50">
           <ChevronLeft className="h-4 w-4" />
           Previous
         </span>
       )}
 
-      <span className="text-sm text-brand-muted">
+      <span className="text-base text-brand-muted">
         Page <span className="font-semibold text-white">{currentPage}</span> of{' '}
         <span className="font-semibold text-white">{totalPages}</span>
       </span>
@@ -45,13 +45,13 @@ export default function Pagination({ currentPage, totalPages, baseParams }: Pagi
       {currentPage < totalPages ? (
         <Link
           href={buildHref(currentPage + 1)}
-          className="inline-flex items-center gap-1 rounded-full border border-brand-line px-4 py-2 text-sm font-semibold text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
+          className="inline-flex items-center gap-1 rounded-full border border-brand-line px-5 py-2.5 text-base font-semibold text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
         >
           Next
           <ChevronRight className="h-4 w-4" />
         </Link>
       ) : (
-        <span className="inline-flex items-center gap-1 rounded-full border border-brand-line/50 px-4 py-2 text-sm text-brand-muted opacity-50">
+        <span className="inline-flex items-center gap-1 rounded-full border border-brand-line/50 px-5 py-2.5 text-base text-brand-muted opacity-50">
           Next
           <ChevronRight className="h-4 w-4" />
         </span>

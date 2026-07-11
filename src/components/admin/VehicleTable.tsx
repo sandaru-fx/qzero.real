@@ -70,17 +70,17 @@ export default function VehicleTable({ vehicles }: VehicleTableProps) {
                     className="object-cover"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-xs text-gray-500">No Img</div>
+                  <div className="flex h-full w-full items-center justify-center text-sm text-gray-500">No Img</div>
                 )}
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-white truncate">{vehicle.brand} {vehicle.model}</h3>
-                <p className="text-sm text-gray-400">{vehicle.year} • {vehicle.fuelType}</p>
+                <p className="text-base text-gray-400">{vehicle.year} • {vehicle.fuelType}</p>
                 <p className="mt-1 font-medium text-brand-gold">{formatPrice(vehicle.price)}</p>
               </div>
             </div>
             <div className="flex items-center justify-between border-t border-[#242424] pt-4">
-              <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+              <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-sm font-medium ${
                 vehicle.isFeatured 
                   ? 'bg-brand-gold/10 text-brand-gold border border-brand-gold/20' 
                   : 'bg-white/5 text-gray-300 border border-white/10'
@@ -111,8 +111,8 @@ export default function VehicleTable({ vehicles }: VehicleTableProps) {
 
       {/* Desktop Table Layout */}
       <div className="hidden lg:block overflow-x-auto rounded-xl border border-[#242424] bg-[#121212]">
-        <table className="w-full text-left text-sm text-gray-400">
-          <thead className="border-b border-[#242424] bg-white/[0.02] text-xs uppercase text-gray-500">
+        <table className="w-full text-left text-base text-gray-400">
+          <thead className="border-b border-[#242424] bg-white/[0.02] text-sm uppercase text-gray-500">
             <tr>
               <th scope="col" className="px-6 py-4 font-medium">Vehicle</th>
               <th scope="col" className="px-6 py-4 font-medium">Year</th>
@@ -136,12 +136,12 @@ export default function VehicleTable({ vehicles }: VehicleTableProps) {
                           className="object-cover"
                         />
                       ) : (
-                        <div className="flex h-full w-full items-center justify-center text-[10px] text-gray-500">No Img</div>
+                        <div className="flex h-full w-full items-center justify-center text-xs text-gray-500">No Img</div>
                       )}
                     </div>
                     <div>
                       <p className="font-semibold text-white">{vehicle.brand} {vehicle.model}</p>
-                      <p className="text-xs text-gray-500">{vehicle.fuelType} • {vehicle.transmission}</p>
+                      <p className="text-sm text-gray-500">{vehicle.fuelType} • {vehicle.transmission}</p>
                     </div>
                   </div>
                 </td>
@@ -150,7 +150,7 @@ export default function VehicleTable({ vehicles }: VehicleTableProps) {
                   {formatPrice(vehicle.price)}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-sm font-medium ${
                     vehicle.isFeatured 
                       ? 'bg-brand-gold/10 text-brand-gold border border-brand-gold/20' 
                       : 'bg-white/5 text-gray-300 border border-white/10'

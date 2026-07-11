@@ -71,7 +71,7 @@ export default function DeleteVehicleModal({
           <h2 id="delete-modal-title" className="text-xl font-semibold text-white mb-2">
             Delete Vehicle
           </h2>
-          <p className="text-sm text-gray-400 mb-6">
+          <p className="text-base text-gray-400 mb-6">
             Are you sure you want to delete <span className="font-semibold text-white">{vehicleName}</span>? This action cannot be undone and will remove the vehicle permanently.
           </p>
         </div>
@@ -81,7 +81,7 @@ export default function DeleteVehicleModal({
             type="button"
             onClick={onClose}
             disabled={isDeleting}
-            className="flex-1 rounded-xl px-4 py-3 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 rounded-xl px-4 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-white/5 border border-transparent hover:border-white/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
           </button>
@@ -89,7 +89,7 @@ export default function DeleteVehicleModal({
             type="button"
             onClick={handleConfirm}
             disabled={isDeleting}
-            className="flex-1 rounded-xl px-4 py-3 text-sm font-medium text-white bg-red-600 hover:bg-red-700 transition-colors flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 rounded-xl px-4 py-3 text-base font-medium text-white bg-red-600 hover:bg-red-700 transition-colors flex justify-center items-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isDeleting ? (
               <>

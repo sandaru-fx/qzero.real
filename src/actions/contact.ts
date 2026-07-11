@@ -8,6 +8,12 @@ import Inquiry from '@/models/Inquiry';
 export type ContactFormState = {
   success: boolean;
   error?: string;
+  fieldErrors?: {
+    name?: string;
+    email?: string;
+    phone?: string;
+    message?: string;
+  };
 };
 
 export async function submitContactForm(
@@ -20,16 +26,29 @@ export async function submitContactForm(
   const phone = (formData.get('phone') as string)?.trim();
   const inquiryType = (formData.get('inquiryType') as string)?.trim() || 'General Inquiry';
   const message = (formData.get('message') as string)?.trim();
+  const vehicleRef = (formData.get('vehicleRef') as string)?.trim();
 
-  if (!name || !email || !phone || !message) {
-    return { success: false, error: 'Please fill in all required fields.' };
+  const fieldErrors: ContactFormState['fieldErrors'] = {};
+  if (!name) fieldErrors.name = 'Please enter your name.';
+  if (!email) fieldErrors.email = 'Please enter your email.';
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    fieldErrors.email = 'Please enter a valid email address.';
+  }
+  if (!phone) fieldErrors.phone = 'Please enter your phone number.';
+  if (!message) fieldErrors.message = 'Please enter a message.';
+
+  if (Object.keys(fieldErrors).length > 0) {
+    return {
+      success: false,
+      error: 'Please fix the highlighted fields.',
+      fieldErrors,
+    };
   }
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    return { success: false, error: 'Please enter a valid email address.' };
-  }
+  const fullMessage = vehicleRef
+    ? `Vehicle interest: ${vehicleRef}\n\n${message}`
+    : message;
 
-  // Save to Database
   try {
     await connectToDatabase();
     await Inquiry.create({
@@ -37,12 +56,11 @@ export async function submitContactForm(
       email,
       phone,
       inquiryType,
-      message,
+      message: fullMessage,
       status: 'New',
     });
   } catch (dbError) {
     console.error('Failed to save inquiry to DB:', dbError);
-    // We continue even if DB fails, to at least try sending the email
   }
 
   const emailBody = `
@@ -52,9 +70,10 @@ Name: ${name}
 Email: ${email}
 Phone: ${phone}
 Inquiry Type: ${inquiryType}
+${vehicleRef ? `Vehicle: ${vehicleRef}` : ''}
 
 Message:
-${message}
+${fullMessage}
   `.trim();
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -79,7 +98,10 @@ ${message}
 
     if (error) {
       console.error('Resend error:', error);
-      return { success: false, error: 'Failed to send message. Please try again or contact us directly.' };
+      return {
+        success: false,
+        error: 'Failed to send message. Please try again or contact us directly.',
+      };
     }
 
     return { success: true };

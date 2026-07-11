@@ -159,14 +159,14 @@ export default function EditVehicleForm({ vehicle }: { vehicle: VehicleView }) {
   };
 
   const inputClasses = "w-full bg-[#121212] text-white border border-gray-800 focus:border-brand-gold focus:ring-1 focus:ring-brand-gold rounded-xl p-3 outline-none transition-all disabled:opacity-50 disabled:cursor-not-allowed";
-  const labelClasses = "block text-sm font-medium text-gray-400 mb-2";
-  const errorClasses = "mt-1.5 text-sm text-red-400 font-medium";
+  const labelClasses = "block text-base font-medium text-gray-400 mb-2";
+  const errorClasses = "mt-1.5 text-base text-red-400 font-medium";
 
   return (
     <div className="min-h-screen bg-brand-black text-white py-12 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-4xl mx-auto">
         
-        <Link href="/admin/dashboard" className="inline-flex items-center gap-2 text-sm text-brand-muted hover:text-brand-gold mb-6 transition-colors disabled:pointer-events-none disabled:opacity-50" aria-disabled={isSubmitting}>
+        <Link href="/admin/dashboard" className="inline-flex items-center gap-2 text-base text-brand-muted hover:text-brand-gold mb-6 transition-colors disabled:pointer-events-none disabled:opacity-50" aria-disabled={isSubmitting}>
           <ArrowLeft className="h-4 w-4" />
           Back to dashboard
         </Link>
@@ -295,13 +295,13 @@ export default function EditVehicleForm({ vehicle }: { vehicle: VehicleView }) {
                 ) : (
                   <UploadCloud className={`mx-auto h-10 w-10 text-gray-400 transition-colors ${!isSubmitting && 'group-hover:text-brand-gold'}`} />
                 )}
-                <div className="flex text-sm text-gray-400 justify-center mt-2">
+                <div className="flex text-base text-gray-400 justify-center mt-2">
                   <label htmlFor="file-upload" className={`relative rounded-md font-medium text-brand-gold focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-brand-gold focus-within:ring-offset-brand-black ${isSubmitting || isUploading ? 'cursor-not-allowed' : 'cursor-pointer hover:text-brand-gold-light'}`}>
                     <span>{isUploading ? 'Uploading to Cloudinary...' : 'Upload new images'}</span>
                     <input id="file-upload" name="file-upload" type="file" className="sr-only" multiple accept="image/jpeg,image/png,image/webp" onChange={handleImageUpload} disabled={isSubmitting || isUploading} />
                   </label>
                 </div>
-                <p className="text-xs text-gray-500">JPG, PNG, WEBP up to 10MB each</p>
+                <p className="text-sm text-gray-500">JPG, PNG, WEBP up to 10MB each</p>
               </div>
             </div>
             {imagesError && <p className={errorClasses}>{imagesError}</p>}
@@ -310,7 +310,7 @@ export default function EditVehicleForm({ vehicle }: { vehicle: VehicleView }) {
             {images.length > 0 && (
               <div className="mt-6">
                 <div className="flex items-center mb-4">
-                  <h4 className="text-sm font-medium text-gray-300">Current Images</h4>
+                  <h4 className="text-base font-medium text-gray-300">Current Images</h4>
                   <span className="ml-3 bg-brand-gold text-black text-xs font-bold px-2.5 py-0.5 rounded-full">
                     {images.length}
                   </span>
@@ -346,7 +346,7 @@ export default function EditVehicleForm({ vehicle }: { vehicle: VehicleView }) {
           <div className="flex items-center justify-between p-5 bg-[#121212] rounded-2xl border border-[#242424]">
             <div>
               <h4 className="text-white font-medium">Feature on Homepage</h4>
-              <p className="text-sm text-gray-400 mt-1">Display this vehicle prominently on the hero section.</p>
+              <p className="text-base text-gray-400 mt-1">Display this vehicle prominently on the hero section.</p>
             </div>
             <label className={`relative inline-flex items-center ${isSubmitting ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}>
               <Controller

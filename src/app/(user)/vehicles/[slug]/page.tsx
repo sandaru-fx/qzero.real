@@ -15,6 +15,7 @@ import {
 import ImageGallery from '@/components/ImageGallery';
 import VehicleCard from '@/components/VehicleCard';
 import ShareVehicleButton from '@/components/ShareVehicleButton';
+import StickyVehicleCta from '@/components/StickyVehicleCta';
 import { getVehicleBySlug, getRelatedVehicles } from '@/actions/search';
 import { formatPrice } from '@/utils/formatPrice';
 import { buildWhatsAppUrl } from '@/config/site';
@@ -93,7 +94,7 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
   ];
 
   return (
-    <div className="min-h-screen bg-brand-black">
+    <div className="min-h-screen bg-brand-black pb-24 lg:pb-0">
       {/* ── Breadcrumb Navigation ── */}
       <div className="border-b border-white/5 bg-brand-black/80">
         <div className="mx-auto w-full max-w-[1600px] px-4 py-4 sm:px-6 lg:px-9">
@@ -196,11 +197,17 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="type-meta group flex items-center gap-2.5 rounded-full gold-gradient px-8 py-4 font-bold text-black shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-brand-gold/40"
+              className="group flex items-center gap-2.5 rounded-full gold-gradient px-8 py-4 text-base font-bold text-black shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-brand-gold/40"
             >
               <MessageCircle className="h-5 w-5 transition-transform group-hover:scale-110" />
               Inquire via WhatsApp
             </a>
+            <Link
+              href={`/contact?vehicle=${encodeURIComponent(`${vehicle.year} ${vehicle.brand} ${vehicle.model}`)}&inquiry=Vehicle%20Purchase`}
+              className="inline-flex items-center rounded-full border border-white/20 px-6 py-4 text-base font-semibold text-white transition-colors hover:border-brand-gold/50 hover:text-brand-gold"
+            >
+              Contact form
+            </Link>
             <ShareVehicleButton title={title} slug={vehicle.slug} whatsappUrl={shareWhatsAppUrl} />
           </div>
         </section>
@@ -218,6 +225,12 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
           </section>
         )}
       </div>
+
+      <StickyVehicleCta
+        title={title}
+        whatsappUrl={whatsappUrl}
+        contactHref={`/contact?vehicle=${encodeURIComponent(`${vehicle.year} ${vehicle.brand} ${vehicle.model}`)}&inquiry=Vehicle%20Purchase`}
+      />
     </div>
   );
 }

@@ -6,7 +6,7 @@ import VehicleSearchSection from '@/components/VehicleSearchSection';
 import Pagination from '@/components/Pagination';
 import { getVehicles, getVehicleCount } from '@/actions/search';
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 const PAGE_SIZE = 12;
 
@@ -119,7 +119,7 @@ export default async function VehiclesPage({ searchParams }: VehiclesPageProps) 
           <>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
               {vehicles.map((vehicle, index) => (
-                <VehicleCard key={vehicle._id} vehicle={vehicle} priority={index < 4} />
+                <VehicleCard key={vehicle._id} vehicle={vehicle} priority={index < 2} />
               ))}
             </div>
             <Pagination
@@ -142,13 +142,13 @@ export default async function VehiclesPage({ searchParams }: VehiclesPageProps) 
               <SlidersHorizontal className="h-8 w-8 text-brand-gold/60" />
             </div>
             <h2 className="mt-6 text-2xl font-bold text-white">No Vehicles Found</h2>
-            <p className="mt-3 max-w-md text-brand-muted">
+            <p className="type-muted mt-3 max-w-md">
               No vehicles in our collection match your current search criteria. Try adjusting your
               filters or browse the full inventory.
             </p>
             <Link
               href="/vehicles"
-              className="mt-8 inline-flex items-center gap-2 rounded-full border border-brand-gold/40 px-8 py-3 text-sm font-semibold text-brand-gold transition-all duration-300 hover:border-brand-gold hover:bg-brand-gold/5"
+              className="mt-8 inline-flex items-center gap-2 rounded-full border border-brand-gold/40 px-8 py-3 text-base font-semibold text-brand-gold transition-all duration-300 hover:border-brand-gold hover:bg-brand-gold/5"
             >
               Reset Filters — View All
             </Link>

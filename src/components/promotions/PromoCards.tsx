@@ -51,12 +51,12 @@ export function PromoFeatured({ offer }: { offer: PromotionOffer }) {
             className="object-cover transition-transform duration-700 group-hover:scale-105"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/40 lg:bg-gradient-to-l lg:from-transparent lg:via-transparent lg:to-[#0A0A0A]/90" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/20 lg:bg-gradient-to-l lg:from-transparent lg:via-transparent lg:to-[#0A0A0A]/55" />
         </div>
 
         <div className="flex flex-col justify-center px-6 py-10 sm:px-10 lg:px-12 lg:py-14">
           <div className="flex flex-wrap items-center gap-3">
-            <span className="text-xs font-bold uppercase tracking-[0.25em] text-brand-gold">
+            <span className="text-sm font-bold uppercase tracking-[0.25em] text-brand-gold">
               {offer.badge}
             </span>
             <span className="h-px w-8 bg-brand-gold/50" />
@@ -82,7 +82,7 @@ export function PromoFeatured({ offer }: { offer: PromotionOffer }) {
 
           <Link
             href={offer.href}
-            className="type-meta group/cta mt-8 inline-flex w-fit items-center gap-3 font-bold uppercase text-brand-gold transition-colors hover:text-brand-gold-light"
+            className="group/cta mt-8 inline-flex w-fit items-center gap-3 text-base font-bold uppercase tracking-wide text-brand-gold transition-colors hover:text-brand-gold-light"
           >
             {offer.cta}
             <span className="flex h-9 w-9 items-center justify-center rounded-full gold-gradient text-black transition-transform duration-300 group-hover/cta:translate-x-1">
@@ -114,8 +114,8 @@ export function PromoCard({ offer, index }: { offer: PromotionOffer; index: numb
           sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
           className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
-        <span className="absolute left-4 top-4 border border-brand-gold/40 bg-black/70 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold backdrop-blur-sm">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        <span className="absolute left-4 top-4 border border-brand-gold/40 bg-black/70 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-brand-gold backdrop-blur-sm">
           {offer.badge}
         </span>
       </div>
@@ -125,7 +125,7 @@ export function PromoCard({ offer, index }: { offer: PromotionOffer; index: numb
         <h3 className="type-card-title mt-2 text-white">{offer.title}</h3>
         <p className="type-meta mt-2 text-brand-muted">Valid until | {offer.validUntil}</p>
 
-        <p className="mt-4 text-base font-semibold text-white">
+        <p className="mt-4 text-lg font-semibold text-white">
           {offer.highlight}
           <span className="type-meta mt-1 block font-normal text-brand-muted">
             {offer.highlightAccent}
@@ -138,7 +138,7 @@ export function PromoCard({ offer, index }: { offer: PromotionOffer; index: numb
 
         <Link
           href={offer.href}
-          className="type-meta group/cta mt-6 inline-flex items-center gap-2.5 font-bold uppercase text-brand-gold"
+          className="group/cta mt-6 inline-flex items-center gap-2.5 text-base font-bold uppercase tracking-wide text-brand-gold"
         >
           {offer.cta}
           <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-gold text-black transition-transform duration-300 group-hover/cta:translate-x-1">

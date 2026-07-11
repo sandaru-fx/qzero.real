@@ -31,6 +31,7 @@ async function VehicleSearchLoader({
     filterOptions = {
       makes: [],
       models: [],
+      modelsByMake: {},
       years: [],
       conditions: ['Brand New', 'Reconditioned', 'Used'],
       priceRanges: [

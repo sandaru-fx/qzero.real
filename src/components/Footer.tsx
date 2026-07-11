@@ -38,11 +38,11 @@ export default async function Footer() {
           alt=""
           fill
           sizes="(max-width: 768px) 100vw, 52vw"
-          className="object-cover object-[center_30%] opacity-60 sm:opacity-70"
+          className="object-cover object-[center_30%] opacity-80 sm:opacity-90"
           priority={false}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/25 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-black/45" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-black/20" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_60%,rgba(212,175,55,0.12),transparent_55%)]" />
       </div>
 
@@ -145,7 +145,7 @@ export default async function Footer() {
       </div>
 
       <div className="relative z-10 border-t border-white/10 bg-black/40 backdrop-blur-[2px]">
-        <div className="mx-auto flex w-full max-w-[1600px] flex-col items-center gap-6 px-4 py-8 text-sm sm:px-6 lg:flex-row lg:justify-between lg:px-9">
+        <div className="mx-auto flex w-full max-w-[1600px] flex-col items-center gap-6 px-4 py-8 text-base sm:px-6 lg:flex-row lg:justify-between lg:px-9">
           <div className="flex flex-col items-center gap-3 text-center text-gray-400 sm:flex-row sm:text-left">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-brand-gold/30 bg-black/70">
               <Phone className="h-4 w-4 text-brand-gold" />
@@ -153,7 +153,10 @@ export default async function Footer() {
             <div className="flex flex-col">
               <span className="type-meta uppercase text-gray-500">Customer Care Hotline</span>
               <span className="type-meta mt-0.5 text-gray-400">
-                Mon to Fri — 8.30 am to 5.30 pm |{' '}
+                {siteConfig.contact.hours[0]
+                  ? `${siteConfig.contact.hours[0].day} — ${siteConfig.contact.hours[0].time}`
+                  : 'Monday — Friday — 9:00 AM — 6:00 PM'}{' '}
+                |{' '}
                 <a
                   href={`tel:${siteConfig.contact.phoneTel}`}
                   className="font-bold text-white transition-all duration-300 hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] hover:bg-clip-text hover:text-transparent"
@@ -165,7 +168,7 @@ export default async function Footer() {
           </div>
 
           <div className="type-meta order-last text-center text-gray-500 lg:order-none">
-            Copyright &copy; {new Date().getFullYear()} QZERO International. All Rights Reserved.
+            Copyright &copy; {new Date().getFullYear()} {siteConfig.name}. All Rights Reserved.
           </div>
 
           <div className="type-meta flex items-center gap-2 text-gray-500">

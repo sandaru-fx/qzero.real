@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef, useEffect, Suspense } from 'react';
-import { ChevronDown, Search } from 'lucide-react';
+import { useState, useRef, useEffect, Suspense, useMemo } from 'react';
+import { ChevronDown, Search, X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type { FilterOptions } from '@/types/filters';
 
@@ -21,13 +21,14 @@ const categories: Category[] = [
 ];
 
 function CategoryIcon({ id, active }: { id: string; active: boolean }) {
-  const stroke = active ? 'currentColor' : 'currentColor';
   const common = {
     viewBox: '0 0 64 32',
-    className: `h-8 w-14 transition-colors ${active ? 'text-brand-gold' : 'text-white/55'}`,
+    className: `h-9 w-16 transition-all duration-300 sm:h-10 sm:w-[4.5rem] ${
+      active ? 'text-brand-gold-light drop-shadow-[0_0_10px_rgba(212,175,55,0.45)]' : 'text-brand-gold'
+    }`,
     fill: 'none' as const,
-    stroke,
-    strokeWidth: 1.6,
+    stroke: 'currentColor',
+    strokeWidth: 1.7,
     strokeLinecap: 'round' as const,
     strokeLinejoin: 'round' as const,
   };
@@ -97,6 +98,8 @@ const FilterField = ({
         type="button"
         onClick={onToggle}
         disabled={options.length === 0}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
         className={`flex min-h-[80px] w-full items-center justify-between rounded-md border px-5 py-4 text-left transition-all ${
           isOpen
             ? 'border-brand-gold/50 bg-[#1a1a1a] ring-1 ring-brand-gold/25'
@@ -123,11 +126,16 @@ const FilterField = ({
       </button>
 
       {isOpen && options.length > 0 && (
-        <div className="absolute z-50 mt-1.5 max-h-60 w-full overflow-auto rounded-md border border-white/10 bg-[#161616] py-1 shadow-2xl shadow-black/60">
+        <div
+          role="listbox"
+          className="absolute z-50 mt-1.5 max-h-60 w-full overflow-auto rounded-md border border-white/10 bg-[#161616] py-1 shadow-2xl shadow-black/60"
+        >
           {options.map((option) => (
             <button
               key={option}
               type="button"
+              role="option"
+              aria-selected={value === option}
               onClick={() => {
                 onSelect(option);
                 onToggle();
@@ -162,6 +170,8 @@ function emptyFilters() {
   };
 }
 
+type Filters = ReturnType<typeof emptyFilters>;
+
 function VehicleSearchContent({
   filterOptions,
   showTextSearch = false,
@@ -179,6 +189,13 @@ function VehicleSearchContent({
     categories.find((cat) =>
       cat.bodyTypes.some((t) => t.toLowerCase() === filters.bodyType.toLowerCase())
     )?.id ?? '';
+
+  const modelOptions = useMemo(() => {
+    if (filters.make && filterOptions.modelsByMake[filters.make]?.length) {
+      return ['Any Model', ...filterOptions.modelsByMake[filters.make]];
+    }
+    return ['Any Model', ...filterOptions.models];
+  }, [filters.make, filterOptions.models, filterOptions.modelsByMake]);
 
   useEffect(() => {
     setFilters({
@@ -202,7 +219,7 @@ function VehicleSearchContent({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleSearch = (override?: Partial<typeof filters>) => {
+  const handleSearch = (override?: Partial<Filters>) => {
     const next = { ...filters, ...override };
     const params = new URLSearchParams();
 
@@ -218,24 +235,47 @@ function VehicleSearchContent({
     router.push(queryString ? `/vehicles?${queryString}` : '/vehicles');
   };
 
-  const selectCategory = (category: Category) => {
-    const nextBody =
-      activeCategory === category.id ? '' : category.bodyTypes[0];
-    setFilters((prev) => ({ ...prev, bodyType: nextBody }));
+  const clearAll = () => {
+    setFilters(emptyFilters());
+    router.push('/vehicles');
   };
+
+  const removeFilter = (key: keyof Filters) => {
+    const next = { ...filters, [key]: '' };
+    if (key === 'make') next.model = '';
+    setFilters(next);
+    handleSearch(next);
+  };
+
+  const selectCategory = (category: Category) => {
+    const nextBody = activeCategory === category.id ? '' : category.bodyTypes[0];
+    const next = { ...filters, bodyType: nextBody };
+    setFilters(next);
+    handleSearch(next);
+  };
+
+  const chips: { key: keyof Filters; label: string }[] = [
+    filters.bodyType && { key: 'bodyType' as const, label: filters.bodyType },
+    filters.make && { key: 'make' as const, label: filters.make },
+    filters.model && { key: 'model' as const, label: filters.model },
+    filters.year && { key: 'year' as const, label: filters.year },
+    filters.condition && { key: 'condition' as const, label: filters.condition },
+    filters.priceRange && { key: 'priceRange' as const, label: filters.priceRange },
+    filters.query && { key: 'query' as const, label: `“${filters.query}”` },
+  ].filter(Boolean) as { key: keyof Filters; label: string }[];
 
   return (
     <div ref={containerRef} className={`mx-auto w-full ${fullWidth ? 'max-w-none' : 'max-w-[1600px]'}`}>
       {showHeroCopy && (
         <div className="mb-10 text-center sm:mb-12">
           <h2 className="text-3xl font-light tracking-tight text-white sm:text-4xl lg:text-5xl">
-            Discover, Select,{' '}
-            <span className="font-bold text-brand-gold">Own Your Car.</span>
+            Explore curated stock.{' '}
+            <span className="font-bold text-brand-gold">Drive what’s yours.</span>
           </h2>
         </div>
       )}
 
-      <div className="mb-8 flex flex-wrap items-end justify-center gap-x-6 gap-y-5 sm:gap-x-10">
+      <div className="mb-8 flex flex-wrap items-end justify-center gap-x-10 gap-y-6 sm:gap-x-14 lg:gap-x-20">
         {categories.map((category) => {
           const active = activeCategory === category.id;
           return (
@@ -243,14 +283,14 @@ function VehicleSearchContent({
               key={category.id}
               type="button"
               onClick={() => selectCategory(category)}
-              className="group flex flex-col items-center gap-2"
+              className="group flex min-w-[4.5rem] flex-col items-center gap-2.5 sm:min-w-[5.5rem]"
             >
               <CategoryIcon id={category.id} active={active} />
               <span
                 className={`border-b-2 pb-1 text-xs font-bold uppercase tracking-[0.14em] transition-colors sm:text-sm ${
                   active
                     ? 'border-brand-gold text-brand-gold'
-                    : 'border-transparent text-white/70 group-hover:text-white'
+                    : 'border-transparent text-white/75 group-hover:text-brand-gold'
                 }`}
               >
                 {category.label}
@@ -293,14 +333,14 @@ function VehicleSearchContent({
             options={filterOptions.makes}
             isOpen={activeDropdown === 'make'}
             onToggle={() => setActiveDropdown(activeDropdown === 'make' ? null : 'make')}
-            onSelect={(val) => setFilters({ ...filters, make: val })}
+            onSelect={(val) => setFilters({ ...filters, make: val, model: '' })}
           />
 
           <FilterField
             label="Model"
-            placeholder="Select Model"
+            placeholder={filters.make ? 'Select Model' : 'Select make first'}
             value={filters.model}
-            options={['Any Model', ...filterOptions.models]}
+            options={modelOptions}
             isOpen={activeDropdown === 'model'}
             onToggle={() => setActiveDropdown(activeDropdown === 'model' ? null : 'model')}
             onSelect={(val) => setFilters({ ...filters, model: val === 'Any Model' ? '' : val })}
@@ -335,6 +375,29 @@ function VehicleSearchContent({
             <span>Search Vehicle</span>
           </button>
         </div>
+
+        {chips.length > 0 && (
+          <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-white/10 pt-4">
+            {chips.map((chip) => (
+              <button
+                key={chip.key}
+                type="button"
+                onClick={() => removeFilter(chip.key)}
+                className="inline-flex items-center gap-1.5 rounded-full border border-brand-gold/35 bg-brand-gold/10 px-3 py-1.5 text-sm font-semibold text-brand-gold transition-colors hover:bg-brand-gold/20"
+              >
+                {chip.label}
+                <X className="h-3.5 w-3.5" />
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={clearAll}
+              className="ml-1 text-sm font-semibold text-white/60 underline-offset-2 hover:text-white hover:underline"
+            >
+              Clear all
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

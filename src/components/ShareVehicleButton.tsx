@@ -32,7 +32,7 @@ export default function ShareVehicleButton({ title, slug, whatsappUrl }: ShareVe
       <button
         type="button"
         onClick={handleCopyLink}
-        className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-4 py-3 text-sm font-semibold text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
+        className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-4 py-3 text-base font-semibold text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
       >
         {copied ? <Check className="h-4 w-4 text-brand-gold" /> : <Link2 className="h-4 w-4" />}
         {copied ? 'Copied' : 'Copy Link'}
@@ -41,7 +41,7 @@ export default function ShareVehicleButton({ title, slug, whatsappUrl }: ShareVe
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-4 py-3 text-sm font-semibold text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
+        className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-4 py-3 text-base font-semibold text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
         aria-label={`Share ${title} on WhatsApp`}
       >
         <MessageCircle className="h-4 w-4" />

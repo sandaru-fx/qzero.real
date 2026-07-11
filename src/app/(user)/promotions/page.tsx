@@ -55,11 +55,11 @@ export default async function PromotionsPage() {
           className="object-cover object-center promo-hero-zoom"
         />
         {/* Atmospheric overlays — not badge stickers */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/45 to-brand-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/25 to-brand-black/90" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,rgba(212,175,55,0.18),transparent_55%)]" />
 
         <div className="relative z-10 mx-auto flex min-h-[88svh] w-full max-w-[1600px] flex-col justify-end px-4 pb-16 pt-28 sm:px-6 lg:px-9 lg:pb-20">
-          <nav className="mb-8 text-xs font-medium uppercase tracking-[0.2em] text-white/50 hero-content-animate">
+          <nav className="mb-8 text-sm font-medium uppercase tracking-[0.2em] text-white/50 hero-content-animate">
             <Link href="/" className="transition-colors hover:text-brand-gold">
               Home
             </Link>
@@ -183,14 +183,14 @@ export default async function PromotionsPage() {
             alt=""
             fill
             sizes="100vw"
-            className="object-cover opacity-30"
+            className="object-cover opacity-55"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-black via-brand-black/90 to-brand-black/70" />
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-black/85 via-brand-black/55 to-brand-black/40" />
         </div>
 
         <div className="relative z-10 mx-auto flex w-full max-w-[1600px] flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-sm text-brand-gold">
+            <div className="inline-flex items-center gap-2 text-base text-brand-gold">
               <BadgeCheck className="h-4 w-4" />
               Personalised packages available
             </div>

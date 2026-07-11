@@ -17,14 +17,14 @@ type InventoryTableProps = {
 function StatusBadge({ vehicle }: { vehicle: VehicleView }) {
   if (vehicle.isFeatured) {
     return (
-      <span className="type-meta inline-flex items-center rounded-full border border-brand-gold/30 bg-brand-gold/10 px-2.5 py-0.5 font-semibold text-brand-gold">
+      <span className="inline-flex items-center rounded-full border border-brand-gold/30 bg-brand-gold/10 px-2.5 py-0.5 text-sm font-semibold text-brand-gold">
         Featured
       </span>
     );
   }
 
   return (
-    <span className="type-meta inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-semibold text-emerald-400">
+    <span className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-sm font-semibold text-emerald-400">
       Available
     </span>
   );
@@ -72,29 +72,29 @@ export default function InventoryTable({ vehicles }: InventoryTableProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by make, model, year..."
-            className="type-meta w-full rounded-xl border border-white/10 bg-[#0A0A0A] py-2.5 pl-10 pr-4 text-white outline-none transition-colors placeholder:text-brand-muted focus:border-brand-gold/40"
+            className="w-full rounded-xl border border-white/10 bg-[#0A0A0A] py-3 pl-10 pr-4 text-base font-medium text-white outline-none transition-all placeholder:text-brand-muted focus:border-brand-gold/50 focus:ring-2 focus:ring-brand-gold/15"
           />
         </div>
-        <p className="type-meta text-brand-muted">
+        <p className="text-base font-medium text-brand-muted">
           Showing <span className="font-semibold text-white">{filtered.length}</span> of {vehicles.length}
         </p>
       </div>
 
       {filtered.length === 0 ? (
         <div className="rounded-xl border border-dashed border-white/10 bg-[#0A0A0A] px-6 py-16 text-center">
-          <p className="text-brand-muted">No vehicles match your search.</p>
+          <p className="type-muted">No vehicles match your search.</p>
         </div>
       ) : (
         <div className="overflow-hidden rounded-xl border border-white/5">
           <div className="max-h-[560px] overflow-auto">
-            <table className="w-full min-w-[720px] text-left text-sm">
+            <table className="w-full min-w-[720px] text-left text-base">
               <thead className="sticky top-0 z-10 border-b border-white/5 bg-[#111111]">
-                <tr className="type-meta uppercase text-brand-muted">
-                  <th className="px-5 py-3.5 font-medium">Image</th>
-                  <th className="px-5 py-3.5 font-medium">Name</th>
-                  <th className="px-5 py-3.5 font-medium">Price</th>
-                  <th className="px-5 py-3.5 font-medium">Status</th>
-                  <th className="px-5 py-3.5 font-medium text-right">Actions</th>
+                <tr className="text-sm uppercase tracking-wide text-brand-muted">
+                  <th className="px-5 py-3.5 font-semibold">Image</th>
+                  <th className="px-5 py-3.5 font-semibold">Name</th>
+                  <th className="px-5 py-3.5 font-semibold">Price</th>
+                  <th className="px-5 py-3.5 font-semibold">Status</th>
+                  <th className="px-5 py-3.5 font-semibold text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-white/5 bg-[#0A0A0A]">
@@ -111,18 +111,18 @@ export default function InventoryTable({ vehicles }: InventoryTableProps) {
                             className="object-cover"
                           />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center text-[10px] text-brand-muted">
+                          <div className="flex h-full w-full items-center justify-center text-xs text-brand-muted">
                             No Img
                           </div>
                         )}
                       </div>
                     </td>
                     <td className="px-5 py-3.5">
-                      <p className="text-base font-semibold tracking-tight text-white">
+                      <p className="text-lg font-semibold tracking-tight text-white">
                         {vehicle.brand} {vehicle.model}
                         {vehicle.grade ? ` ${vehicle.grade}` : ''}
                       </p>
-                      <p className="type-meta mt-1 text-brand-muted">
+                      <p className="mt-1 text-sm font-medium text-brand-muted">
                         {vehicle.year} · {vehicle.fuelType} · {vehicle.transmission}
                       </p>
                     </td>

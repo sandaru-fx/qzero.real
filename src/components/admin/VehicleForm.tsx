@@ -182,21 +182,21 @@ export default function VehicleForm({ mode, vehicle }: VehicleFormProps) {
 
   const inputClasses =
     'w-full rounded-xl border border-white/10 bg-[#0A0A0A] p-3 text-white outline-none transition-all focus:border-brand-gold focus:ring-1 focus:ring-brand-gold disabled:cursor-not-allowed disabled:opacity-50';
-  const labelClasses = 'mb-2 block text-sm font-medium text-brand-muted';
-  const errorClasses = 'mt-1.5 text-sm font-medium text-red-400';
+  const labelClasses = 'mb-2 block text-base font-medium text-brand-muted';
+  const errorClasses = 'mt-1.5 text-base font-medium text-red-400';
 
   return (
     <div className="mx-auto max-w-6xl">
       <Link
         href="/admin/inventory"
-        className="mb-6 inline-flex items-center gap-2 text-sm text-brand-muted transition-colors hover:text-brand-gold"
+        className="mb-6 inline-flex items-center gap-2 text-base text-brand-muted transition-colors hover:text-brand-gold"
       >
         <ArrowLeft className="h-4 w-4" />
         Back to inventory
       </Link>
 
       <div className="mb-8">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">
+        <p className="text-sm font-bold uppercase tracking-[0.2em] text-brand-gold">
           {mode === 'create' ? 'Create' : 'Update'}
         </p>
         <h1 className="mt-2 text-3xl font-bold tracking-tight text-white">
@@ -211,7 +211,7 @@ export default function VehicleForm({ mode, vehicle }: VehicleFormProps) {
 
       {notification && (
         <div
-          className={`mb-6 rounded-2xl border p-4 text-center text-sm font-medium ${
+          className={`mb-6 rounded-2xl border p-4 text-center text-base font-medium ${
             notification.type === 'success'
               ? 'border-brand-gold/40 bg-brand-gold/10 text-brand-gold'
               : 'border-red-500/40 bg-red-950/30 text-red-200'
@@ -226,7 +226,7 @@ export default function VehicleForm({ mode, vehicle }: VehicleFormProps) {
         <section className="space-y-6 rounded-2xl border border-white/5 bg-[#111111] p-6 sm:p-8">
           <div>
             <h2 className="text-lg font-semibold text-white">Basic Information</h2>
-            <p className="mt-1 text-sm text-brand-muted">Make, model, pricing and core specs.</p>
+            <p className="mt-1 text-base text-brand-muted">Make, model, pricing and core specs.</p>
           </div>
 
           <div className="grid gap-5 sm:grid-cols-2">
@@ -315,7 +315,7 @@ export default function VehicleForm({ mode, vehicle }: VehicleFormProps) {
           <section className="rounded-2xl border border-white/5 bg-[#111111] p-6 sm:p-8">
             <div className="mb-5">
               <h2 className="text-lg font-semibold text-white">Media</h2>
-              <p className="mt-1 text-sm text-brand-muted">Main image + gallery (minimum 5 photos).</p>
+              <p className="mt-1 text-base text-brand-muted">Main image + gallery (minimum 5 photos).</p>
             </div>
 
             <label
@@ -328,10 +328,10 @@ export default function VehicleForm({ mode, vehicle }: VehicleFormProps) {
               ) : (
                 <UploadCloud className="h-10 w-10 text-brand-muted" />
               )}
-              <span className="mt-3 text-sm font-medium text-brand-gold">
+              <span className="mt-3 text-base font-medium text-brand-gold">
                 {isUploading ? 'Uploading…' : 'Upload images'}
               </span>
-              <span className="mt-1 text-xs text-brand-muted">JPG, PNG, WEBP up to 10MB</span>
+              <span className="mt-1 text-base text-brand-muted">JPG, PNG, WEBP up to 10MB</span>
               <input
                 type="file"
                 className="sr-only"
@@ -347,8 +347,8 @@ export default function VehicleForm({ mode, vehicle }: VehicleFormProps) {
             {images.length > 0 && (
               <div className="mt-5">
                 <div className="mb-3 flex items-center gap-2">
-                  <p className="text-sm font-medium text-gray-300">Gallery</p>
-                  <span className="rounded-full bg-brand-gold px-2 py-0.5 text-xs font-bold text-black">
+                  <p className="text-base font-medium text-gray-300">Gallery</p>
+                  <span className="rounded-full bg-brand-gold px-2 py-0.5 text-sm font-bold text-black">
                     {images.length}
                   </span>
                 </div>
@@ -360,7 +360,7 @@ export default function VehicleForm({ mode, vehicle }: VehicleFormProps) {
                     >
                       <Image src={url} alt={`Preview ${idx + 1}`} fill sizes="160px" className="object-cover" />
                       {idx === 0 && (
-                        <span className="absolute left-2 top-2 rounded-full bg-brand-gold px-2 py-0.5 text-[10px] font-bold text-black">
+                        <span className="absolute left-2 top-2 rounded-full bg-brand-gold px-2 py-0.5 text-xs font-bold text-black">
                           Main
                         </span>
                       )}
@@ -384,13 +384,13 @@ export default function VehicleForm({ mode, vehicle }: VehicleFormProps) {
           <section className="rounded-2xl border border-white/5 bg-[#111111] p-6 sm:p-8">
             <div className="mb-5">
               <h2 className="text-lg font-semibold text-white">Status</h2>
-              <p className="mt-1 text-sm text-brand-muted">Featured listings appear on the homepage.</p>
+              <p className="mt-1 text-base text-brand-muted">Featured listings appear on the homepage.</p>
             </div>
 
             <div className="flex items-center justify-between rounded-xl border border-white/10 bg-[#0A0A0A] p-4">
               <div>
                 <p className="font-medium text-white">Feature on Homepage</p>
-                <p className="mt-0.5 text-xs text-brand-muted">Highlight this vehicle as Featured.</p>
+                <p className="mt-0.5 text-sm text-brand-muted">Highlight this vehicle as Featured.</p>
               </div>
               <Controller
                 name="isFeatured"

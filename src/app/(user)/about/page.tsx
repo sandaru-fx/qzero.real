@@ -54,7 +54,8 @@ export default async function AboutPage() {
         eyebrow="About QZERO"
         title="A premium automotive experience, online and offline."
         description={`${siteConfig.name} is a high-end showroom and import partner for buyers who expect clear information, trusted guidance, and a refined experience from first inquiry to final handover.`}
-        objectPosition="center 30%"
+        objectPosition="32% 12%"
+        minHeight="min-h-[72svh] sm:min-h-[80svh] lg:min-h-[85svh]"
       />
 
       <section className="mx-auto w-full max-w-[1600px] px-4 py-16 sm:px-6 lg:px-9">
@@ -64,33 +65,34 @@ export default async function AboutPage() {
               <span className="flex h-12 w-12 items-center justify-center rounded-full border border-brand-gold/40 bg-black">
                 <value.icon className="h-5 w-5 text-brand-gold" />
               </span>
-              <h2 className="mt-6 text-xl font-semibold text-white">{value.title}</h2>
-              <p className="mt-3 text-sm leading-6 text-brand-muted">{value.copy}</p>
+              <h2 className="mt-6 text-xl font-semibold text-white sm:text-2xl">{value.title}</h2>
+              <p className="type-muted mt-3">{value.copy}</p>
             </div>
           ))}
         </div>
       </section>
 
       {/* Family happiness — not Vision/Mission copy */}
-      <section className="relative min-h-[70svh] overflow-hidden border-y border-white/5">
+      <section className="relative min-h-[56svh] overflow-hidden border-y border-white/5 sm:min-h-[60svh]">
         <Image
           src={lifestyleImages.aboutFamily}
           alt="A happy family with their new vehicle"
           fill
           sizes="100vw"
-          className="object-cover object-[center_35%]"
+          className="object-cover object-[center_12%] sm:object-[center_8%]"
+          priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/35" />
-        <div className="absolute inset-0 bg-gradient-to-t from-brand-black via-black/30 to-black/25" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,rgba(212,175,55,0.14),transparent_50%)]" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/35 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-brand-black/90 via-transparent to-black/5" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_72%_35%,rgba(212,175,55,0.1),transparent_52%)]" />
 
-        <div className="relative z-10 mx-auto flex min-h-[70svh] w-full max-w-[1600px] items-end px-4 py-16 sm:px-6 lg:px-9 lg:py-24">
+        <div className="relative z-10 mx-auto flex min-h-[56svh] w-full max-w-[1600px] items-end px-4 py-14 sm:min-h-[60svh] sm:px-6 lg:px-9 lg:py-20">
           <div className="max-w-2xl">
             <p className="type-eyebrow text-brand-gold">What drives us</p>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl">
               Every journey should feel safe — and shared.
             </h2>
-            <p className="mt-6 text-lg leading-8 text-gray-200">
+            <p className="type-body mt-6 text-gray-200">
               We believe a vehicle is more than metal and mileage. It is school runs, weekend escapes,
               and the quiet confidence of knowing your family is protected on the road. At QZERO, we
               help you choose with care — so every drive home feels joyful, secure, and truly yours.
@@ -101,9 +103,9 @@ export default async function AboutPage() {
 
       <section className="border-b border-white/5 bg-brand-card">
         <div className="mx-auto w-full max-w-[1600px] px-4 py-16 sm:px-6 lg:px-9">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">Our story</p>
+          <p className="text-sm font-bold uppercase tracking-[0.2em] text-brand-gold">Our story</p>
           <h2 className="mt-4 text-3xl font-bold text-white">Built for discerning buyers</h2>
-          <p className="mt-4 max-w-3xl leading-7 text-brand-muted">
+          <p className="type-muted mt-4 max-w-3xl">
             We combine global auction access, certified inspection, and white-glove delivery into one
             premium workflow. Whether you are browsing our Colombo showroom with family or sourcing a
             specific vehicle from overseas, QZERO keeps the process transparent and human.
@@ -113,7 +115,7 @@ export default async function AboutPage() {
             {milestones.map((item) => (
               <div key={item.year} className="rounded-xl border border-white/5 bg-black p-6">
                 <p className="text-2xl font-bold gold-text">{item.year}</p>
-                <p className="mt-3 text-sm leading-6 text-brand-muted">{item.label}</p>
+                <p className="type-muted mt-3">{item.label}</p>
               </div>
             ))}
           </div>
@@ -121,7 +123,7 @@ export default async function AboutPage() {
       </section>
 
       <section className="mx-auto w-full max-w-[1600px] px-4 py-16 sm:px-6 lg:px-9">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">Why QZERO</p>
+        <p className="text-sm font-bold uppercase tracking-[0.2em] text-brand-gold">Why QZERO</p>
         <div className="mt-8 grid gap-4 sm:grid-cols-3">
           {trustPoints.map((point) => (
             <div
@@ -131,7 +133,7 @@ export default async function AboutPage() {
               <span className="flex h-10 w-10 items-center justify-center rounded-full border border-brand-gold/30 bg-black">
                 <point.icon className="h-4 w-4 text-brand-gold" />
               </span>
-              <p className="text-sm font-semibold text-white">{point.label}</p>
+              <p className="text-base font-semibold text-white sm:text-lg">{point.label}</p>
             </div>
           ))}
         </div>

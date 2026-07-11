@@ -24,7 +24,7 @@ export default function DashboardCharts({ vehicles }: DashboardChartsProps) {
     
     // Initialize data array with 0s for the last 6 months
     const currentMonth = new Date().getMonth();
-    const result = [];
+    const result: { name: string; monthIndex: number; year: number; count: number }[] = [];
     
     for (let i = 5; i >= 0; i--) {
       let m = currentMonth - i;
@@ -61,7 +61,7 @@ export default function DashboardCharts({ vehicles }: DashboardChartsProps) {
     if (active && payload && payload.length) {
       return (
         <div className="rounded-xl border border-white/10 bg-[#111111] p-3 shadow-xl">
-          <p className="text-xs font-medium text-brand-muted">{label}</p>
+          <p className="text-sm font-medium text-brand-muted">{label}</p>
           <p className="mt-1 text-lg font-bold text-brand-gold">
             {payload[0].value} <span className="text-xs font-normal text-white">Vehicles Added</span>
           </p>

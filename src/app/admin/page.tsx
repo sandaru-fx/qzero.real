@@ -1,10 +1,14 @@
 import Link from 'next/link';
-import { Car, Plus, Sparkles, TrendingUp, MessageSquare } from 'lucide-react';
+import { Car, Plus, Sparkles, TrendingUp, MessageSquare, ArrowUpRight } from 'lucide-react';
 import { getVehicles } from '@/actions/search';
 import { getInquiries } from '@/actions/inquiry';
 import { protectAdminRoute } from '@/lib/auth';
 import InventoryTable from '@/components/admin/InventoryTable';
 import DashboardCharts from '@/components/admin/DashboardCharts';
+import AdminPageHeader, {
+  AdminPanel,
+  AdminPrimaryButton,
+} from '@/components/admin/AdminPageHeader';
 
 export const revalidate = 0;
 
@@ -19,9 +23,9 @@ export default async function AdminDashboardPage() {
 
   const [vehicles, inquiries] = await Promise.all([
     getVehicles({ limit: 48 }),
-    getInquiries()
+    getInquiries(),
   ]);
-  
+
   const featuredCount = vehicles.filter((v) => v.isFeatured).length;
   const weekAgo = getWeekAgo();
   const addedThisWeek = vehicles.filter((v) => {
@@ -29,7 +33,7 @@ export default async function AdminDashboardPage() {
     return new Date(v.createdAt) >= weekAgo;
   }).length;
 
-  const newInquiries = inquiries.filter(i => i.status === 'New').length;
+  const newInquiries = inquiries.filter((i) => i.status === 'New').length;
 
   const stats = [
     {
@@ -37,6 +41,7 @@ export default async function AdminDashboardPage() {
       value: vehicles.length,
       trend: `+${addedThisWeek} this week`,
       icon: Car,
+      href: '/admin/inventory',
       trendPositive: addedThisWeek > 0,
     },
     {
@@ -44,93 +49,124 @@ export default async function AdminDashboardPage() {
       value: featuredCount,
       trend: featuredCount > 0 ? 'Homepage spotlight' : 'None featured',
       icon: Sparkles,
+      href: '/admin/inventory',
       trendPositive: featuredCount > 0,
     },
     {
       label: 'Available Stock',
       value: vehicles.length,
-      trend: 'All listed as available',
+      trend: 'Live on showroom',
       icon: TrendingUp,
+      href: '/vehicles',
       trendPositive: true,
+      external: true,
     },
     {
       label: 'New Inquiries',
       value: newInquiries,
-      trend: newInquiries > 0 ? 'Action required' : 'All caught up',
+      trend: newInquiries > 0 ? 'Needs attention' : 'All caught up',
       icon: MessageSquare,
-      trendPositive: newInquiries === 0, // Green if 0 (good), else default
+      href: '/admin/inquiries',
+      trendPositive: newInquiries === 0,
     },
   ];
 
   return (
     <div className="mx-auto max-w-7xl space-y-8">
-      <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-        <div>
-          <p className="type-eyebrow text-brand-gold">Overview</p>
-          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Dashboard</h1>
-          <p className="type-muted mt-2">
-            Monitor inventory performance and manage your premium showroom.
-          </p>
-        </div>
-        <Link
-          href="/admin/vehicles/new"
-          className="type-meta inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 font-bold text-black gold-gradient shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-opacity hover:opacity-90"
-        >
-          <Plus className="h-4 w-4" />
-          Add Vehicle
-        </Link>
-      </div>
+      <AdminPageHeader
+        eyebrow="Overview"
+        title="Dashboard"
+        description="Monitor inventory, track leads, and keep the showroom running smoothly."
+        actions={
+          <AdminPrimaryButton href="/admin/vehicles/new">
+            <Plus className="h-4 w-4" />
+            Add Vehicle
+          </AdminPrimaryButton>
+        }
+      />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.label}
-            className="rounded-2xl border border-white/5 bg-[#111111] p-5 shadow-lg transition-colors hover:border-brand-gold/20"
-          >
-            <div className="flex items-start justify-between">
-              <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-brand-gold/20 bg-brand-gold/10">
-                <stat.icon className="h-5 w-5 text-brand-gold" />
-              </span>
-              <span
-                className={`type-meta rounded-full px-2.5 py-1 font-semibold ${
-                  stat.trendPositive
-                    ? 'bg-emerald-500/10 text-emerald-400'
-                    : 'bg-white/5 text-brand-muted'
-                }`}
+        {stats.map((stat) => {
+          const CardInner = (
+            <>
+              <div className="relative z-10 flex items-start justify-between">
+                <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-brand-gold/25 bg-brand-gold/10">
+                  <stat.icon className="h-5 w-5 text-brand-gold" />
+                </span>
+                <span
+                  className={`rounded-full px-2.5 py-1 text-sm font-bold ${
+                    stat.trendPositive
+                      ? 'bg-emerald-500/10 text-emerald-400'
+                      : 'bg-amber-500/10 text-amber-300'
+                  }`}
+                >
+                  {stat.trend}
+                </span>
+              </div>
+              <p className="relative z-10 mt-5 text-sm font-bold uppercase tracking-[0.16em] text-brand-muted sm:text-base">
+                {stat.label}
+              </p>
+              <div className="relative z-10 mt-1.5 flex items-end justify-between gap-2">
+                <p className="text-4xl font-extrabold tracking-tight text-white">{stat.value}</p>
+                <ArrowUpRight className="mb-1 h-4 w-4 text-brand-muted opacity-0 transition-opacity group-hover:opacity-100" />
+              </div>
+            </>
+          );
+
+          if (stat.external) {
+            return (
+              <a
+                key={stat.label}
+                href={stat.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="admin-stat-card group block"
               >
-                {stat.trend}
-              </span>
-            </div>
-            <p className="type-meta mt-5 font-medium text-brand-muted">{stat.label}</p>
-            <p className="mt-1 text-4xl font-extrabold tracking-tight text-white">{stat.value}</p>
-          </div>
-        ))}
+                {CardInner}
+              </a>
+            );
+          }
+
+          return (
+            <Link key={stat.label} href={stat.href} className="admin-stat-card group block">
+              {CardInner}
+            </Link>
+          );
+        })}
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
-        <section className="rounded-2xl border border-white/5 bg-[#111111] p-5 sm:p-6">
+      <div className="grid gap-6 lg:grid-cols-[1fr_1.6fr]">
+        <AdminPanel>
           <div className="mb-6">
-            <h2 className="text-2xl font-bold tracking-tight text-white">Inventory Growth</h2>
-            <p className="type-muted mt-1">Vehicles added over the last 6 months.</p>
+            <h2 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+              Inventory Growth
+            </h2>
+            <p className="mt-1 text-base font-medium text-brand-muted">
+              Vehicles added over the last 6 months.
+            </p>
           </div>
           <DashboardCharts vehicles={vehicles} />
-        </section>
+        </AdminPanel>
 
-        <section className="rounded-2xl border border-white/5 bg-[#111111] p-5 sm:p-6">
+        <AdminPanel>
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight text-white">Recent Inventory</h2>
-              <p className="type-muted mt-1">Search, edit, or remove listings without leaving this page.</p>
+              <h2 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+                Recent Inventory
+              </h2>
+              <p className="mt-1 text-base font-medium text-brand-muted">
+                Search, edit, or remove listings quickly.
+              </p>
             </div>
             <Link
               href="/admin/inventory"
-              className="type-meta font-semibold text-brand-gold transition-colors hover:text-brand-gold-light"
+              className="text-base font-semibold text-brand-gold transition-colors hover:text-brand-gold-light"
             >
               View all →
             </Link>
           </div>
           <InventoryTable vehicles={vehicles} />
-        </section>
+        </AdminPanel>
       </div>
     </div>
   );

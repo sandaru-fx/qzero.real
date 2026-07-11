@@ -183,6 +183,7 @@ export async function getFilterOptions(): Promise<FilterOptions> {
   const defaults: FilterOptions = {
     makes: [],
     models: [],
+    modelsByMake: {},
     years: [],
     conditions: [...conditions],
     priceRanges: [
@@ -197,15 +198,29 @@ export async function getFilterOptions(): Promise<FilterOptions> {
   try {
     await connectToDatabase();
 
-    const [makes, models, years] = await Promise.all([
+    const [makes, models, years, brandModels] = await Promise.all([
       Vehicle.distinct('brand'),
       Vehicle.distinct('model'),
       Vehicle.distinct('year'),
+      Vehicle.find({}, { brand: 1, model: 1, _id: 0 }).lean<{ brand: string; model: string }[]>(),
     ]);
+
+    const modelsByMake: Record<string, string[]> = {};
+    for (const row of brandModels) {
+      if (!row.brand || !row.model) continue;
+      if (!modelsByMake[row.brand]) modelsByMake[row.brand] = [];
+      if (!modelsByMake[row.brand].includes(row.model)) {
+        modelsByMake[row.brand].push(row.model);
+      }
+    }
+    for (const key of Object.keys(modelsByMake)) {
+      modelsByMake[key].sort();
+    }
 
     return {
       makes: makes.filter(Boolean).sort() as string[],
       models: models.filter(Boolean).sort() as string[],
+      modelsByMake,
       years: (years as number[])
         .filter(Boolean)
         .sort((a, b) => b - a)
@@ -216,6 +231,24 @@ export async function getFilterOptions(): Promise<FilterOptions> {
   } catch (error) {
     console.warn('Filter options skipped:', error instanceof Error ? error.message : 'Unknown error');
     return defaults;
+  }
+}
+
+export async function getVehiclesByIds(ids: string[]): Promise<VehicleView[]> {
+  if (!ids.length) return [];
+
+  try {
+    await connectToDatabase();
+    const objectIds = ids
+      .filter((id) => Types.ObjectId.isValid(id))
+      .map((id) => new Types.ObjectId(id));
+    if (!objectIds.length) return [];
+
+    const vehicles = await Vehicle.find({ _id: { $in: objectIds } }).lean<LeanVehicle[]>();
+    const byId = new Map(vehicles.map((v) => [String(v._id), serializeVehicle(v)]));
+    return ids.map((id) => byId.get(id)).filter((v): v is VehicleView => Boolean(v));
+  } catch {
+    return [];
   }
 }
 

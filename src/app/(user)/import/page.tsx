@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { ArrowRight, Anchor, ClipboardCheck, Globe, Handshake } from 'lucide-react';
 import type { Metadata } from 'next';
+import LifestyleHero from '@/components/LifestyleHero';
+import { lifestyleImages } from '@/data/lifestyle';
 
 export const metadata: Metadata = {
   title: 'Import Service',
@@ -42,21 +44,15 @@ const timeline = [
 export default function ImportPage() {
   return (
     <div className="min-h-screen bg-brand-black">
-
-      {/* ── Hero Section ── */}
-      <section className="border-b border-white/5">
-        <div className="mx-auto w-full max-w-[1600px] px-4 pb-16 pt-20 sm:px-6 lg:px-9">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-brand-gold">
-            QZERO Import Concierge
-          </p>
-          <h1 className="mt-6 max-w-4xl text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-            Bespoke Automotive Sourcing
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-brand-muted">
-            A direct pipeline from the world&apos;s most trusted auction houses in Japan, the United Kingdom, and Australia — curated, inspected, and delivered to your doorstep with white-glove precision.
-          </p>
-        </div>
-      </section>
+      <LifestyleHero
+        image={lifestyleImages.importHero}
+        breadcrumbs="HOME  |  IMPORT SERVICE"
+        eyebrow="QZERO Import Concierge"
+        title="Bespoke Automotive Sourcing"
+        description="A direct pipeline from the world's most trusted auction houses in Japan, the United Kingdom, and Australia — curated, inspected, and delivered to your doorstep with white-glove precision."
+        objectPosition="center 8%"
+        minHeight="min-h-[72svh] sm:min-h-[80svh] lg:min-h-[85svh]"
+      />
 
       {/* ── Elite Timeline ── */}
       <section className="mx-auto w-full max-w-[1600px] px-4 py-20 sm:px-6 lg:px-9">
@@ -83,7 +79,7 @@ export default function ImportPage() {
                   </span>
                   <div>
                     <h2 className="text-xl font-bold text-white">{item.title}</h2>
-                    <p className="mt-3 leading-7 text-brand-muted">{item.description}</p>
+                    <p className="type-muted mt-3">{item.description}</p>
                   </div>
                 </div>
               </div>
@@ -95,25 +91,24 @@ export default function ImportPage() {
       {/* ── Bottom CTA ── */}
       <section className="border-t border-white/5 bg-brand-card">
         <div className="mx-auto flex w-full max-w-[1600px] flex-col items-center px-4 py-20 text-center sm:px-6 lg:px-9">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-brand-gold">
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-brand-gold">
             Ready to source your next vehicle?
           </p>
           <h2 className="mt-5 text-3xl font-bold text-white sm:text-4xl">
             Let QZERO handle the entire journey.
           </h2>
-          <p className="mt-4 max-w-xl text-brand-muted">
+          <p className="type-muted mt-4 max-w-xl">
             From auction floor to your driveway — one premium workflow, zero complexity.
           </p>
           <Link
             href="/contact"
-            className="group mt-10 inline-flex items-center gap-2.5 rounded-full gold-gradient px-8 py-4 text-sm font-bold text-black shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-brand-gold/40"
+            className="group mt-10 inline-flex items-center gap-2.5 rounded-full gold-gradient px-8 py-4 text-base font-bold text-black shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-brand-gold/40"
           >
             Start Your Import Inquiry
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
           </Link>
         </div>
       </section>
-
     </div>
   );
 }

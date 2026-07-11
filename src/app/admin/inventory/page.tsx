@@ -14,15 +14,15 @@ export default async function AdminInventoryPage() {
     <div className="mx-auto max-w-7xl space-y-8">
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">Showroom</p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Inventory</h1>
-          <p className="mt-2 text-brand-muted">
+          <p className="type-eyebrow text-brand-gold">Showroom</p>
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Inventory</h1>
+          <p className="type-muted mt-2">
             Full vehicle catalogue — search, edit, preview, and delete.
           </p>
         </div>
         <Link
           href="/admin/vehicles/new"
-          className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold text-black gold-gradient shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-opacity hover:opacity-90"
+          className="type-meta inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 font-bold text-black gold-gradient shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-opacity hover:opacity-90"
         >
           <Plus className="h-4 w-4" />
           Add Vehicle

@@ -45,7 +45,7 @@ export default function ImportPage() {
 
       {/* ── Hero Section ── */}
       <section className="border-b border-white/5">
-        <div className="mx-auto max-w-7xl px-4 pb-16 pt-20 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1600px] px-4 pb-16 pt-20 sm:px-6 lg:px-9">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-brand-gold">
             QZERO Import Concierge
           </p>
@@ -59,7 +59,7 @@ export default function ImportPage() {
       </section>
 
       {/* ── Elite Timeline ── */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+      <section className="mx-auto w-full max-w-[1600px] px-4 py-20 sm:px-6 lg:px-9">
         <div className="grid gap-0">
           {timeline.map((item, index) => (
             <div
@@ -94,7 +94,7 @@ export default function ImportPage() {
 
       {/* ── Bottom CTA ── */}
       <section className="border-t border-white/5 bg-brand-card">
-        <div className="mx-auto flex max-w-7xl flex-col items-center px-4 py-20 text-center sm:px-6 lg:px-8">
+        <div className="mx-auto flex w-full max-w-[1600px] flex-col items-center px-4 py-20 text-center sm:px-6 lg:px-9">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-brand-gold">
             Ready to source your next vehicle?
           </p>

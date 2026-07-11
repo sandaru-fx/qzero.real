@@ -4,7 +4,7 @@
   --color-brand-black: #050505;
   --color-brand-card: #121212;
   --color-brand-line: #242424;
-  --color-brand-muted: #9CA3AF;
+  --color-brand-muted: #B4BCC8;
   --color-brand-gold: #D4AF37;
   --color-brand-gold-light: #F3E5AB;
   --color-brand-gold-dark: #AA7C11;
@@ -26,6 +26,28 @@ html {
 
 body {
   margin: 0;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 700;
+}
+
+p,
+li,
+a,
+span,
+label,
+button {
+  font-weight: inherit;
 }
 
 ::selection {
@@ -42,6 +64,68 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+/* Big display titles — keep as-is (not larger) */
+.type-display-xl {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-size: clamp(3.25rem, 8vw, 7.5rem);
+  line-height: 0.92;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+
+.type-display-lg {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-size: clamp(2.5rem, 5vw, 5rem);
+  line-height: 0.98;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+}
+
+.type-section-title {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-size: clamp(2.25rem, 3.5vw, 3.75rem);
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.type-eyebrow {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+  line-height: 1.25;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.type-body {
+  font-size: clamp(1.125rem, 1.35vw, 1.25rem);
+  line-height: 1.85;
+  font-weight: 600;
+}
+
+.type-muted {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  font-weight: 600;
+  color: #c0c7d1;
+}
+
+.type-card-title {
+  font-size: clamp(1.4rem, 1.7vw, 1.85rem);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.type-meta {
+  font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  font-weight: 700;
+  letter-spacing: 0.04em;
 }
 
 .shimmer {
@@ -92,4 +176,62 @@ body {
 
 .hero-content-animate {
   animation: hero-fade-up 0.8s ease-out 0.3s both;
+}
+
+/* Promotions page */
+.promo-display {
+  font-family: var(--font-promo-display, var(--font-display)), ui-serif, Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+@keyframes promo-ken-burns {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.06);
+  }
+}
+
+.promo-hero-zoom {
+  animation: promo-ken-burns 14s ease-out forwards;
+}
+
+/* Footer — Indra-style feathered left image */
+.footer-bg-mask {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 42%,
+    rgba(0, 0, 0, 0.55) 68%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    #000 0%,
+    #000 42%,
+    rgba(0, 0, 0, 0.55) 68%,
+    transparent 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+}
+
+@media (max-width: 640px) {
+  .footer-bg-mask {
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.25) 45%,
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.55) 0%,
+      rgba(0, 0, 0, 0.25) 45%,
+      transparent 100%
+    );
+    opacity: 0.45;
+  }
 }

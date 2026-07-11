@@ -15,53 +15,57 @@ export default function VehicleCard({ vehicle, priority = false }: VehicleCardPr
   return (
     <Link
       href={`/vehicles/${vehicle.slug}`}
-      className="group block overflow-hidden rounded-xl border border-white/5 bg-brand-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/40 hover:shadow-2xl hover:shadow-brand-gold/5"
+      className="group flex h-full flex-col overflow-hidden rounded-xl border border-white/5 bg-brand-card transition-all duration-300 hover:-translate-y-1 hover:border-brand-gold/40 hover:shadow-2xl hover:shadow-brand-gold/5"
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-black">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-black sm:aspect-[5/4]">
         <Image
           src={imageSrc}
           alt={`${vehicle.brand} ${vehicle.model}`}
           fill
-          sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+          sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
           priority={priority}
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
         {vehicle.isFeatured && (
-          <span className="absolute left-4 top-4 rounded-full border border-brand-gold/30 bg-black/60 px-3.5 py-1.5 text-[11px] font-bold uppercase tracking-wider text-brand-gold backdrop-blur-md">
+          <span className="type-meta absolute left-3 top-3 rounded-full border border-brand-gold/30 bg-black/60 px-3 py-1 font-bold uppercase text-brand-gold backdrop-blur-md">
             Featured
           </span>
         )}
       </div>
 
-      <div className="p-6">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-wider text-brand-gold">{vehicle.brand}</p>
-            <h3 className="mt-1.5 text-xl font-bold tracking-tight text-white">{vehicle.model}</h3>
+      <div className="flex flex-1 flex-col p-5 sm:p-6">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <p className="type-eyebrow text-brand-gold">{vehicle.brand}</p>
+            <h3 className="mt-2 text-xl font-bold leading-tight tracking-tight text-white sm:text-2xl">
+              {vehicle.model}
+            </h3>
           </div>
-          <div className="flex shrink-0 items-center justify-center rounded-full border border-white/10 bg-black/50 px-3 py-1 backdrop-blur-sm">
-            <span className="text-xs font-medium text-brand-muted">{vehicle.year}</span>
+          <div className="flex shrink-0 items-center justify-center rounded-full border border-white/10 bg-black/50 px-2.5 py-1 backdrop-blur-sm">
+            <span className="type-meta font-medium text-brand-muted">{vehicle.year}</span>
           </div>
         </div>
 
-        <p className="mt-5 text-2xl font-bold gold-text">{formatPrice(vehicle.price)}</p>
+        <p className="mt-4 text-2xl font-extrabold tracking-tight gold-text sm:text-3xl">
+          {formatPrice(vehicle.price)}
+        </p>
 
-        <div className="mt-5 flex flex-wrap gap-2 text-[13px] text-brand-muted">
-          <span className="flex items-center gap-1.5 rounded-full bg-black/40 px-3 py-1.5">
+        <div className="type-meta mt-4 flex flex-wrap gap-1.5 text-brand-muted">
+          <span className="flex items-center gap-1.5 rounded-full bg-black/40 px-2.5 py-1">
             <Gauge className="h-3.5 w-3.5 text-brand-gold/70" />
             {vehicle.mileage.toLocaleString()} km
           </span>
-          <span className="flex items-center gap-1.5 rounded-full bg-black/40 px-3 py-1.5">
+          <span className="flex items-center gap-1.5 rounded-full bg-black/40 px-2.5 py-1">
             <Timer className="h-3.5 w-3.5 text-brand-gold/70" />
             {vehicle.transmission}
           </span>
-          <span className="flex items-center gap-1.5 rounded-full bg-black/40 px-3 py-1.5">
+          <span className="flex items-center gap-1.5 rounded-full bg-black/40 px-2.5 py-1">
             <Gem className="h-3.5 w-3.5 text-brand-gold/70" />
             {vehicle.fuelType}
           </span>
         </div>
 
-        <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-brand-gold transition-all duration-300 group-hover:gap-3">
+        <div className="type-meta mt-auto flex items-center gap-2 pt-6 font-bold uppercase text-brand-gold transition-all duration-300 group-hover:gap-3">
           Explore More
           <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
         </div>

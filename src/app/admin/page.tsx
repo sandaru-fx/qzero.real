@@ -66,15 +66,15 @@ export default async function AdminDashboardPage() {
     <div className="mx-auto max-w-7xl space-y-8">
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">Overview</p>
-          <h1 className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Dashboard</h1>
-          <p className="mt-2 text-brand-muted">
+          <p className="type-eyebrow text-brand-gold">Overview</p>
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Dashboard</h1>
+          <p className="type-muted mt-2">
             Monitor inventory performance and manage your premium showroom.
           </p>
         </div>
         <Link
           href="/admin/vehicles/new"
-          className="inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-bold text-black gold-gradient shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-opacity hover:opacity-90"
+          className="type-meta inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 font-bold text-black gold-gradient shadow-[0_0_20px_rgba(212,175,55,0.2)] transition-opacity hover:opacity-90"
         >
           <Plus className="h-4 w-4" />
           Add Vehicle
@@ -92,7 +92,7 @@ export default async function AdminDashboardPage() {
                 <stat.icon className="h-5 w-5 text-brand-gold" />
               </span>
               <span
-                className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${
+                className={`type-meta rounded-full px-2.5 py-1 font-semibold ${
                   stat.trendPositive
                     ? 'bg-emerald-500/10 text-emerald-400'
                     : 'bg-white/5 text-brand-muted'
@@ -101,8 +101,8 @@ export default async function AdminDashboardPage() {
                 {stat.trend}
               </span>
             </div>
-            <p className="mt-5 text-sm font-medium text-brand-muted">{stat.label}</p>
-            <p className="mt-1 text-3xl font-bold tracking-tight text-white">{stat.value}</p>
+            <p className="type-meta mt-5 font-medium text-brand-muted">{stat.label}</p>
+            <p className="mt-1 text-4xl font-extrabold tracking-tight text-white">{stat.value}</p>
           </div>
         ))}
       </div>
@@ -110,8 +110,8 @@ export default async function AdminDashboardPage() {
       <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
         <section className="rounded-2xl border border-white/5 bg-[#111111] p-5 sm:p-6">
           <div className="mb-6">
-            <h2 className="text-xl font-semibold text-white">Inventory Growth</h2>
-            <p className="mt-1 text-sm text-brand-muted">Vehicles added over the last 6 months.</p>
+            <h2 className="text-2xl font-bold tracking-tight text-white">Inventory Growth</h2>
+            <p className="type-muted mt-1">Vehicles added over the last 6 months.</p>
           </div>
           <DashboardCharts vehicles={vehicles} />
         </section>
@@ -119,12 +119,12 @@ export default async function AdminDashboardPage() {
         <section className="rounded-2xl border border-white/5 bg-[#111111] p-5 sm:p-6">
           <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-xl font-semibold text-white">Recent Inventory</h2>
-              <p className="mt-1 text-sm text-brand-muted">Search, edit, or remove listings without leaving this page.</p>
+              <h2 className="text-2xl font-bold tracking-tight text-white">Recent Inventory</h2>
+              <p className="type-muted mt-1">Search, edit, or remove listings without leaving this page.</p>
             </div>
             <Link
               href="/admin/inventory"
-              className="text-sm font-semibold text-brand-gold transition-colors hover:text-brand-gold-light"
+              className="type-meta font-semibold text-brand-gold transition-colors hover:text-brand-gold-light"
             >
               View all →
             </Link>

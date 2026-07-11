@@ -10,9 +10,9 @@ export default async function AdminInquiriesPage() {
 
   return (
     <div className="mx-auto max-w-7xl">
-      <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">CRM</p>
+      <p className="type-eyebrow text-brand-gold">CRM</p>
       <h1 className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Inquiries</h1>
-      <p className="mt-2 text-brand-muted">Manage customer leads and contact requests.</p>
+      <p className="type-muted mt-2">Manage customer leads and contact requests.</p>
 
       <InquiryBoard inquiries={inquiries} />
     </div>

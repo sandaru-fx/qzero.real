@@ -23,9 +23,9 @@ const SettingsSchema = new Schema<ISettings>(
     isGlobal: { type: Boolean, default: true, unique: true },
     contact: {
       email: { type: String, default: 'info@qzerointernational.com' },
-      phone: { type: String, default: '+94 77 000 0000' },
-      phoneTel: { type: String, default: '+94770000000' },
-      whatsapp: { type: String, default: '94770000000' },
+      phone: { type: String, default: '+94 712 409 519' },
+      phoneTel: { type: String, default: '+94712409519' },
+      whatsapp: { type: String, default: '94712409519' },
       addressLine1: { type: String, default: 'No. 123, Marine Drive' },
       addressLine2: { type: String, default: 'Colombo 03, Sri Lanka' },
     },

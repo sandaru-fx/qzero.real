@@ -22,6 +22,7 @@ type VehiclesPageProps = {
     year?: string;
     condition?: string;
     price?: string;
+    bodyType?: string;
     q?: string;
     page?: string;
   }>;
@@ -37,6 +38,7 @@ export default async function VehiclesPage({ searchParams }: VehiclesPageProps) 
     year: params.year,
     condition: params.condition,
     price: params.price,
+    bodyType: params.bodyType,
     query: params.q,
   };
 
@@ -53,6 +55,7 @@ export default async function VehiclesPage({ searchParams }: VehiclesPageProps) 
     params.year ||
     params.condition ||
     params.price ||
+    params.bodyType ||
     params.q
   );
 
@@ -62,20 +65,21 @@ export default async function VehiclesPage({ searchParams }: VehiclesPageProps) 
     params.year,
     params.condition,
     params.price,
+    params.bodyType,
     params.q,
   ].filter(Boolean);
 
   return (
     <div className="min-h-screen bg-brand-black">
       <div className="border-b border-white/5 bg-brand-black">
-        <div className="mx-auto max-w-7xl px-4 pb-10 pt-14 sm:px-6 lg:px-8">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-brand-gold">QZERO International</p>
+        <div className="mx-auto w-full px-2 pb-6 pt-8 sm:px-3 lg:px-4">
+          <p className="type-eyebrow text-brand-gold">QZERO International</p>
           <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">
+              <h1 className="type-display-lg text-white">
                 The QZERO Collection
               </h1>
-              <p className="mt-3 text-brand-muted">
+              <p className="type-muted mt-4">
                 {totalCount > 0 ? (
                   <>
                     Showing <span className="font-semibold text-white">{totalCount}</span> Exceptional{' '}
@@ -93,7 +97,7 @@ export default async function VehiclesPage({ searchParams }: VehiclesPageProps) 
                 {activeFilterLabels.map((label) => (
                   <span
                     key={label}
-                    className="rounded-full border border-brand-gold/30 bg-brand-gold/5 px-3 py-1 text-xs font-medium text-brand-gold"
+                    className="type-meta rounded-full border border-brand-gold/30 bg-brand-gold/5 px-3 py-1 font-medium text-brand-gold"
                   >
                     {label}
                   </span>
@@ -104,18 +108,18 @@ export default async function VehiclesPage({ searchParams }: VehiclesPageProps) 
         </div>
       </div>
 
-      <div className="border-b border-white/5 bg-brand-black/80 py-4 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <VehicleSearchSection showTextSearch />
+      <div className="border-b border-white/5 bg-brand-black/80 py-3 backdrop-blur-md">
+        <div className="mx-auto w-full px-2 sm:px-3 lg:px-4">
+          <VehicleSearchSection showTextSearch fullWidth />
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full px-2 py-6 sm:px-3 lg:px-4">
         {vehicles.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
               {vehicles.map((vehicle, index) => (
-                <VehicleCard key={vehicle._id} vehicle={vehicle} priority={index < 3} />
+                <VehicleCard key={vehicle._id} vehicle={vehicle} priority={index < 4} />
               ))}
             </div>
             <Pagination
@@ -127,6 +131,7 @@ export default async function VehiclesPage({ searchParams }: VehiclesPageProps) 
                 year: params.year,
                 condition: params.condition,
                 price: params.price,
+                bodyType: params.bodyType,
                 q: params.q,
               }}
             />

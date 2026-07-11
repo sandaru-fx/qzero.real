@@ -31,14 +31,26 @@ export async function getSiteConfig() {
   const dbSettings = await getSettings();
   if (!dbSettings) return fallbackSiteConfig;
 
+  const isPlaceholderPhone =
+    !dbSettings.contact.phone ||
+    dbSettings.contact.phone.includes('77 000 0000') ||
+    dbSettings.contact.phoneTel?.includes('94770000000');
+
   return {
     ...fallbackSiteConfig,
     contact: {
       ...fallbackSiteConfig.contact,
       email: dbSettings.contact.email || fallbackSiteConfig.contact.email,
-      phone: dbSettings.contact.phone || fallbackSiteConfig.contact.phone,
-      phoneTel: dbSettings.contact.phoneTel || fallbackSiteConfig.contact.phoneTel,
-      whatsapp: dbSettings.contact.whatsapp || fallbackSiteConfig.contact.whatsapp,
+      phone: isPlaceholderPhone
+        ? fallbackSiteConfig.contact.phone
+        : dbSettings.contact.phone || fallbackSiteConfig.contact.phone,
+      phoneTel: isPlaceholderPhone
+        ? fallbackSiteConfig.contact.phoneTel
+        : dbSettings.contact.phoneTel || fallbackSiteConfig.contact.phoneTel,
+      whatsapp:
+        !dbSettings.contact.whatsapp || dbSettings.contact.whatsapp === '94770000000'
+          ? fallbackSiteConfig.contact.whatsapp
+          : dbSettings.contact.whatsapp,
       address: {
         ...fallbackSiteConfig.contact.address,
         line1: dbSettings.contact.addressLine1 || fallbackSiteConfig.contact.address.line1,

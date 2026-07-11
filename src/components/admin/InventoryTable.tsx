@@ -17,14 +17,14 @@ type InventoryTableProps = {
 function StatusBadge({ vehicle }: { vehicle: VehicleView }) {
   if (vehicle.isFeatured) {
     return (
-      <span className="inline-flex items-center rounded-full border border-brand-gold/30 bg-brand-gold/10 px-2.5 py-0.5 text-xs font-semibold text-brand-gold">
+      <span className="type-meta inline-flex items-center rounded-full border border-brand-gold/30 bg-brand-gold/10 px-2.5 py-0.5 font-semibold text-brand-gold">
         Featured
       </span>
     );
   }
 
   return (
-    <span className="inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-semibold text-emerald-400">
+    <span className="type-meta inline-flex items-center rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-semibold text-emerald-400">
       Available
     </span>
   );
@@ -72,10 +72,10 @@ export default function InventoryTable({ vehicles }: InventoryTableProps) {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search by make, model, year..."
-            className="w-full rounded-xl border border-white/10 bg-[#0A0A0A] py-2.5 pl-10 pr-4 text-sm text-white outline-none transition-colors placeholder:text-brand-muted focus:border-brand-gold/40"
+            className="type-meta w-full rounded-xl border border-white/10 bg-[#0A0A0A] py-2.5 pl-10 pr-4 text-white outline-none transition-colors placeholder:text-brand-muted focus:border-brand-gold/40"
           />
         </div>
-        <p className="text-sm text-brand-muted">
+        <p className="type-meta text-brand-muted">
           Showing <span className="font-semibold text-white">{filtered.length}</span> of {vehicles.length}
         </p>
       </div>
@@ -89,7 +89,7 @@ export default function InventoryTable({ vehicles }: InventoryTableProps) {
           <div className="max-h-[560px] overflow-auto">
             <table className="w-full min-w-[720px] text-left text-sm">
               <thead className="sticky top-0 z-10 border-b border-white/5 bg-[#111111]">
-                <tr className="text-xs uppercase tracking-wider text-brand-muted">
+                <tr className="type-meta uppercase text-brand-muted">
                   <th className="px-5 py-3.5 font-medium">Image</th>
                   <th className="px-5 py-3.5 font-medium">Name</th>
                   <th className="px-5 py-3.5 font-medium">Price</th>
@@ -118,11 +118,11 @@ export default function InventoryTable({ vehicles }: InventoryTableProps) {
                       </div>
                     </td>
                     <td className="px-5 py-3.5">
-                      <p className="font-semibold text-white">
+                      <p className="text-base font-semibold tracking-tight text-white">
                         {vehicle.brand} {vehicle.model}
                         {vehicle.grade ? ` ${vehicle.grade}` : ''}
                       </p>
-                      <p className="mt-0.5 text-xs text-brand-muted">
+                      <p className="type-meta mt-1 text-brand-muted">
                         {vehicle.year} · {vehicle.fuelType} · {vehicle.transmission}
                       </p>
                     </td>

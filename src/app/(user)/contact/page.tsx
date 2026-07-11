@@ -1,8 +1,11 @@
+import Image from 'next/image';
 import { Clock, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
 import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
+import LifestyleHero from '@/components/LifestyleHero';
 import { buildWhatsAppUrl } from '@/config/site';
 import { getSiteConfig } from '@/actions/settings';
+import { lifestyleImages } from '@/data/lifestyle';
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteConfig = await getSiteConfig();
@@ -27,7 +30,10 @@ export default async function ContactPage() {
       icon: MessageCircle,
       label: 'WhatsApp Inquiry',
       value: 'Start a Consultation',
-      href: buildWhatsAppUrl(siteConfig.contact.whatsapp, 'Hello QZERO International, I would like to inquire about your vehicles.'),
+      href: buildWhatsAppUrl(
+        siteConfig.contact.whatsapp,
+        'Hello QZERO International, I would like to inquire about your vehicles.'
+      ),
       description: 'Instant messaging — available 24/7',
     },
     {
@@ -41,22 +47,17 @@ export default async function ContactPage() {
 
   return (
     <div className="min-h-screen bg-brand-black">
-      <section className="border-b border-white/5">
-        <div className="mx-auto max-w-7xl px-4 pb-12 pt-20 sm:px-6 lg:px-8">
-          <p className="text-xs font-bold uppercase tracking-[0.3em] text-brand-gold">
-            {siteConfig.name}
-          </p>
-          <h1 className="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Get in Touch
-          </h1>
-          <p className="mt-4 max-w-xl text-lg text-brand-muted">
-            Whether you&apos;re sourcing a specific vehicle or exploring our showroom inventory, our
-            concierge team is ready to assist.
-          </p>
-        </div>
-      </section>
+      <LifestyleHero
+        image={lifestyleImages.contactSide}
+        breadcrumbs="HOME  |  CONTACT US"
+        eyebrow={siteConfig.name}
+        title="Get in Touch"
+        description="Whether you're sourcing a specific vehicle or exploring our showroom with family, our concierge team is ready to assist — clearly and personally."
+        objectPosition="center 40%"
+        minHeight="min-h-[48svh] sm:min-h-[52svh]"
+      />
 
-      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-[1600px] px-4 py-16 sm:px-6 lg:px-9">
         <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">
@@ -115,13 +116,22 @@ export default async function ContactPage() {
           </div>
 
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">
-              Showroom
-            </p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">Showroom</p>
             <h2 className="mt-4 text-2xl font-bold text-white">Visit us</h2>
 
             <div className="mt-8 overflow-hidden rounded-xl border border-white/5 bg-brand-card">
-              <div className="relative h-64 w-full">
+              <div className="relative aspect-[16/10] w-full">
+                <Image
+                  src={lifestyleImages.aboutFamily}
+                  alt="Welcome to the QZERO showroom experience"
+                  fill
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              </div>
+
+              <div className="relative h-56 w-full border-t border-white/5">
                 <iframe
                   title="QZERO International showroom location"
                   src={siteConfig.contact.mapsEmbedUrl}
@@ -152,17 +162,6 @@ export default async function ContactPage() {
           </div>
         </div>
       </div>
-
-      <section className="border-t border-white/5">
-        <div className="mx-auto max-w-7xl px-4 py-12 text-center sm:px-6 lg:px-8">
-          <p className="text-xs font-bold uppercase tracking-[0.35em] text-brand-muted">
-            {siteConfig.name}
-          </p>
-          <p className="mt-2 text-sm text-brand-muted/60">
-            {siteConfig.tagline} — Colombo, Sri Lanka
-          </p>
-        </div>
-      </section>
     </div>
   );
 }

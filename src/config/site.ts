@@ -5,10 +5,10 @@ export const fallbackSiteConfig = {
 
   contact: {
     email: 'info@qzerointernational.com',
-    phone: '+94 77 000 0000',
-    phoneTel: '+94770000000',
-    whatsapp: '94770000000',
-    whatsappQrUrl: 'https://wa.me/94770000000',
+    phone: '+94 712 409 519',
+    phoneTel: '+94712409519',
+    whatsapp: '94712409519',
+    whatsappQrUrl: 'https://wa.me/94712409519',
     address: {
       line1: 'No. 123, Marine Drive',
       line2: 'Colombo 03, Sri Lanka',

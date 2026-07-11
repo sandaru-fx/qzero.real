@@ -37,7 +37,7 @@ export default async function CareersPage() {
   return (
     <div className="min-h-screen bg-brand-black">
       <section className="border-b border-white/5">
-        <div className="mx-auto max-w-7xl px-4 pb-16 pt-20 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-[1600px] px-4 pb-16 pt-20 sm:px-6 lg:px-9">
           <p className="text-xs font-bold uppercase tracking-[0.3em] text-brand-gold">Careers</p>
           <h1 className="mt-6 max-w-4xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Build the future of premium automotive retail
@@ -49,7 +49,7 @@ export default async function CareersPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section className="mx-auto w-full max-w-[1600px] px-4 py-16 sm:px-6 lg:px-9">
         <div className="grid gap-4 md:grid-cols-3">
           <div className="rounded-xl border border-white/5 bg-brand-card p-6">
             <Users className="h-6 w-6 text-brand-gold" />

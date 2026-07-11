@@ -12,7 +12,8 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function PrivacyPage() {
   const siteConfig = await getSiteConfig();
   return (
-    <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
+    <div className="mx-auto w-full max-w-[1600px] px-4 py-16 sm:px-6 lg:px-9">
+      <div className="max-w-3xl">
       <p className="text-sm font-semibold text-brand-gold">Privacy</p>
       <h1 className="mt-4 text-4xl font-semibold text-white">Privacy policy</h1>
       <div className="mt-8 space-y-6 leading-7 text-brand-muted">
@@ -35,6 +36,7 @@ export default async function PrivacyPage() {
           </a>
           .
         </p>
+      </div>
       </div>
     </div>
   );

@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Phone } from 'lucide-react';
+import { getSiteConfig } from '@/actions/settings';
 
 const navItems = [
   { href: '/', label: 'Home' },
@@ -10,46 +12,69 @@ const navItems = [
   { href: '/contact', label: 'Contact' },
 ];
 
-export default function Navbar() {
+export default async function Navbar() {
+  const siteConfig = await getSiteConfig();
+
   return (
     <header className="sticky top-0 z-50 border-b border-white/5 bg-brand-black/90 backdrop-blur-xl">
-      <nav className="mx-auto flex w-full max-w-7xl flex-col gap-3 px-4 py-3 sm:h-20 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-0 lg:px-8">
-        <Link href="/" className="flex items-center justify-center gap-3 sm:justify-start" aria-label="QZERO International home">
-          <span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-brand-gold/40 bg-black">
-            <Image
-              src="/qzero-logo.png"
-              alt="QZERO International"
-              width={44}
-              height={44}
-              className="h-10 w-10 object-contain"
-              priority
-            />
-          </span>
-          <span className="hidden leading-none sm:block">
-            <span className="block text-sm font-semibold text-white tracking-wider">QZERO</span>
-            <span className="mt-1 block text-xs font-medium text-brand-gold">International</span>
-          </span>
-        </Link>
+      <nav className="flex w-full flex-col gap-3 py-3 sm:h-20 sm:flex-row sm:items-stretch sm:gap-0 sm:py-0">
+        <div className="flex flex-1 items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+          <Link href="/" className="flex shrink-0 items-center gap-3" aria-label="QZERO International home">
+            <span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-brand-gold/40 bg-black">
+              <Image
+                src="/qzero-logo.png"
+                alt="QZERO International"
+                width={44}
+                height={44}
+className="h-10 w-10 object-contain"
+                priority
+              />
+            </span>
+            <span className="hidden leading-none sm:block">
+              <span className="block text-sm font-bold uppercase tracking-[0.22em] text-white">QZERO</span>
+              <span className="mt-1.5 block text-[10px] font-semibold uppercase tracking-[0.28em] text-brand-gold">
+                International
+              </span>
+            </span>
+          </Link>
 
-        {/* 6-column grid for mobile to fit all nav items */}
-        <div className="grid w-full grid-cols-6 items-center gap-1 rounded-full border border-white/5 bg-brand-card/70 p-1 sm:flex sm:w-auto">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="whitespace-nowrap rounded-full px-2 py-2 text-center text-xs font-medium text-brand-muted transition-colors hover:bg-white/5 hover:text-white sm:px-4 sm:text-sm"
-            >
-              {item.label}
-            </Link>
-          ))}
+          <div className="hidden flex-1 items-center justify-center gap-1 lg:flex lg:gap-2">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="whitespace-nowrap px-3 py-2.5 text-center text-[15px] font-bold uppercase tracking-[0.1em] text-white transition-colors hover:text-brand-gold lg:px-4 lg:text-base"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="grid flex-1 grid-cols-6 gap-1 lg:hidden">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="whitespace-nowrap py-2 text-center text-[10px] font-bold uppercase tracking-[0.06em] text-white transition-colors hover:text-brand-gold sm:text-[11px]"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </div>
         </div>
 
-        <Link
-          href="/import"
-          className="hidden rounded-full px-6 py-2.5 text-sm font-bold text-black gold-gradient shadow-lg shadow-brand-gold/10 transition-all duration-300 hover:scale-[1.02] hover:shadow-brand-gold/20 md:inline-flex"
+        <a
+          href={`tel:${siteConfig.contact.phoneTel}`}
+          className="ml-auto inline-flex h-14 shrink-0 items-center justify-center gap-2.5 gold-gradient px-5 text-black transition-opacity hover:opacity-90 sm:ml-0 sm:h-auto sm:self-stretch sm:px-6 lg:px-8"
         >
-          Import Service
-        </Link>
+          <Phone className="h-4 w-4 shrink-0" strokeWidth={2.5} />
+          <span className="flex flex-col items-start leading-none">
+            <span className="text-[9px] font-bold uppercase tracking-[0.18em]">Call Us Now</span>
+            <span className="mt-1 text-sm font-bold tracking-wide sm:text-[15px]">
+              {siteConfig.contact.phone}
+            </span>
+          </span>
+        </a>
       </nav>
     </header>
   );

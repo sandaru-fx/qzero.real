@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="mx-auto grid w-full max-w-7xl gap-6 px-4 py-12 sm:px-6 md:grid-cols-3 lg:px-8">
+    <div className="mx-auto grid w-full max-w-[1600px] gap-6 px-4 py-12 sm:px-6 md:grid-cols-3 lg:px-9">
       {Array.from({ length: 6 }).map((_, index) => (
         <div key={index} className="overflow-hidden rounded-lg border border-brand-line bg-brand-card">
           <div className="aspect-[16/10] shimmer" />

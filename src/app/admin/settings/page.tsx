@@ -11,9 +11,9 @@ export default async function AdminSettingsPage() {
   return (
     <div className="mx-auto max-w-5xl space-y-8">
       <div>
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand-gold">System</p>
-        <h1 className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">Settings</h1>
-        <p className="mt-2 text-brand-muted">Manage your admin profile, contact details, and brand preferences.</p>
+        <p className="type-eyebrow text-brand-gold">System</p>
+        <h1 className="mt-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">Settings</h1>
+        <p className="type-muted mt-2">Manage your admin profile, contact details, and brand preferences.</p>
       </div>
 
       <SettingsManager initialSettings={settings} />

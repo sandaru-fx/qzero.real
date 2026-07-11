@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 import type { QueryFilter } from 'mongoose';
 import connectToDatabase from '@/lib/mongodb';
 import Vehicle from '@/models/Vehicle';
-import { FuelType, IVehicle, Transmission, VehicleCondition, VehicleView } from '@/types/vehicle';
+import { FuelType, IVehicle, Transmission, VehicleCondition, VehicleView, BodyType } from '@/types/vehicle';
 import type { FilterOptions } from '@/types/filters';
 
 type LeanVehicle = Omit<IVehicle, 'createdAt' | 'updatedAt'> & {
@@ -20,6 +20,7 @@ type VehicleSearchOptions = {
   year?: string;
   price?: string;
   condition?: string;
+  bodyType?: string;
   fuelType?: string;
   transmission?: string;
   featured?: boolean;
@@ -90,6 +91,20 @@ function buildVehicleFilter(options: Omit<VehicleSearchOptions, 'limit' | 'page'
 
   if (conditions.includes(options.condition as VehicleCondition)) {
     filter.condition = options.condition as VehicleCondition;
+  }
+
+  if (options.bodyType?.trim()) {
+    const bodyType = options.bodyType.trim();
+    const categoryMap: Record<string, BodyType[]> = {
+      Car: ['Car', 'Sedan', 'Hatchback', 'Coupe', 'Convertible'],
+      SUV: ['SUV'],
+      Pickup: ['Pickup'],
+      Van: ['Van'],
+      Wagon: ['Wagon'],
+      Truck: ['Truck'],
+    };
+    const matched = categoryMap[bodyType] ?? ([bodyType] as BodyType[]);
+    filter.bodyType = matched.length === 1 ? matched[0] : { $in: matched };
   }
 
   if (options.excludeId && Types.ObjectId.isValid(options.excludeId)) {

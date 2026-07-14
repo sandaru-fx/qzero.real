@@ -79,7 +79,8 @@ export default function PromotionsManager({ promotions, vehicles }: PromotionsMa
       vehicleId: promo.vehicleId || '',
       brand: promo.brand || '',
       model: promo.model || '',
-      year: promo.year || new Date().getFullYear(),
+      // Keep missing/0 year as empty — do not invent the current year on edit
+      year: typeof promo.year === 'number' && promo.year > 0 ? promo.year : '',
       image: promo.source === 'custom' ? promo.image : '',
       href: promo.source === 'custom' ? promo.href : '/contact',
       title: promo.title,
@@ -293,8 +294,20 @@ export default function PromotionsManager({ promotions, vehicles }: PromotionsMa
                   <label className={labelClasses}>Year</label>
                   <input
                     type="number"
-                    value={form.year || ''}
-                    onChange={(e) => setForm((p) => ({ ...p, year: e.target.value }))}
+                    value={
+                      form.year !== undefined &&
+                      form.year !== null &&
+                      form.year !== '' &&
+                      Number(form.year) > 0
+                        ? form.year
+                        : ''
+                    }
+                    onChange={(e) =>
+                      setForm((p) => ({
+                        ...p,
+                        year: e.target.value === '' ? '' : e.target.value,
+                      }))
+                    }
                     placeholder="2024"
                     className={inputClasses}
                   />

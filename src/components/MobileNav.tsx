@@ -3,14 +3,12 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Heart, Menu, Phone, X } from 'lucide-react';
+import { Menu, Phone, X } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-import { readWishlistIds } from '@/lib/wishlist';
 
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/vehicles', label: 'Showroom' },
-  { href: '/wishlist', label: 'Wishlist' },
   { href: '/international', label: 'International' },
   { href: '/promotions', label: 'Promotions' },
   { href: '/about', label: 'About' },
@@ -30,22 +28,10 @@ type MobileNavProps = {
 export default function MobileNav({ phone, phoneTel }: MobileNavProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [wishlistCount, setWishlistCount] = useState(0);
 
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    const sync = () => setWishlistCount(readWishlistIds().length);
-    sync();
-    window.addEventListener('qzero-wishlist-change', sync);
-    window.addEventListener('storage', sync);
-    return () => {
-      window.removeEventListener('qzero-wishlist-change', sync);
-      window.removeEventListener('storage', sync);
-    };
-  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -63,29 +49,15 @@ export default function MobileNav({ phone, phoneTel }: MobileNavProps) {
 
   return (
     <div className="lg:hidden">
-      <div className="flex items-center gap-2">
-        <Link
-          href="/wishlist"
-          className="relative flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
-          aria-label="Wishlist"
-        >
-          <Heart className="h-5 w-5" />
-          {wishlistCount > 0 && (
-            <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-brand-gold px-1 text-[10px] font-bold text-black">
-              {wishlistCount}
-            </span>
-          )}
-        </Link>
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
-          aria-label="Open menu"
-          aria-expanded={open}
-        >
-          <Menu className="h-5 w-5" />
-        </button>
-      </div>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
+        aria-label="Open menu"
+        aria-expanded={open}
+      >
+        <Menu className="h-5 w-5" />
+      </button>
 
       {open && (
         <div className="fixed inset-0 z-[80]">
@@ -132,15 +104,6 @@ export default function MobileNav({ phone, phoneTel }: MobileNavProps) {
                     }`}
                   >
                     <span>{item.label}</span>
-                    {item.href === '/wishlist' && wishlistCount > 0 && (
-                      <span
-                        className={`rounded-full px-2 py-0.5 text-xs ${
-                          active ? 'bg-black/20 text-black' : 'bg-brand-gold/20 text-brand-gold'
-                        }`}
-                      >
-                        {wishlistCount}
-                      </span>
-                    )}
                   </Link>
                 );
               })}

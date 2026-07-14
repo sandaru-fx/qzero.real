@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { Gauge, Gem, Timer, ArrowRight } from 'lucide-react';
 import { VehicleView } from '@/types/vehicle';
 import { formatPrice } from '@/utils/formatPrice';
-import WishlistButton from '@/components/motion/WishlistButton';
 
 type VehicleCardProps = {
   vehicle: VehicleView;
@@ -36,7 +35,6 @@ export default function VehicleCard({ vehicle, priority = false }: VehicleCardPr
             Featured
           </span>
         )}
-        <WishlistButton vehicleId={vehicle._id} title={title} />
       </div>
 
       <div className="flex flex-1 flex-col p-5 sm:p-6">

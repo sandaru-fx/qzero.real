@@ -215,15 +215,14 @@ export default async function Footer() {
               <span className="type-meta mt-0.5 text-gray-400">
                 {siteConfig.contact.hours[0]
                   ? `${siteConfig.contact.hours[0].day} — ${siteConfig.contact.hours[0].time}`
-                  : 'Monday — Friday — 9:00 AM — 6:00 PM'}{' '}
-                |{' '}
-                <a
-                  href={`tel:${siteConfig.contact.phoneTel}`}
-                  className="font-bold text-white transition-all duration-300 hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] hover:bg-clip-text hover:text-transparent"
-                >
-                  {siteConfig.contact.phone}
-                </a>
+                  : 'Monday — Friday — 9:00 AM — 6:00 PM'}
               </span>
+              <a
+                href={`tel:${siteConfig.contact.phoneTel}`}
+                className="mt-1 whitespace-nowrap text-lg font-bold tracking-wide text-white transition-all duration-300 hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] hover:bg-clip-text hover:text-transparent sm:text-xl"
+              >
+                {siteConfig.contact.phone}
+              </a>
             </div>
           </div>
 

@@ -117,9 +117,10 @@ export default async function VehiclesPage({ searchParams }: VehiclesPageProps) 
       <div className="mx-auto w-full px-2 py-6 sm:px-3 lg:px-4">
         {vehicles.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
+            {/* Mobile: two-lane road layout; wider screens add more columns */}
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-3 xl:grid-cols-4 xl:gap-4">
               {vehicles.map((vehicle, index) => (
-                <VehicleCard key={vehicle._id} vehicle={vehicle} priority={index < 2} />
+                <VehicleCard key={vehicle._id} vehicle={vehicle} priority={index < 4} />
               ))}
             </div>
             <Pagination

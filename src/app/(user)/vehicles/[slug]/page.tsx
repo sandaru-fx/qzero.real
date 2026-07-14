@@ -217,7 +217,7 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
           <section className="mt-16 border-t border-white/5 pt-10">
             <p className="type-eyebrow text-brand-gold">You may also like</p>
             <h2 className="type-section-title mt-3 text-white">Related Vehicles</h2>
-            <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-8 grid grid-cols-2 gap-2 sm:gap-4 md:gap-6 lg:grid-cols-3">
               {relatedVehicles.map((related) => (
                 <VehicleCard key={related._id} vehicle={related} />
               ))}

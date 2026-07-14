@@ -7,19 +7,19 @@ export default function Loading() {
         <div className="h-4 w-full max-w-xl rounded-full shimmer" />
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-6">
         {Array.from({ length: 8 }).map((_, index) => (
           <div
             key={index}
-            className="overflow-hidden rounded-xl border border-white/5 bg-brand-card"
+            className="overflow-hidden rounded-lg border border-white/5 bg-brand-card sm:rounded-xl"
             style={{ animationDelay: `${index * 60}ms` }}
           >
-            <div className="aspect-[4/3] shimmer sm:aspect-[5/4]" />
-            <div className="space-y-4 p-5 sm:p-6">
-              <div className="h-3 w-20 rounded-full shimmer" />
-              <div className="h-6 w-3/4 rounded-full shimmer" />
-              <div className="h-7 w-1/2 rounded-full shimmer" />
-              <div className="flex gap-2 pt-2">
+            <div className="aspect-[5/4] shimmer" />
+            <div className="space-y-3 p-3 sm:space-y-4 sm:p-6">
+              <div className="h-2.5 w-14 rounded-full shimmer sm:h-3 sm:w-20" />
+              <div className="h-4 w-3/4 rounded-full shimmer sm:h-6" />
+              <div className="h-4 w-1/2 rounded-full shimmer sm:h-7" />
+              <div className="hidden gap-2 pt-2 sm:flex">
                 <div className="h-8 w-24 rounded-full shimmer" />
                 <div className="h-8 w-24 rounded-full shimmer" />
               </div>

@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Edit2, Trash2, Search, Eye } from 'lucide-react';
+import { Edit2, Trash2, Search, Eye, LayoutGrid } from 'lucide-react';
 import { VehicleView } from '@/types/vehicle';
 import { deleteVehicle } from '@/actions/vehicle';
 import { formatPrice } from '@/utils/formatPrice';
@@ -13,6 +13,75 @@ import DeleteVehicleModal from './DeleteVehicleModal';
 type InventoryTableProps = {
   vehicles: VehicleView[];
 };
+
+type Category = {
+  id: string;
+  label: string;
+  bodyTypes: string[];
+};
+
+/** Same groupings as the public showroom search. */
+const categories: Category[] = [
+  { id: 'car', label: 'Cars', bodyTypes: ['Car', 'Sedan', 'Hatchback', 'Coupe', 'Convertible'] },
+  { id: 'suv', label: 'SUV', bodyTypes: ['SUV'] },
+  { id: 'pickup', label: 'Double Cab', bodyTypes: ['Pickup'] },
+  { id: 'van', label: 'Van', bodyTypes: ['Van'] },
+  { id: 'wagon', label: 'Wagon', bodyTypes: ['Wagon'] },
+  { id: 'truck', label: 'Truck', bodyTypes: ['Truck'] },
+];
+
+function CategoryIcon({ id, active }: { id: string; active: boolean }) {
+  const common = {
+    viewBox: '0 0 64 32',
+    className: `h-7 w-14 transition-all duration-300 ${
+      active ? 'text-brand-gold-light' : 'text-brand-gold'
+    }`,
+    fill: 'none' as const,
+    stroke: 'currentColor',
+    strokeWidth: 1.7,
+    strokeLinecap: 'round' as const,
+    strokeLinejoin: 'round' as const,
+  };
+
+  switch (id) {
+    case 'suv':
+      return (
+        <svg {...common}>
+          <path d="M8 22h48M12 22l4-10h28l6 10M18 12v-2h10M38 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-20 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+        </svg>
+      );
+    case 'pickup':
+      return (
+        <svg {...common}>
+          <path d="M6 22h52M10 22l3-9h18v9M31 13h18l5 9M16 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm28 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+        </svg>
+      );
+    case 'van':
+      return (
+        <svg {...common}>
+          <path d="M8 22h48M12 22V10h28l12 8v4M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm26 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+        </svg>
+      );
+    case 'wagon':
+      return (
+        <svg {...common}>
+          <path d="M8 22h48M12 22l3-10h34l5 10M18 12h20M16 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm28 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+        </svg>
+      );
+    case 'truck':
+      return (
+        <svg {...common}>
+          <path d="M6 22h52M8 22V11h26v11M34 14h14l6 8v0M16 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+        </svg>
+      );
+    default:
+      return (
+        <svg {...common}>
+          <path d="M8 22h48M12 22l5-10h26l7 10M20 12h16M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm24 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+        </svg>
+      );
+  }
+}
 
 function StatusBadge({ vehicle }: { vehicle: VehicleView }) {
   if (vehicle.isFeatured) {
@@ -30,20 +99,39 @@ function StatusBadge({ vehicle }: { vehicle: VehicleView }) {
   );
 }
 
+function matchesCategory(vehicle: VehicleView, categoryId: string) {
+  if (categoryId === 'all') return true;
+  const category = categories.find((c) => c.id === categoryId);
+  if (!category) return true;
+  const body = (vehicle.bodyType || '').toLowerCase();
+  return category.bodyTypes.some((t) => t.toLowerCase() === body);
+}
+
 export default function InventoryTable({ vehicles }: InventoryTableProps) {
   const router = useRouter();
   const [query, setQuery] = useState('');
+  const [categoryId, setCategoryId] = useState('all');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState<{ id: string; name: string } | null>(null);
 
+  const categoryCounts = useMemo(() => {
+    const counts: Record<string, number> = { all: vehicles.length };
+    for (const cat of categories) {
+      counts[cat.id] = vehicles.filter((v) => matchesCategory(v, cat.id)).length;
+    }
+    return counts;
+  }, [vehicles]);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return vehicles;
     return vehicles.filter((v) => {
-      const haystack = `${v.brand} ${v.model} ${v.year} ${v.grade} ${v.condition}`.toLowerCase();
+      if (!matchesCategory(v, categoryId)) return false;
+      if (!q) return true;
+      const haystack =
+        `${v.brand} ${v.model} ${v.year} ${v.grade} ${v.condition} ${v.bodyType}`.toLowerCase();
       return haystack.includes(q);
     });
-  }, [vehicles, query]);
+  }, [vehicles, query, categoryId]);
 
   const handleDeleteClick = (id: string, name: string) => {
     setSelectedVehicle({ id, name });
@@ -62,8 +150,61 @@ export default function InventoryTable({ vehicles }: InventoryTableProps) {
     }
   };
 
+  const activeCategoryLabel =
+    categoryId === 'all'
+      ? 'All'
+      : categories.find((c) => c.id === categoryId)?.label ?? 'All';
+
   return (
     <>
+      <div className="mb-5 overflow-x-auto pb-1">
+        <div className="flex min-w-max items-stretch gap-2 sm:gap-3">
+          <button
+            type="button"
+            onClick={() => setCategoryId('all')}
+            className={`flex min-w-[5.5rem] flex-col items-center justify-center gap-1.5 rounded-xl border px-3 py-3 transition-all ${
+              categoryId === 'all'
+                ? 'border-brand-gold/50 bg-brand-gold/10 text-brand-gold'
+                : 'border-white/10 bg-[#0A0A0A] text-brand-muted hover:border-brand-gold/30 hover:text-white'
+            }`}
+          >
+            <LayoutGrid className="h-5 w-5" />
+            <span className="text-xs font-bold uppercase tracking-[0.12em]">All</span>
+            <span className="text-sm font-semibold tabular-nums text-white/80">
+              {categoryCounts.all}
+            </span>
+          </button>
+
+          {categories.map((category) => {
+            const active = categoryId === category.id;
+            return (
+              <button
+                key={category.id}
+                type="button"
+                onClick={() => setCategoryId(active ? 'all' : category.id)}
+                className={`flex min-w-[5.5rem] flex-col items-center justify-center gap-1 rounded-xl border px-3 py-3 transition-all ${
+                  active
+                    ? 'border-brand-gold/50 bg-brand-gold/10'
+                    : 'border-white/10 bg-[#0A0A0A] hover:border-brand-gold/30'
+                }`}
+              >
+                <CategoryIcon id={category.id} active={active} />
+                <span
+                  className={`text-xs font-bold uppercase tracking-[0.12em] ${
+                    active ? 'text-brand-gold' : 'text-brand-muted'
+                  }`}
+                >
+                  {category.label}
+                </span>
+                <span className="text-sm font-semibold tabular-nums text-white/80">
+                  {categoryCounts[category.id] ?? 0}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full max-w-md">
           <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />
@@ -76,13 +217,32 @@ export default function InventoryTable({ vehicles }: InventoryTableProps) {
           />
         </div>
         <p className="text-base font-medium text-brand-muted">
-          Showing <span className="font-semibold text-white">{filtered.length}</span> of {vehicles.length}
+          Showing <span className="font-semibold text-white">{filtered.length}</span> of{' '}
+          {vehicles.length}
+          {categoryId !== 'all' ? (
+            <span className="text-brand-gold"> · {activeCategoryLabel}</span>
+          ) : null}
         </p>
       </div>
 
       {filtered.length === 0 ? (
         <div className="rounded-xl border border-dashed border-white/10 bg-[#0A0A0A] px-6 py-16 text-center">
-          <p className="type-muted">No vehicles match your search.</p>
+          <p className="type-muted">
+            No vehicles match{categoryId !== 'all' ? ` in ${activeCategoryLabel}` : ''}
+            {query.trim() ? ' your search' : ''}.
+          </p>
+          {(categoryId !== 'all' || query.trim()) && (
+            <button
+              type="button"
+              onClick={() => {
+                setCategoryId('all');
+                setQuery('');
+              }}
+              className="mt-4 text-base font-semibold text-brand-gold hover:underline"
+            >
+              Clear filters
+            </button>
+          )}
         </div>
       ) : (
         <div className="overflow-hidden rounded-xl border border-white/5">
@@ -123,7 +283,8 @@ export default function InventoryTable({ vehicles }: InventoryTableProps) {
                         {vehicle.grade ? ` ${vehicle.grade}` : ''}
                       </p>
                       <p className="mt-1 text-sm font-medium text-brand-muted">
-                        {vehicle.year} · {vehicle.fuelType} · {vehicle.transmission}
+                        {vehicle.year} · {vehicle.bodyType} · {vehicle.fuelType} ·{' '}
+                        {vehicle.transmission}
                       </p>
                     </td>
                     <td className="px-5 py-3.5 whitespace-nowrap font-medium text-gray-200">

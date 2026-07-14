@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Link2, MessageCircle, Check } from 'lucide-react';
-import { buildWhatsAppUrl } from '@/config/site';
 
 type ShareVehicleButtonProps = {
   title: string;
@@ -10,12 +9,16 @@ type ShareVehicleButtonProps = {
   whatsappUrl: string;
 };
 
+const secondaryBtn =
+  'inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 px-6 text-base font-semibold text-white transition-colors hover:border-brand-gold/50 hover:text-brand-gold';
+
 export default function ShareVehicleButton({ title, slug, whatsappUrl }: ShareVehicleButtonProps) {
   const [copied, setCopied] = useState(false);
 
-  const pageUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/vehicles/${slug}`
-    : `/vehicles/${slug}`;
+  const pageUrl =
+    typeof window !== 'undefined'
+      ? `${window.location.origin}/vehicles/${slug}`
+      : `/vehicles/${slug}`;
 
   const handleCopyLink = async () => {
     try {
@@ -28,12 +31,8 @@ export default function ShareVehicleButton({ title, slug, whatsappUrl }: ShareVe
   };
 
   return (
-    <div className="mt-4 grid grid-cols-2 gap-3">
-      <button
-        type="button"
-        onClick={handleCopyLink}
-        className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-4 py-3 text-base font-semibold text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
-      >
+    <>
+      <button type="button" onClick={handleCopyLink} className={secondaryBtn}>
         {copied ? <Check className="h-4 w-4 text-brand-gold" /> : <Link2 className="h-4 w-4" />}
         {copied ? 'Copied' : 'Copy Link'}
       </button>
@@ -41,12 +40,12 @@ export default function ShareVehicleButton({ title, slug, whatsappUrl }: ShareVe
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center justify-center gap-2 rounded-full border border-white/10 px-4 py-3 text-base font-semibold text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
+        className={secondaryBtn}
         aria-label={`Share ${title} on WhatsApp`}
       >
         <MessageCircle className="h-4 w-4" />
         Share
       </a>
-    </div>
+    </>
   );
 }

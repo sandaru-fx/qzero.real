@@ -3,11 +3,12 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { loginAdmin } from '@/actions/auth';
-import { Loader2, ShieldCheck } from 'lucide-react';
+import { Eye, EyeOff, Loader2, ShieldCheck } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   async function handleSubmit(formData: FormData) {
     setIsLoading(true);
@@ -66,23 +67,35 @@ export default function AdminLoginPage() {
             <input
               name="email"
               required
+              autoComplete="username"
               className="h-14 rounded-xl border border-white/10 bg-black/80 px-4 text-base font-medium text-white outline-none transition-all placeholder:text-brand-muted/50 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
               type="email"
               placeholder="admin@qzero.lk"
-              defaultValue="admin@qzero.lk"
             />
           </label>
+
           <label className="grid gap-2 text-base font-semibold text-brand-muted">
             Password
-            <input
-              name="password"
-              required
-              className="h-14 rounded-xl border border-white/10 bg-black/80 px-4 text-base font-medium text-white outline-none transition-all placeholder:text-brand-muted/50 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
-              type="password"
-              placeholder="••••••••"
-              defaultValue="qzero123"
-            />
+            <span className="relative block">
+              <input
+                name="password"
+                required
+                autoComplete="current-password"
+                className="h-14 w-full rounded-xl border border-white/10 bg-black/80 px-4 pr-12 text-base font-medium text-white outline-none transition-all placeholder:text-brand-muted/50 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Enter your password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-lg text-brand-muted transition-colors hover:bg-white/5 hover:text-brand-gold"
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              </button>
+            </span>
           </label>
+
           <button
             disabled={isLoading}
             className="mt-2 flex h-14 items-center justify-center rounded-full text-base font-bold text-black gold-gradient shadow-[0_12px_32px_rgba(212,175,55,0.25)] transition-all hover:opacity-95 disabled:opacity-70"

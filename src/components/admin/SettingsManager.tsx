@@ -1,14 +1,20 @@
 'use client';
 
 import { useState } from 'react';
-import { Loader2, Save, Lock, Globe, Phone, Palette, Clock, MapPin } from 'lucide-react';
+import { Loader2, Save, Lock, Globe, Phone, Palette, Clock, MapPin, Mail } from 'lucide-react';
 import { updateSettings, SettingsPayload } from '@/actions/settings';
-import { changePassword } from '@/actions/admin';
+import { changePassword, changeAdminEmail } from '@/actions/admin';
 
 type TabType = 'brand' | 'contact' | 'security';
 type HourField = 'day' | 'time';
 
-export default function SettingsManager({ initialSettings }: { initialSettings: SettingsPayload }) {
+export default function SettingsManager({
+  initialSettings,
+  initialAdminEmail = '',
+}: {
+  initialSettings: SettingsPayload;
+  initialAdminEmail?: string;
+}) {
   const [activeTab, setActiveTab] = useState<TabType>('contact');
 
   const [settings, setSettings] = useState<SettingsPayload>(initialSettings);
@@ -18,6 +24,15 @@ export default function SettingsManager({ initialSettings }: { initialSettings: 
   const [passwords, setPasswords] = useState({ current: '', new: '', confirm: '' });
   const [isSavingPassword, setIsSavingPassword] = useState(false);
   const [passwordMessage, setPasswordMessage] = useState({ type: '', text: '' });
+
+  const [adminEmail, setAdminEmail] = useState(initialAdminEmail);
+  const [emailForm, setEmailForm] = useState({
+    currentPassword: '',
+    newEmail: '',
+    confirmEmail: '',
+  });
+  const [isSavingEmail, setIsSavingEmail] = useState(false);
+  const [emailMessage, setEmailMessage] = useState({ type: '', text: '' });
 
   const handleSiteChange = (field: keyof SettingsPayload['site'], value: string) => {
     setSettings((prev) => ({
@@ -87,6 +102,31 @@ export default function SettingsManager({ initialSettings }: { initialSettings: 
       setPasswordMessage({ type: 'error', text: res.error || 'Failed to change password.' });
     }
     setIsSavingPassword(false);
+  };
+
+  const handleSaveEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const nextEmail = emailForm.newEmail.trim().toLowerCase();
+    const confirm = emailForm.confirmEmail.trim().toLowerCase();
+
+    if (nextEmail !== confirm) {
+      setEmailMessage({ type: 'error', text: 'New emails do not match.' });
+      return;
+    }
+
+    setIsSavingEmail(true);
+    setEmailMessage({ type: '', text: '' });
+
+    const res = await changeAdminEmail(emailForm.currentPassword, nextEmail);
+    if (res.success) {
+      if (res.email) setAdminEmail(res.email);
+      setEmailMessage({ type: 'success', text: 'Admin email updated successfully!' });
+      setEmailForm({ currentPassword: '', newEmail: '', confirmEmail: '' });
+      setTimeout(() => setEmailMessage({ type: '', text: '' }), 3000);
+    } else {
+      setEmailMessage({ type: 'error', text: res.error || 'Failed to change email.' });
+    }
+    setIsSavingEmail(false);
   };
 
   const inputClasses =
@@ -392,6 +432,99 @@ export default function SettingsManager({ initialSettings }: { initialSettings: 
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
           <section className="rounded-2xl border border-white/5 bg-[#111111] p-6 sm:p-8">
             <h2 className="flex items-center gap-2 text-xl font-semibold text-white">
+              <Mail className="h-5 w-5 text-brand-gold" />
+              Change Login Email
+            </h2>
+            <p className="mb-2 mt-1 text-base text-brand-muted">
+              Update the Gmail / email used to sign in to Admin.
+            </p>
+            {adminEmail ? (
+              <p className="mb-6 text-sm text-white/70">
+                Current login email:{' '}
+                <span className="font-semibold text-brand-gold">{adminEmail}</span>
+              </p>
+            ) : (
+              <p className="mb-6 text-sm text-white/50">
+                Current login email will appear after first sign-in.
+              </p>
+            )}
+
+            <form
+              onSubmit={handleSaveEmail}
+              className="max-w-md space-y-5"
+              autoComplete="off"
+            >
+              <div>
+                <label className={labelClasses}>Current Password</label>
+                <input
+                  type="password"
+                  required
+                  name="verify-password-for-email"
+                  autoComplete="new-password"
+                  placeholder="Enter current password"
+                  value={emailForm.currentPassword}
+                  onChange={(e) =>
+                    setEmailForm((p) => ({ ...p, currentPassword: e.target.value }))
+                  }
+                  className={inputClasses}
+                />
+              </div>
+              <div>
+                <label className={labelClasses}>New Email</label>
+                <input
+                  type="email"
+                  required
+                  name="new-admin-email"
+                  autoComplete="off"
+                  placeholder="you@gmail.com"
+                  value={emailForm.newEmail}
+                  onChange={(e) => setEmailForm((p) => ({ ...p, newEmail: e.target.value }))}
+                  className={inputClasses}
+                />
+              </div>
+              <div>
+                <label className={labelClasses}>Confirm New Email</label>
+                <input
+                  type="email"
+                  required
+                  name="confirm-admin-email"
+                  autoComplete="off"
+                  placeholder="you@gmail.com"
+                  value={emailForm.confirmEmail}
+                  onChange={(e) => setEmailForm((p) => ({ ...p, confirmEmail: e.target.value }))}
+                  className={inputClasses}
+                />
+              </div>
+
+              {emailMessage.text && (
+                <div
+                  className={`rounded-xl p-3 text-base font-medium ${
+                    emailMessage.type === 'success'
+                      ? 'border border-emerald-500/20 bg-emerald-500/10 text-emerald-400'
+                      : 'border border-red-500/20 bg-red-500/10 text-red-400'
+                  }`}
+                >
+                  {emailMessage.text}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                disabled={isSavingEmail}
+                className="flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3 text-base font-bold text-black gold-gradient transition-opacity hover:opacity-90 disabled:opacity-50"
+              >
+                {isSavingEmail ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <Mail className="h-4 w-4" />
+                )}
+                Update Email
+              </button>
+            </form>
+          </section>
+
+          <section className="rounded-2xl border border-white/5 bg-[#111111] p-6 sm:p-8">
+            <h2 className="flex items-center gap-2 text-xl font-semibold text-white">
               <Lock className="h-5 w-5 text-brand-gold" />
               Change Password
             </h2>
@@ -399,12 +532,19 @@ export default function SettingsManager({ initialSettings }: { initialSettings: 
               Update your admin account password to maintain security.
             </p>
 
-            <form onSubmit={handleSavePassword} className="max-w-md space-y-5">
+            <form
+              onSubmit={handleSavePassword}
+              className="max-w-md space-y-5"
+              autoComplete="off"
+            >
               <div>
                 <label className={labelClasses}>Current Password</label>
                 <input
                   type="password"
                   required
+                  name="current-admin-password"
+                  autoComplete="new-password"
+                  placeholder="Enter current password"
                   value={passwords.current}
                   onChange={(e) => setPasswords((p) => ({ ...p, current: e.target.value }))}
                   className={inputClasses}
@@ -415,6 +555,9 @@ export default function SettingsManager({ initialSettings }: { initialSettings: 
                 <input
                   type="password"
                   required
+                  name="new-admin-password"
+                  autoComplete="new-password"
+                  placeholder="Enter new password"
                   value={passwords.new}
                   onChange={(e) => setPasswords((p) => ({ ...p, new: e.target.value }))}
                   className={inputClasses}
@@ -425,6 +568,9 @@ export default function SettingsManager({ initialSettings }: { initialSettings: 
                 <input
                   type="password"
                   required
+                  name="confirm-admin-password"
+                  autoComplete="new-password"
+                  placeholder="Confirm new password"
                   value={passwords.confirm}
                   onChange={(e) => setPasswords((p) => ({ ...p, confirm: e.target.value }))}
                   className={inputClasses}

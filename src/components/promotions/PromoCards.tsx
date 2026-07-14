@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import type { PromotionOffer } from '@/data/promotions';
+import type { PromotionOffer } from '@/types/promotion';
 
 function useInView(threshold = 0.15) {
   const ref = useRef<HTMLElement | null>(null);
@@ -71,9 +71,14 @@ export function PromoFeatured({ offer }: { offer: PromotionOffer }) {
           </h2>
 
           <p className="mt-6 text-xl font-semibold text-white sm:text-2xl">
-            {offer.highlight}{' '}
-            <span className="font-normal text-brand-muted">or enjoy</span>{' '}
-            <span className="gold-text font-bold">{offer.highlightAccent}</span>
+            {offer.highlight}
+            {offer.highlightAccent ? (
+              <>
+                {' '}
+                <span className="font-normal text-brand-muted">·</span>{' '}
+                <span className="gold-text font-bold">{offer.highlightAccent}</span>
+              </>
+            ) : null}
           </p>
 
           <p className="type-muted mt-4 max-w-md">
@@ -127,9 +132,11 @@ export function PromoCard({ offer, index }: { offer: PromotionOffer; index: numb
 
         <p className="mt-4 text-lg font-semibold text-white">
           {offer.highlight}
-          <span className="type-meta mt-1 block font-normal text-brand-muted">
-            {offer.highlightAccent}
-          </span>
+          {offer.highlightAccent ? (
+            <span className="type-meta mt-1 block font-normal text-brand-muted">
+              {offer.highlightAccent}
+            </span>
+          ) : null}
         </p>
 
         <p className="type-muted mt-3 flex-1 line-clamp-3">

@@ -192,19 +192,19 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
             <h3 className="type-card-title text-white">Interested in this vehicle?</h3>
             <p className="type-muted mt-1">Get in touch with us for more details, pricing, and availability.</p>
           </div>
-          <div className="flex flex-col items-center gap-3 sm:flex-row">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-end">
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group flex items-center gap-2.5 rounded-full gold-gradient px-8 py-4 text-base font-bold text-black shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-brand-gold/40"
+              className="group inline-flex h-12 items-center gap-2.5 rounded-full gold-gradient px-7 text-base font-bold text-black shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-brand-gold/40"
             >
               <MessageCircle className="h-5 w-5 transition-transform group-hover:scale-110" />
               Inquire via WhatsApp
             </a>
             <Link
               href={`/contact?vehicle=${encodeURIComponent(`${vehicle.year} ${vehicle.brand} ${vehicle.model}`)}&inquiry=Vehicle%20Purchase`}
-              className="inline-flex items-center rounded-full border border-white/20 px-6 py-4 text-base font-semibold text-white transition-colors hover:border-brand-gold/50 hover:text-brand-gold"
+              className="inline-flex h-12 items-center rounded-full border border-white/20 px-6 text-base font-semibold text-white transition-colors hover:border-brand-gold/50 hover:text-brand-gold"
             >
               Contact form
             </Link>

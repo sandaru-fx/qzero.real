@@ -1,5 +1,6 @@
 import { protectAdminRoute } from '@/lib/auth';
 import { getSettings } from '@/actions/settings';
+import { getAdminEmail } from '@/actions/admin';
 import SettingsManager from '@/components/admin/SettingsManager';
 import AdminPageHeader from '@/components/admin/AdminPageHeader';
 import { fallbackSiteConfig } from '@/config/site';
@@ -8,7 +9,7 @@ export const revalidate = 0;
 
 export default async function AdminSettingsPage() {
   await protectAdminRoute();
-  const settings = await getSettings();
+  const [settings, adminEmail] = await Promise.all([getSettings(), getAdminEmail()]);
 
   const initialSettings = settings ?? {
     site: {
@@ -38,7 +39,7 @@ export default async function AdminSettingsPage() {
         description="Manage contact details, operating hours, maps, brand identity, and security — synced with the public site."
       />
 
-      <SettingsManager initialSettings={initialSettings} />
+      <SettingsManager initialSettings={initialSettings} initialAdminEmail={adminEmail} />
     </div>
   );
 }

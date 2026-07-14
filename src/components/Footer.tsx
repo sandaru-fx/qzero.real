@@ -168,7 +168,15 @@ export default async function Footer() {
           </div>
 
           <div className="type-meta order-last text-center text-gray-500 lg:order-none">
-            Copyright &copy; {new Date().getFullYear()} {siteConfig.name}. All Rights Reserved.
+            Copyright &copy; {new Date().getFullYear()}{' '}
+            <Link
+              href="/admin/login"
+              className="text-gray-500 no-underline transition-colors hover:text-brand-gold/80"
+              aria-label="Staff login"
+            >
+              {siteConfig.name}
+            </Link>
+            . All Rights Reserved.
           </div>
 
           <div className="type-meta flex items-center gap-2 text-gray-500">

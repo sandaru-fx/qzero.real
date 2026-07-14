@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import { ArrowDown, ArrowRight, BadgeCheck, Shield, Sparkles, Timer } from 'lucide-react';
+import { ArrowDown, ArrowRight, BadgeCheck } from 'lucide-react';
 import { getSiteConfig } from '@/actions/settings';
-import { promotionOffers } from '@/data/promotions';
+import { getPromotions } from '@/actions/promotions';
 import { PromoCard, PromoFeatured } from '@/components/promotions/PromoCards';
 import { buildWhatsAppUrl } from '@/config/site';
 
@@ -11,32 +11,14 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteConfig = await getSiteConfig();
   return {
     title: 'Promotions',
-    description: `Exclusive vehicle offers, import deals, and VIP access from ${siteConfig.name}.`,
+    description: `Exclusive vehicle offers from ${siteConfig.name} — limited deals on selected stock.`,
   };
 }
 
-const perks = [
-  {
-    icon: Timer,
-    title: 'Time-bound exclusives',
-    copy: 'Real deadlines. Real savings. No fake urgency.',
-  },
-  {
-    icon: Shield,
-    title: 'Verified inventory',
-    copy: 'Every offer is tied to inspected, showroom-ready stock.',
-  },
-  {
-    icon: Sparkles,
-    title: 'Concierge handover',
-    copy: 'White-glove delivery and finance guidance included.',
-  },
-];
-
 export default async function PromotionsPage() {
-  const siteConfig = await getSiteConfig();
-  const featured = promotionOffers.find((p) => p.featured) ?? promotionOffers[0];
-  const rest = promotionOffers.filter((p) => p.id !== featured.id);
+  const [siteConfig, promotions] = await Promise.all([getSiteConfig(), getPromotions()]);
+  const featured = promotions.find((p) => p.featured) ?? promotions[0];
+  const rest = featured ? promotions.filter((p) => p.id !== featured.id) : [];
   const whatsappUrl = buildWhatsAppUrl(
     siteConfig.contact.whatsapp,
     'Hello QZERO International, I would like to know more about your current promotions.',
@@ -44,8 +26,7 @@ export default async function PromotionsPage() {
 
   return (
     <div className="min-h-screen bg-brand-black">
-      {/* ── Full-bleed hero ── */}
-      <section className="relative min-h-[88svh] overflow-hidden">
+      <section className="relative min-h-[72svh] overflow-hidden sm:min-h-[80svh]">
         <Image
           src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=2400&q=80"
           alt="Premium automotive showroom experience"
@@ -54,11 +35,10 @@ export default async function PromotionsPage() {
           sizes="100vw"
           className="object-cover object-center promo-hero-zoom"
         />
-        {/* Atmospheric overlays — not badge stickers */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/25 to-brand-black/90" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,rgba(212,175,55,0.18),transparent_55%)]" />
 
-        <div className="relative z-10 mx-auto flex min-h-[88svh] w-full max-w-[1600px] flex-col justify-end px-4 pb-16 pt-28 sm:px-6 lg:px-9 lg:pb-20">
+        <div className="relative z-10 mx-auto flex min-h-[72svh] w-full max-w-[1600px] flex-col justify-end px-4 pb-16 pt-28 sm:min-h-[80svh] sm:px-6 lg:px-9 lg:pb-20">
           <nav className="mb-8 text-sm font-medium uppercase tracking-[0.2em] text-white/50 hero-content-animate">
             <Link href="/" className="transition-colors hover:text-brand-gold">
               Home
@@ -68,14 +48,10 @@ export default async function PromotionsPage() {
           </nav>
 
           <div className="hero-content-animate max-w-3xl">
-            <p className="type-eyebrow text-brand-gold">
-              QZERO International
-            </p>
-            <h1 className="type-display-xl mt-4 text-white">
-              Our Promotions
-            </h1>
+            <p className="type-eyebrow text-brand-gold">QZERO International</p>
+            <h1 className="type-display-xl mt-4 text-white">Our Promotions</h1>
             <p className="type-body mt-5 max-w-xl text-gray-200">
-              Your trusted partner on every journey — exclusive offers crafted for serious buyers.
+              Exclusive deals on selected showroom vehicles — limited offers, ready to drive.
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -97,85 +73,48 @@ export default async function PromotionsPage() {
         </div>
       </section>
 
-      {/* ── Trust strip ── */}
-      <section className="border-y border-white/5 bg-[#080808]">
-        <div className="mx-auto grid w-full max-w-[1600px] gap-6 px-4 py-10 sm:grid-cols-3 sm:px-6 lg:px-9">
-          {perks.map((perk) => (
-            <div key={perk.title} className="flex items-start gap-4">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center border border-brand-gold/30 bg-brand-gold/10">
-                <perk.icon className="h-5 w-5 text-brand-gold" />
-              </span>
-              <div>
-                <p className="text-lg font-semibold text-white">{perk.title}</p>
-                <p className="type-muted mt-1">{perk.copy}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── Featured + grid ── */}
       <section id="offers" className="scroll-mt-20 px-4 py-16 sm:px-6 lg:px-9 lg:py-24">
         <div className="mx-auto w-full max-w-[1600px]">
           <div className="mb-10 flex flex-col gap-3 sm:mb-14 sm:flex-row sm:items-end sm:justify-between">
             <div>
-              <p className="type-eyebrow text-brand-gold">
-                Current exclusives
-              </p>
-              <h2 className="type-section-title mt-3 text-white">
-                Offers worth acting on
-              </h2>
+              <p className="type-eyebrow text-brand-gold">Promotion vehicles</p>
+              <h2 className="type-section-title mt-3 text-white">Offers on selected stock</h2>
             </div>
             <p className="type-muted max-w-sm">
-              Hand-picked deals on showroom stock, imports, and VIP access — updated for this season.
+              Selected promotion vehicles — including exclusive stock not listed in the main
+              showroom.
             </p>
           </div>
 
-          <PromoFeatured offer={featured} />
-
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3">
-            {rest.map((offer, index) => (
-              <PromoCard key={offer.id} offer={offer} index={index} />
-            ))}
-          </div>
+          {promotions.length === 0 ? (
+            <div className="rounded-xl border border-dashed border-white/10 bg-[#0A0A0A] px-6 py-20 text-center">
+              <p className="text-lg font-semibold text-white">No active promotions right now</p>
+              <p className="type-muted mt-2">
+                Browse the showroom for current stock, or message us for a custom deal.
+              </p>
+              <Link
+                href="/vehicles"
+                className="mt-6 inline-flex items-center gap-2 text-base font-bold text-brand-gold hover:underline"
+              >
+                Browse Showroom
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          ) : (
+            <>
+              {featured ? <PromoFeatured offer={featured} /> : null}
+              {rest.length > 0 ? (
+                <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3">
+                  {rest.map((offer, index) => (
+                    <PromoCard key={offer.id} offer={offer} index={index} />
+                  ))}
+                </div>
+              ) : null}
+            </>
+          )}
         </div>
       </section>
 
-      {/* ── How it works ── */}
-      <section className="border-t border-white/5 bg-[#080808] px-4 py-20 sm:px-6 lg:px-9">
-        <div className="mx-auto w-full max-w-[1600px]">
-          <p className="type-eyebrow text-brand-gold">Simple process</p>
-          <h2 className="type-section-title mt-3 text-white">Claim your offer in 3 steps</h2>
-
-          <div className="mt-12 grid gap-8 md:grid-cols-3">
-            {[
-              {
-                step: '01',
-                title: 'Choose an offer',
-                copy: 'Pick the promotion that matches your next vehicle or import plan.',
-              },
-              {
-                step: '02',
-                title: 'Talk to concierge',
-                copy: 'WhatsApp or call us — we confirm eligibility, stock, and finance options.',
-              },
-              {
-                step: '03',
-                title: 'Drive with confidence',
-                copy: 'Complete paperwork, schedule handover, and enjoy the QZERO experience.',
-              },
-            ].map((item) => (
-              <div key={item.step} className="relative border-t border-brand-gold/40 pt-6">
-                <p className="type-display-lg text-brand-gold/40">{item.step}</p>
-                <h3 className="type-card-title mt-4 text-white">{item.title}</h3>
-                <p className="type-muted mt-2">{item.copy}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Final CTA band ── */}
       <section className="relative overflow-hidden px-4 py-24 sm:px-6 lg:px-9">
         <div className="absolute inset-0">
           <Image
@@ -192,14 +131,12 @@ export default async function PromotionsPage() {
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 text-base text-brand-gold">
               <BadgeCheck className="h-4 w-4" />
-              Personalised packages available
+              Looking for something specific?
             </div>
-            <h2 className="type-display-lg mt-4 text-white">
-              Don&apos;t see the perfect deal?
-            </h2>
+            <h2 className="type-display-lg mt-4 text-white">Ask about a custom offer</h2>
             <p className="type-body mt-4 text-gray-300">
-              Tell us what you&apos;re looking for — we&apos;ll craft a custom import or showroom package
-              around your budget and timeline.
+              Tell us the vehicle you want — we&apos;ll check stock and structure a deal around your
+              budget.
             </p>
           </div>
 
@@ -217,7 +154,7 @@ export default async function PromotionsPage() {
               href="/contact"
               className="type-meta inline-flex items-center justify-center rounded-full border border-white/20 px-8 py-4 font-semibold text-white transition-colors hover:border-brand-gold/50 hover:text-brand-gold"
             >
-              Contact Concierge
+              Contact us
             </Link>
           </div>
         </div>

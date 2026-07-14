@@ -131,7 +131,7 @@ export async function getVehicles(options: VehicleSearchOptions = {}): Promise<V
     await connectToDatabase();
 
     const filter = buildVehicleFilter(options);
-    const limit = Math.min(Math.max(options.limit ?? 24, 1), 48);
+    const limit = Math.min(Math.max(options.limit ?? 24, 1), 200);
     const page = Math.max(options.page ?? 1, 1);
     const skip = (page - 1) * limit;
 

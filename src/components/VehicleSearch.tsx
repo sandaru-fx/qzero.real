@@ -69,23 +69,25 @@ function CategoryThumb({
   active: boolean;
 }) {
   return (
-    <span
-      className={`relative flex h-[4.25rem] w-[7.25rem] items-center justify-center overflow-hidden rounded-xl border bg-[#e8e8e8] px-1 transition-all duration-300 sm:h-[4.75rem] sm:w-[8rem] ${
-        active
-          ? 'border-brand-gold shadow-[0_0_18px_rgba(212,175,55,0.35)] ring-1 ring-brand-gold/50'
-          : 'border-white/15 group-hover:border-brand-gold/45'
-      }`}
-    >
-      {/* Fixed intrinsic size avoids stale Next Image optimized caches looking tiny */}
-      <Image
-        src={image}
-        alt={imageAlt}
-        width={160}
-        height={88}
-        unoptimized
-        className={`h-full w-full object-contain object-center transition-transform duration-500 ${
-          active ? 'scale-105' : 'group-hover:scale-105'
+    <span className="flex w-[7.25rem] flex-col items-center sm:w-[8rem]">
+      <span className="relative flex h-[4.25rem] w-full items-center justify-center overflow-hidden rounded-md bg-[#e8e8e8] px-1 sm:h-[4.75rem]">
+        <Image
+          src={image}
+          alt={imageAlt}
+          width={160}
+          height={88}
+          unoptimized
+          className={`h-full w-full object-contain object-center transition-transform duration-500 ${
+            active ? 'scale-105' : 'group-hover:scale-105'
+          }`}
+        />
+      </span>
+      {/* Indra-style active indicator: thick bar under the image */}
+      <span
+        className={`mt-2 h-[3px] w-full rounded-full transition-colors duration-300 ${
+          active ? 'bg-brand-gold' : 'bg-transparent group-hover:bg-brand-gold/35'
         }`}
+        aria-hidden
       />
     </span>
   );
@@ -301,7 +303,7 @@ function VehicleSearchContent({
               key={category.id}
               type="button"
               onClick={() => selectCategory(category)}
-              className="group flex min-w-[7rem] flex-col items-center gap-2.5 sm:min-w-[8rem]"
+              className="group flex min-w-[7rem] flex-col items-center gap-1 sm:min-w-[8rem]"
             >
               <CategoryThumb
                 image={category.image}
@@ -309,10 +311,10 @@ function VehicleSearchContent({
                 active={active}
               />
               <span
-                className={`border-b-2 pb-1 text-xs font-bold uppercase tracking-[0.14em] transition-colors sm:text-sm ${
+                className={`text-xs font-bold uppercase tracking-[0.14em] transition-colors sm:text-sm ${
                   active
-                    ? 'border-brand-gold text-brand-gold'
-                    : 'border-transparent text-white/75 group-hover:text-brand-gold'
+                    ? 'text-brand-gold'
+                    : 'text-white/75 group-hover:text-brand-gold'
                 }`}
               >
                 {category.label}

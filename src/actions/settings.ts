@@ -17,12 +17,28 @@ const defaultHours: OperatingHour[] = fallbackSiteConfig.contact.hours.map((h) =
   time: h.time,
 }));
 
+function isPlaceholderSocial(url: string | undefined, hosts: string[]) {
+  if (!url?.trim()) return true;
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, '');
+    const path = new URL(url).pathname.replace(/\/$/, '');
+    return hosts.includes(host) && (path === '' || path === '/');
+  } catch {
+    return true;
+  }
+}
+
 function withDefaults(raw: Partial<ISettings> | null): SettingsPayload {
   const contact = raw?.contact;
   const hours =
     Array.isArray(contact?.hours) && contact.hours.length > 0
       ? contact.hours.map((h) => ({ day: h.day, time: h.time }))
       : defaultHours;
+
+  const fb = raw?.social?.facebook;
+  const facebook = isPlaceholderSocial(fb, ['facebook.com'])
+    ? fallbackSiteConfig.social.facebook
+    : (fb as string);
 
   return {
     site: {
@@ -42,7 +58,7 @@ function withDefaults(raw: Partial<ISettings> | null): SettingsPayload {
       hours,
     },
     social: {
-      facebook: raw?.social?.facebook || fallbackSiteConfig.social.facebook,
+      facebook,
       instagram: raw?.social?.instagram || fallbackSiteConfig.social.instagram,
       youtube: raw?.social?.youtube || fallbackSiteConfig.social.youtube,
       linkedin: raw?.social?.linkedin || fallbackSiteConfig.social.linkedin,

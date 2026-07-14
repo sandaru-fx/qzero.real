@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Globe, Camera, CirclePlay, BriefcaseBusiness, Phone } from 'lucide-react';
+import { Camera, CirclePlay, BriefcaseBusiness, Phone } from 'lucide-react';
 import { getSiteConfig } from '@/actions/settings';
 import { lifestyleImages } from '@/data/lifestyle';
 import LiveClock from './LiveClock';
@@ -19,15 +19,67 @@ const infoLinks = [
   { label: 'Privacy Policy', href: '/privacy' },
 ];
 
+function FacebookIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden fill="currentColor">
+      <path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.91h2.54V9.84c0-2.52 1.49-3.91 3.78-3.91 1.1 0 2.24.2 2.24.2v2.48h-1.26c-1.24 0-1.63.78-1.63 1.57v1.88h2.78l-.44 2.91h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94z" />
+    </svg>
+  );
+}
+
+function isRealSocialUrl(url: string, kind: 'facebook' | 'instagram' | 'youtube' | 'linkedin') {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, '');
+    const path = parsed.pathname.replace(/\/$/, '');
+    if (kind === 'facebook') {
+      return host.includes('facebook.com') && path !== '' && !path.endsWith('facebook.com');
+    }
+    if (kind === 'instagram') return host.includes('instagram.com') && path !== '';
+    if (kind === 'youtube') {
+      return (
+        (host.includes('youtube.com') || host.includes('youtu.be')) &&
+        path !== '' &&
+        path !== '/channel' &&
+        path !== '/user'
+      );
+    }
+    if (kind === 'linkedin') return host.includes('linkedin.com') && path !== '';
+    return false;
+  } catch {
+    return false;
+  }
+}
+
 export default async function Footer() {
   const siteConfig = await getSiteConfig();
 
   const socials = [
-    { Icon: Globe, href: siteConfig.social.facebook, label: 'Facebook' },
-    { Icon: Camera, href: siteConfig.social.instagram, label: 'Instagram' },
-    { Icon: CirclePlay, href: siteConfig.social.youtube, label: 'YouTube' },
-    { Icon: BriefcaseBusiness, href: siteConfig.social.linkedin, label: 'LinkedIn' },
-  ];
+    {
+      kind: 'facebook' as const,
+      label: 'Facebook',
+      href: siteConfig.social.facebook,
+      Icon: FacebookIcon,
+    },
+    {
+      kind: 'instagram' as const,
+      label: 'Instagram',
+      href: siteConfig.social.instagram,
+      Icon: Camera,
+    },
+    {
+      kind: 'youtube' as const,
+      label: 'YouTube',
+      href: siteConfig.social.youtube,
+      Icon: CirclePlay,
+    },
+    {
+      kind: 'linkedin' as const,
+      label: 'LinkedIn',
+      href: siteConfig.social.linkedin,
+      Icon: BriefcaseBusiness,
+    },
+  ].filter((item) => isRealSocialUrl(item.href, item.kind));
 
   return (
     <footer className="relative overflow-hidden border-t border-white/5 bg-[#050505] font-sans">
@@ -126,19 +178,27 @@ export default async function Footer() {
             <p className="type-muted text-gray-300">
               Follow us for new arrivals, import updates, and exclusive offers.
             </p>
-            <div className="flex items-center gap-3">
-              {socials.map(({ Icon, href, label }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={label}
-                  className="group flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/60 backdrop-blur-sm transition-all duration-300 hover:border-brand-gold/50 hover:shadow-[0_0_15px_rgba(212,175,55,0.2)]"
-                >
-                  <Icon className="h-4 w-4 text-gray-400 transition-colors duration-300 group-hover:text-brand-gold" />
-                </a>
-              ))}
+            <div className="flex flex-wrap items-center gap-3">
+              {socials.length === 0 ? (
+                <p className="text-sm text-brand-muted">Social links coming soon.</p>
+              ) : (
+                socials.map(({ Icon, href, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    title={label}
+                    className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3 py-2 backdrop-blur-sm transition-all duration-300 hover:border-brand-gold/50 hover:shadow-[0_0_15px_rgba(212,175,55,0.2)]"
+                  >
+                    <Icon className="h-4 w-4 text-gray-400 transition-colors duration-300 group-hover:text-brand-gold" />
+                    <span className="text-sm font-semibold text-white/80 group-hover:text-brand-gold">
+                      {label}
+                    </span>
+                  </a>
+                ))
+              )}
             </div>
           </div>
         </div>

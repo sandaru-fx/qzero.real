@@ -76,7 +76,7 @@ const SettingsSchema = new Schema<ISettings>(
       },
     },
     social: {
-      facebook: { type: String, default: 'https://facebook.com' },
+      facebook: { type: String, default: 'https://www.facebook.com/profile.php?id=61584099365317' },
       instagram: { type: String, default: 'https://instagram.com' },
       youtube: { type: String, default: 'https://youtube.com' },
       linkedin: { type: String, default: 'https://linkedin.com' },

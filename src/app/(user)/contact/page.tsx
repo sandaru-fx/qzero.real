@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { Clock, Mail, MapPin, MessageCircle, Phone } from 'lucide-react';
+import { Clock, Mail, MapPin, MessageCircle, Phone, Globe } from 'lucide-react';
 import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
 import ContactFaq from '@/components/ContactFaq';
@@ -53,6 +53,13 @@ export default async function ContactPage({
       value: siteConfig.contact.email,
       href: `mailto:${siteConfig.contact.email}`,
       description: 'Detailed inquiries and documentation',
+    },
+    {
+      icon: Globe,
+      label: 'Facebook',
+      value: 'Follow QZERO',
+      href: siteConfig.social.facebook,
+      description: 'News, arrivals, and offers on Facebook',
     },
   ];
 

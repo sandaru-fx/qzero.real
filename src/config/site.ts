@@ -25,7 +25,7 @@ export const fallbackSiteConfig = {
   },
 
   social: {
-    facebook: 'https://facebook.com',
+    facebook: 'https://www.facebook.com/profile.php?id=61584099365317',
     instagram: 'https://instagram.com',
     youtube: 'https://youtube.com',
     linkedin: 'https://linkedin.com',

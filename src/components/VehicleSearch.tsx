@@ -19,43 +19,43 @@ const categories: Category[] = [
     id: 'car',
     label: 'Cars',
     bodyTypes: ['Car', 'Sedan', 'Hatchback', 'Coupe', 'Convertible'],
-    image: 'https://images.unsplash.com/photo-1616422285623-13ff0162193b?auto=format&fit=crop&w=400&q=80',
-    imageAlt: 'Luxury sedan side profile',
+    image: '/categories/car.jpeg',
+    imageAlt: 'Luxury sedan',
   },
   {
     id: 'suv',
     label: 'SUV',
     bodyTypes: ['SUV'],
-    image: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=400&q=80',
-    imageAlt: 'SUV on the road',
+    image: '/categories/suv-side.jpeg',
+    imageAlt: 'Black SUV',
   },
   {
     id: 'pickup',
     label: 'Double Cab',
     bodyTypes: ['Pickup'],
-    image: 'https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&w=400&q=80',
-    imageAlt: 'Double cab pickup truck',
+    image: '/categories/pickup-side.jpeg',
+    imageAlt: 'Double cab pickup',
   },
   {
     id: 'van',
     label: 'Van',
     bodyTypes: ['Van'],
-    image: 'https://images.unsplash.com/photo-1527786350613-41988862875b?auto=format&fit=crop&w=400&q=80',
-    imageAlt: 'Commercial van',
+    image: '/categories/van-side.jpeg',
+    imageAlt: 'Passenger van',
   },
   {
     id: 'wagon',
     label: 'Wagon',
     bodyTypes: ['Wagon'],
-    image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=400&q=80',
-    imageAlt: 'Station wagon vehicle',
+    image: '/categories/wagon.jpeg',
+    imageAlt: 'Luxury wagon MPV',
   },
   {
     id: 'truck',
     label: 'Truck',
     bodyTypes: ['Truck'],
-    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=400&q=80',
-    imageAlt: 'Heavy duty truck',
+    image: '/categories/truck-side.jpeg',
+    imageAlt: 'Box truck',
   },
 ];
 
@@ -70,24 +70,21 @@ function CategoryThumb({
 }) {
   return (
     <span
-      className={`relative block h-14 w-[4.75rem] overflow-hidden rounded-lg border transition-all duration-300 sm:h-16 sm:w-[5.5rem] ${
+      className={`relative flex h-[4.25rem] w-[7.25rem] items-center justify-center overflow-hidden rounded-xl border bg-[#e8e8e8] px-1 transition-all duration-300 sm:h-[4.75rem] sm:w-[8rem] ${
         active
           ? 'border-brand-gold shadow-[0_0_18px_rgba(212,175,55,0.35)] ring-1 ring-brand-gold/50'
           : 'border-white/15 group-hover:border-brand-gold/45'
       }`}
     >
+      {/* Fixed intrinsic size avoids stale Next Image optimized caches looking tiny */}
       <Image
         src={image}
         alt={imageAlt}
-        fill
-        sizes="88px"
-        className={`object-cover transition-transform duration-500 ${
-          active ? 'scale-110' : 'group-hover:scale-105'
-        }`}
-      />
-      <span
-        className={`absolute inset-0 transition-colors ${
-          active ? 'bg-black/15' : 'bg-black/35 group-hover:bg-black/20'
+        width={160}
+        height={88}
+        unoptimized
+        className={`h-full w-full object-contain object-center transition-transform duration-500 ${
+          active ? 'scale-105' : 'group-hover:scale-105'
         }`}
       />
     </span>
@@ -304,7 +301,7 @@ function VehicleSearchContent({
               key={category.id}
               type="button"
               onClick={() => selectCategory(category)}
-              className="group flex min-w-[4.75rem] flex-col items-center gap-2.5 sm:min-w-[5.5rem]"
+              className="group flex min-w-[7rem] flex-col items-center gap-2.5 sm:min-w-[8rem]"
             >
               <CategoryThumb
                 image={category.image}

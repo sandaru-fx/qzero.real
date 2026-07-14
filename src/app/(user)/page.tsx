@@ -15,7 +15,7 @@ export const revalidate = 60;
 const processSteps = [
   'Select or request',
   'Inspect and confirm',
-  'Import and clear',
+  'Source and clear',
   'Deliver and support',
 ];
 
@@ -135,7 +135,7 @@ export default async function HomePage() {
               <p className="text-sm font-bold uppercase tracking-widest text-brand-gold">
                 QUALITY SOURCES
               </p>
-              <h2 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">Import Origins</h2>
+              <h2 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">International Origins</h2>
             </div>
 
             <div className="mt-8 grid grid-cols-2 gap-5 lg:grid-cols-4">
@@ -172,12 +172,12 @@ export default async function HomePage() {
           <div className={`${SITE_SHELL} py-12 sm:py-14`}>
             <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
               <div>
-                <p className="text-base font-semibold text-brand-gold">Import concierge</p>
+                <p className="text-base font-semibold text-brand-gold">International concierge</p>
                 <h2 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">
                   From source market to your driveway.
                 </h2>
                 <p className="type-muted mt-4">
-                  QZERO keeps the import journey simple: request, source, inspect, ship, clear, and
+                  QZERO keeps the international journey simple: request, source, inspect, ship, clear, and
                   deliver with a single premium workflow.
                 </p>
               </div>

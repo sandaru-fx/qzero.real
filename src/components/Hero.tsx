@@ -44,10 +44,10 @@ export default function Hero({
               <ArrowRight className="h-5 w-5" />
             </Link>
             <Link
-              href="/contact"
+              href="/international"
               className="btn-micro inline-flex items-center rounded-full border border-white/25 bg-black/30 px-7 py-3.5 text-base font-semibold tracking-wide text-white backdrop-blur-md hover:border-brand-gold/60 hover:text-brand-gold sm:px-8 sm:py-4 sm:text-lg"
             >
-              Import Consultation
+              International Consultation
             </Link>
           </div>
         </div>

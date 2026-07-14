@@ -89,15 +89,15 @@ const demoPromotions = [
     year: 2023,
     image:
       'https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80',
-    href: '/import',
-    title: 'X5 xDrive Import Fee Waiver',
-    badge: 'Import Special',
+    href: '/international',
+    title: 'X5 xDrive Fee Waiver',
+    badge: 'International Special',
     validUntil: '31st Oct 2026',
-    highlight: 'Import fee waived',
+    highlight: 'Sourcing fee waived',
     highlightAccent: 'full inspection included',
     description:
-      'Japan / UK sourced BMW X5 with waived concierge import fee, certified inspection report, and insured freight package.',
-    cta: 'Start Import',
+      'Japan / UK sourced BMW X5 with waived concierge sourcing fee, certified inspection report, and insured freight package.',
+    cta: 'Start Inquiry',
     featured: false,
   },
   {

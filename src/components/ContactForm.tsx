@@ -5,7 +5,7 @@ import { Loader2, CheckCircle2 } from 'lucide-react';
 import { submitContactForm, type ContactFormState } from '@/actions/contact';
 import { buildWhatsAppUrl } from '@/config/site';
 
-const inquiryTypes = ['General Inquiry', 'Vehicle Purchase', 'Import Service', 'Other'] as const;
+const inquiryTypes = ['General Inquiry', 'Vehicle Purchase', 'International', 'Other'] as const;
 
 const initialState: ContactFormState = { success: false };
 
@@ -148,7 +148,7 @@ export default function ContactForm({
           className={`rounded-xl border bg-black px-4 py-3.5 text-base font-medium text-white outline-none transition-colors placeholder:text-brand-muted/70 focus:border-brand-gold ${
             fe?.message ? 'border-red-500/60' : 'border-white/10'
           }`}
-          placeholder="Tell us about the vehicle or import service you are interested in..."
+          placeholder="Tell us about the vehicle or international sourcing you are interested in..."
           aria-invalid={Boolean(fe?.message)}
         />
         {fe?.message && <span className="text-sm font-medium text-red-300">{fe.message}</span>}

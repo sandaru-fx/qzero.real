@@ -9,7 +9,7 @@ import { readWishlistIds } from '@/lib/wishlist';
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/vehicles', label: 'Showroom' },
-  { href: '/import', label: 'Import' },
+  { href: '/international', label: 'International' },
   { href: '/promotions', label: 'Promotions' },
   { href: '/about', label: 'About' },
   { href: '/contact', label: 'Contact' },

@@ -180,11 +180,16 @@ export async function getVehicleById(id: string): Promise<VehicleView | null> {
 }
 
 export async function getFilterOptions(): Promise<FilterOptions> {
+  const currentYear = new Date().getFullYear();
+  const minYear = 2018;
+  const defaultYears: string[] = [];
+  for (let y = currentYear; y >= minYear; y -= 1) defaultYears.push(String(y));
+
   const defaults: FilterOptions = {
     makes: [],
     models: [],
     modelsByMake: {},
-    years: [],
+    years: defaultYears,
     conditions: [...conditions],
     priceRanges: [
       'Under Rs 5M',
@@ -221,10 +226,15 @@ export async function getFilterOptions(): Promise<FilterOptions> {
       makes: makes.filter(Boolean).sort() as string[],
       models: models.filter(Boolean).sort() as string[],
       modelsByMake,
-      years: (years as number[])
-        .filter(Boolean)
-        .sort((a, b) => b - a)
-        .map(String),
+      years: (() => {
+        const fromDb = (years as number[]).filter((y) => Number.isFinite(y) && y > 0);
+        const set = new Set<number>();
+        for (let y = currentYear; y >= minYear; y -= 1) set.add(y);
+        for (const y of fromDb) set.add(y);
+        return Array.from(set)
+          .sort((a, b) => b - a)
+          .map(String);
+      })(),
       conditions: [...conditions],
       priceRanges: defaults.priceRanges,
     };

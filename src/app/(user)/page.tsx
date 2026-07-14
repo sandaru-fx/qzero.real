@@ -35,15 +35,15 @@ export default async function HomePage() {
     <>
       <Hero brandName={siteConfig.name} tagline={siteConfig.tagline} />
 
-      <ScrollReveal>
-        <section className="relative z-20 border-b border-white/5 bg-gradient-to-b from-black via-[#0a0a0a] to-brand-black pb-6 pt-10 sm:pb-8 sm:pt-12">
+      <ScrollReveal className="relative z-30">
+        <section className="overflow-visible border-b border-white/5 bg-gradient-to-b from-black via-[#0a0a0a] to-brand-black pb-16 pt-10 sm:pb-20 sm:pt-12">
           <div className={SITE_SHELL}>
             <VehicleSearchSection showHeroCopy fullWidth />
           </div>
         </section>
       </ScrollReveal>
 
-      <section className={`${SITE_SHELL} pb-12 pt-8 sm:pb-14 sm:pt-10`}>
+      <section className={`relative z-10 ${SITE_SHELL} pb-12 pt-8 sm:pb-14 sm:pt-10`}>
         <ScrollReveal>
           <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
             <div>

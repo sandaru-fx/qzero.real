@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, Suspense, useMemo } from 'react';
+import Image from 'next/image';
 import { ChevronDown, Search, X } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type { FilterOptions } from '@/types/filters';
@@ -9,68 +10,88 @@ type Category = {
   id: string;
   label: string;
   bodyTypes: string[];
+  image: string;
+  imageAlt: string;
 };
 
 const categories: Category[] = [
-  { id: 'car', label: 'Cars', bodyTypes: ['Car', 'Sedan', 'Hatchback', 'Coupe', 'Convertible'] },
-  { id: 'suv', label: 'SUV', bodyTypes: ['SUV'] },
-  { id: 'pickup', label: 'Double Cab', bodyTypes: ['Pickup'] },
-  { id: 'van', label: 'Van', bodyTypes: ['Van'] },
-  { id: 'wagon', label: 'Wagon', bodyTypes: ['Wagon'] },
-  { id: 'truck', label: 'Truck', bodyTypes: ['Truck'] },
+  {
+    id: 'car',
+    label: 'Cars',
+    bodyTypes: ['Car', 'Sedan', 'Hatchback', 'Coupe', 'Convertible'],
+    image: 'https://images.unsplash.com/photo-1616422285623-13ff0162193b?auto=format&fit=crop&w=400&q=80',
+    imageAlt: 'Luxury sedan side profile',
+  },
+  {
+    id: 'suv',
+    label: 'SUV',
+    bodyTypes: ['SUV'],
+    image: 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=400&q=80',
+    imageAlt: 'SUV on the road',
+  },
+  {
+    id: 'pickup',
+    label: 'Double Cab',
+    bodyTypes: ['Pickup'],
+    image: 'https://images.unsplash.com/photo-1559416523-140ddc3d238c?auto=format&fit=crop&w=400&q=80',
+    imageAlt: 'Double cab pickup truck',
+  },
+  {
+    id: 'van',
+    label: 'Van',
+    bodyTypes: ['Van'],
+    image: 'https://images.unsplash.com/photo-1527786350613-41988862875b?auto=format&fit=crop&w=400&q=80',
+    imageAlt: 'Commercial van',
+  },
+  {
+    id: 'wagon',
+    label: 'Wagon',
+    bodyTypes: ['Wagon'],
+    image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=400&q=80',
+    imageAlt: 'Station wagon vehicle',
+  },
+  {
+    id: 'truck',
+    label: 'Truck',
+    bodyTypes: ['Truck'],
+    image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?auto=format&fit=crop&w=400&q=80',
+    imageAlt: 'Heavy duty truck',
+  },
 ];
 
-function CategoryIcon({ id, active }: { id: string; active: boolean }) {
-  const common = {
-    viewBox: '0 0 64 32',
-    className: `h-9 w-16 transition-all duration-300 sm:h-10 sm:w-[4.5rem] ${
-      active ? 'text-brand-gold-light drop-shadow-[0_0_10px_rgba(212,175,55,0.45)]' : 'text-brand-gold'
-    }`,
-    fill: 'none' as const,
-    stroke: 'currentColor',
-    strokeWidth: 1.7,
-    strokeLinecap: 'round' as const,
-    strokeLinejoin: 'round' as const,
-  };
-
-  switch (id) {
-    case 'suv':
-      return (
-        <svg {...common}>
-          <path d="M8 22h48M12 22l4-10h28l6 10M18 12v-2h10M38 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-20 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-        </svg>
-      );
-    case 'pickup':
-      return (
-        <svg {...common}>
-          <path d="M6 22h52M10 22l3-9h18v9M31 13h18l5 9M16 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm28 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-        </svg>
-      );
-    case 'van':
-      return (
-        <svg {...common}>
-          <path d="M8 22h48M12 22V10h28l12 8v4M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm26 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-        </svg>
-      );
-    case 'wagon':
-      return (
-        <svg {...common}>
-          <path d="M8 22h48M12 22l3-10h34l5 10M18 12h20M16 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm28 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-        </svg>
-      );
-    case 'truck':
-      return (
-        <svg {...common}>
-          <path d="M6 22h52M8 22V11h26v11M34 14h14l6 8v0M16 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm30 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-        </svg>
-      );
-    default:
-      return (
-        <svg {...common}>
-          <path d="M8 22h48M12 22l5-10h26l7 10M20 12h16M18 22a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm24 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-        </svg>
-      );
-  }
+function CategoryThumb({
+  image,
+  imageAlt,
+  active,
+}: {
+  image: string;
+  imageAlt: string;
+  active: boolean;
+}) {
+  return (
+    <span
+      className={`relative block h-14 w-[4.75rem] overflow-hidden rounded-lg border transition-all duration-300 sm:h-16 sm:w-[5.5rem] ${
+        active
+          ? 'border-brand-gold shadow-[0_0_18px_rgba(212,175,55,0.35)] ring-1 ring-brand-gold/50'
+          : 'border-white/15 group-hover:border-brand-gold/45'
+      }`}
+    >
+      <Image
+        src={image}
+        alt={imageAlt}
+        fill
+        sizes="88px"
+        className={`object-cover transition-transform duration-500 ${
+          active ? 'scale-110' : 'group-hover:scale-105'
+        }`}
+      />
+      <span
+        className={`absolute inset-0 transition-colors ${
+          active ? 'bg-black/15' : 'bg-black/35 group-hover:bg-black/20'
+        }`}
+      />
+    </span>
+  );
 }
 
 type DropdownProps = {
@@ -100,7 +121,7 @@ const FilterField = ({
         disabled={options.length === 0}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        className={`flex min-h-[80px] w-full items-center justify-between rounded-md border px-5 py-4 text-left transition-all ${
+        className={`relative z-[1] flex min-h-[80px] w-full items-center justify-between rounded-md border px-5 py-4 text-left transition-all ${
           isOpen
             ? 'border-brand-gold/50 bg-[#1a1a1a] ring-1 ring-brand-gold/25'
             : 'border-white/10 bg-[#1c1c1c] hover:border-brand-gold/35'
@@ -128,7 +149,7 @@ const FilterField = ({
       {isOpen && options.length > 0 && (
         <div
           role="listbox"
-          className="absolute z-50 mt-1.5 max-h-60 w-full overflow-auto rounded-md border border-white/10 bg-[#161616] py-1 shadow-2xl shadow-black/60"
+          className="absolute left-0 right-0 z-[200] mt-1.5 max-h-60 w-full overflow-auto rounded-md border border-white/10 bg-[#161616] py-1 shadow-2xl shadow-black/70"
         >
           {options.map((option) => (
             <button
@@ -275,7 +296,7 @@ function VehicleSearchContent({
         </div>
       )}
 
-      <div className="mb-8 flex flex-wrap items-end justify-center gap-x-10 gap-y-6 sm:gap-x-14 lg:gap-x-20">
+      <div className="mb-8 flex flex-wrap items-end justify-center gap-x-8 gap-y-6 sm:gap-x-12 lg:gap-x-16">
         {categories.map((category) => {
           const active = activeCategory === category.id;
           return (
@@ -283,9 +304,13 @@ function VehicleSearchContent({
               key={category.id}
               type="button"
               onClick={() => selectCategory(category)}
-              className="group flex min-w-[4.5rem] flex-col items-center gap-2.5 sm:min-w-[5.5rem]"
+              className="group flex min-w-[4.75rem] flex-col items-center gap-2.5 sm:min-w-[5.5rem]"
             >
-              <CategoryIcon id={category.id} active={active} />
+              <CategoryThumb
+                image={category.image}
+                imageAlt={category.imageAlt}
+                active={active}
+              />
               <span
                 className={`border-b-2 pb-1 text-xs font-bold uppercase tracking-[0.14em] transition-colors sm:text-sm ${
                   active
@@ -300,7 +325,7 @@ function VehicleSearchContent({
         })}
       </div>
 
-      <div className="rounded-2xl border border-white/10 bg-black/40 p-4 shadow-2xl shadow-black/40 backdrop-blur-md sm:p-6">
+      <div className="relative z-[1] overflow-visible rounded-2xl border border-white/10 bg-black/40 p-4 shadow-2xl shadow-black/40 backdrop-blur-md sm:p-6">
         {showTextSearch && (
           <div className="relative mb-4">
             <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-muted" />

@@ -278,21 +278,24 @@ export async function updatePromotion(id: string, data: PromotionFormInput) {
         return { success: false, error: 'That vehicle already has a promotion.' };
       }
 
-      existing.source = 'inventory';
-      existing.vehicleId = new Types.ObjectId(data.vehicleId);
-      existing.brand = '';
-      existing.model = '';
-      existing.year = 0;
-      existing.image = '';
-      existing.href = '';
-      existing.title = data.title?.trim() || '';
-      existing.badge = data.badge.trim();
-      existing.validUntil = data.validUntil.trim();
-      existing.highlight = data.highlight.trim();
-      existing.highlightAccent = data.highlightAccent?.trim() || '';
-      existing.description = data.description.trim();
-      existing.cta = data.cta?.trim() || 'View Vehicle';
-      existing.featured = Boolean(data.featured);
+      // Use set() for `model` — Document.model conflicts with the schema field name
+      existing.set({
+        source: 'inventory',
+        vehicleId: new Types.ObjectId(data.vehicleId),
+        brand: '',
+        model: '',
+        year: 0,
+        image: '',
+        href: '',
+        title: data.title?.trim() || '',
+        badge: data.badge.trim(),
+        validUntil: data.validUntil.trim(),
+        highlight: data.highlight.trim(),
+        highlightAccent: data.highlightAccent?.trim() || '',
+        description: data.description.trim(),
+        cta: data.cta?.trim() || 'View Vehicle',
+        featured: Boolean(data.featured),
+      });
       await existing.save();
 
       revalidatePromoPaths();
@@ -309,21 +312,23 @@ export async function updatePromotion(id: string, data: PromotionFormInput) {
       return { success: false, error: 'Add an image for this custom promotion vehicle.' };
     }
 
-    existing.source = 'custom';
+    existing.set({
+      source: 'custom',
+      brand,
+      model,
+      year: parseYear(data.year),
+      image,
+      href: data.href?.trim() || '/contact',
+      title: data.title?.trim() || '',
+      badge: data.badge.trim(),
+      validUntil: data.validUntil.trim(),
+      highlight: data.highlight.trim(),
+      highlightAccent: data.highlightAccent?.trim() || '',
+      description: data.description.trim(),
+      cta: data.cta?.trim() || 'Inquire Now',
+      featured: Boolean(data.featured),
+    });
     existing.set('vehicleId', undefined);
-    existing.brand = brand;
-    existing.model = model;
-    existing.year = parseYear(data.year);
-    existing.image = image;
-    existing.href = data.href?.trim() || '/contact';
-    existing.title = data.title?.trim() || '';
-    existing.badge = data.badge.trim();
-    existing.validUntil = data.validUntil.trim();
-    existing.highlight = data.highlight.trim();
-    existing.highlightAccent = data.highlightAccent?.trim() || '';
-    existing.description = data.description.trim();
-    existing.cta = data.cta?.trim() || 'Inquire Now';
-    existing.featured = Boolean(data.featured);
     await existing.save();
     await Promotion.updateOne({ _id: id }, { $unset: { vehicleId: 1 } });
 

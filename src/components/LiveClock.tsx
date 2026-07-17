@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from 'react';
 
-export default function LiveClock() {
+type LiveClockProps = {
+  /** Shorter date string for narrow mobile footers */
+  compact?: boolean;
+};
+
+export default function LiveClock({ compact = false }: LiveClockProps) {
   const [timeData, setTimeData] = useState<{ time: string; date: string } | null>(null);
 
   useEffect(() => {
@@ -14,38 +19,53 @@ export default function LiveClock() {
         minute: '2-digit',
         hour12: true,
       });
-      const date = now.toLocaleDateString('en-US', {
-        timeZone: 'Asia/Colombo',
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
+      const date = now.toLocaleDateString(
+        'en-US',
+        compact
+          ? {
+              timeZone: 'Asia/Colombo',
+              weekday: 'short',
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            }
+          : {
+              timeZone: 'Asia/Colombo',
+              weekday: 'long',
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            }
+      );
       setTimeData({ time: time.toLowerCase(), date });
     };
 
     updateClock();
     const id = setInterval(updateClock, 1000);
     return () => clearInterval(id);
-  }, []);
+  }, [compact]);
 
   if (!timeData) {
     return (
-      <div className="flex items-center gap-2">
-        <span className="h-2 w-2 rounded-full bg-gray-700 animate-pulse" />
+      <div className="flex items-center justify-center gap-2">
+        <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-gray-700 md:h-2 md:w-2" />
         <span className="font-mono text-gray-600">Loading…</span>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center gap-2.5">
-      <span className="relative flex h-2 w-2">
+    <div className="flex items-center justify-center gap-2 md:gap-2.5">
+      <span className="relative flex h-1.5 w-1.5 shrink-0 md:h-2 md:w-2">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-gold/50" />
-        <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-gold" />
+        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-brand-gold md:h-2 md:w-2" />
       </span>
       <span className="font-mono tracking-tight">
-        {timeData.time} <span className="mx-1.5 text-white/20">|</span> Sri Lanka <span className="mx-1.5 text-white/20">|</span> {timeData.date}
+        {timeData.time}
+        <span className="mx-1 text-white/20 md:mx-1.5">|</span>
+        Sri Lanka
+        <span className="mx-1 text-white/20 md:mx-1.5">|</span>
+        {timeData.date}
       </span>
     </div>
   );

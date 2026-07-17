@@ -19,6 +19,12 @@ const infoLinks = [
   { label: 'Privacy Policy', href: '/privacy' },
 ];
 
+const linkClass =
+  'inline-block text-[0.8125rem] font-semibold leading-snug text-gray-300 transition-all duration-300 hover:translate-x-1 hover:text-brand-gold md:text-[1.2rem] md:leading-[1.8] md:hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] md:hover:bg-clip-text md:hover:text-transparent';
+
+const sectionTitleClass =
+  'text-[0.65rem] font-bold uppercase tracking-[0.18em] text-brand-gold/80 md:font-[family-name:var(--font-geist-mono)] md:text-[0.95rem] md:tracking-[0.2em] md:text-white';
+
 function FacebookIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" className={className} aria-hidden fill="currentColor">
@@ -83,18 +89,17 @@ export default async function Footer() {
 
   return (
     <footer className="relative overflow-hidden border-t border-white/5 bg-[#050505] font-sans">
-      {/* Lifestyle people + vehicles — feathered left (not inventory shots) */}
-      <div className="footer-bg-mask pointer-events-none absolute inset-y-0 left-0 z-0 w-full max-w-3xl opacity-40 sm:w-[58%] sm:opacity-100 lg:w-[52%]">
+      <div className="footer-bg-mask pointer-events-none absolute inset-y-0 left-0 z-0 w-full max-w-3xl opacity-35 md:w-[58%] md:opacity-100 lg:w-[52%]">
         <Image
           src={lifestyleImages.footer}
           alt=""
           fill
           sizes="(max-width: 768px) 100vw, 52vw"
-          className="object-cover object-[center_30%] opacity-70 sm:opacity-90"
+          className="object-cover object-[center_30%] opacity-70 md:opacity-90"
           priority={false}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/70 to-black/30 sm:via-transparent sm:to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-black/40 md:via-transparent md:to-black/20" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_60%,rgba(212,175,55,0.12),transparent_55%)]" />
       </div>
 
@@ -103,16 +108,16 @@ export default async function Footer() {
         className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_90%_20%,rgba(212,175,55,0.06),transparent_45%)]"
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1600px] px-4 py-10 sm:px-6 sm:py-16 lg:px-9 lg:py-20">
+      <div className="relative z-10 mx-auto w-full max-w-[1600px] px-4 py-8 md:px-6 md:py-16 lg:px-9 lg:py-20">
         {/*
-          Mobile: brand full-width, then Quick Links | Information side-by-side (PC feel),
-          then Connect. Desktop: original 4-column row.
+          Mobile: brand full width → Quick Links | Information (2-col) → Connect
+          md+: keep premium multi-column; lg: original 4-col
         */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:gap-10 md:grid-cols-2 lg:grid-cols-4 lg:gap-10">
-          <div className="col-span-2 flex flex-col space-y-4 sm:space-y-6 lg:col-span-1">
+        <div className="grid grid-cols-2 gap-x-5 gap-y-5 md:grid-cols-2 md:gap-10 lg:grid-cols-4 lg:gap-10">
+          <div className="col-span-2 flex flex-col gap-3 md:gap-6 lg:col-span-1">
             <Link href="/" className="inline-block w-fit">
-              <div className="group flex items-center gap-3">
-                <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-full border border-brand-gold/30 bg-black/70 shadow-[0_0_24px_rgba(212,175,55,0.12)] backdrop-blur-sm transition-colors duration-500 group-hover:border-brand-gold/60 sm:h-14 sm:w-14">
+              <div className="group flex items-center gap-2.5 md:gap-3">
+                <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-brand-gold/30 bg-black/70 shadow-[0_0_24px_rgba(212,175,55,0.12)] backdrop-blur-sm transition-colors duration-500 group-hover:border-brand-gold/60 md:h-14 md:w-14">
                   <Image
                     src="/qzero-logo.png"
                     alt="QZERO International"
@@ -122,39 +127,42 @@ export default async function Footer() {
                   />
                 </div>
                 <div>
-                  <h2 className="type-card-title text-white transition-all duration-300 group-hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] group-hover:bg-clip-text group-hover:text-transparent">
-                    QZERO
+                  <h2 className="text-base font-bold text-white transition-all duration-300 group-hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] group-hover:bg-clip-text group-hover:text-transparent md:text-[length:var(--type-card,1.35rem)]">
+                    <span className="type-card-title">QZERO</span>
                   </h2>
-                  <p className="type-meta mt-1 uppercase text-brand-gold/80">International</p>
+                  <p className="mt-0.5 text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-brand-gold/80 md:mt-1 md:text-[0.75rem]">
+                    International
+                  </p>
                 </div>
               </div>
             </Link>
 
-            <div className="flex flex-col gap-0.5 text-gray-300 sm:gap-1">
-              <p className="type-meta font-semibold uppercase tracking-wider text-brand-gold/70">
+            <div className="flex flex-col gap-0.5 text-gray-300">
+              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-brand-gold/70 md:text-[1.05rem] md:tracking-[0.04em] md:text-white">
                 Head Office
               </p>
-              <p className="type-muted text-gray-300/90">{siteConfig.contact.address.line1}</p>
-              <p className="type-muted text-gray-300/90">{siteConfig.contact.address.line2}</p>
+              <p className="text-[0.8125rem] font-semibold leading-snug text-gray-300/90 md:text-[1.2rem] md:leading-[1.8]">
+                {siteConfig.contact.address.line1}
+              </p>
+              <p className="text-[0.8125rem] font-semibold leading-snug text-gray-300/90 md:text-[1.2rem] md:leading-[1.8]">
+                {siteConfig.contact.address.line2}
+              </p>
             </div>
 
             <a
               href={`mailto:${siteConfig.contact.email}`}
-              className="type-muted w-fit break-all text-gray-300 transition-all duration-300 hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] hover:bg-clip-text hover:text-transparent"
+              className="w-fit break-all text-[0.8125rem] font-semibold text-gray-300 transition-all duration-300 hover:text-brand-gold md:text-[1.2rem] md:leading-[1.8] md:hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] md:hover:bg-clip-text md:hover:text-transparent"
             >
               {siteConfig.contact.email}
             </a>
           </div>
 
-          <div className="flex flex-col space-y-3 sm:space-y-6">
-            <h3 className="type-eyebrow text-brand-gold/80 sm:text-white">Quick Links</h3>
-            <ul className="flex flex-col gap-2.5 sm:gap-4">
+          <div className="flex flex-col gap-2 md:gap-6">
+            <h3 className={sectionTitleClass}>Quick Links</h3>
+            <ul className="flex flex-col gap-1.5 md:gap-4">
               {quickLinks.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="type-muted inline-block text-gray-300 transition-all duration-300 hover:translate-x-1 hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] hover:bg-clip-text hover:text-transparent"
-                  >
+                  <Link href={link.href} className={linkClass}>
                     {link.label}
                   </Link>
                 </li>
@@ -162,15 +170,12 @@ export default async function Footer() {
             </ul>
           </div>
 
-          <div className="flex flex-col space-y-3 sm:space-y-6">
-            <h3 className="type-eyebrow text-brand-gold/80 sm:text-white">Information</h3>
-            <ul className="flex flex-col gap-2.5 sm:gap-4">
+          <div className="flex flex-col gap-2 md:gap-6">
+            <h3 className={sectionTitleClass}>Information</h3>
+            <ul className="flex flex-col gap-1.5 md:gap-4">
               {infoLinks.map((link) => (
                 <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="type-muted inline-block text-gray-300 transition-all duration-300 hover:translate-x-1 hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] hover:bg-clip-text hover:text-transparent"
-                  >
+                  <Link href={link.href} className={linkClass}>
                     {link.label}
                   </Link>
                 </li>
@@ -178,14 +183,14 @@ export default async function Footer() {
             </ul>
           </div>
 
-          <div className="col-span-2 flex flex-col space-y-3 sm:space-y-6 lg:col-span-1">
-            <h3 className="type-eyebrow text-brand-gold/80 sm:text-white">Connect</h3>
-            <p className="type-muted max-w-md text-gray-300">
+          <div className="col-span-2 flex flex-col gap-2 md:gap-6 lg:col-span-1">
+            <h3 className={sectionTitleClass}>Connect</h3>
+            <p className="max-w-md text-[0.8125rem] font-semibold leading-snug text-gray-300 md:text-[1.2rem] md:leading-[1.8]">
               Follow us for new arrivals, import updates, and exclusive offers.
             </p>
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3">
               {socials.length === 0 ? (
-                <p className="text-sm text-brand-muted">Social links coming soon.</p>
+                <p className="text-xs text-brand-muted md:text-sm">Social links coming soon.</p>
               ) : (
                 socials.map(({ Icon, href, label }) => (
                   <a
@@ -195,10 +200,10 @@ export default async function Footer() {
                     rel="noopener noreferrer"
                     aria-label={label}
                     title={label}
-                    className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3 py-2 backdrop-blur-sm transition-all duration-300 hover:border-brand-gold/50 hover:shadow-[0_0_15px_rgba(212,175,55,0.2)]"
+                    className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/60 px-3 py-1.5 backdrop-blur-sm transition-all duration-300 hover:border-brand-gold/50 hover:shadow-[0_0_15px_rgba(212,175,55,0.2)] md:py-2"
                   >
-                    <Icon className="h-4 w-4 text-gray-400 transition-colors duration-300 group-hover:text-brand-gold" />
-                    <span className="text-sm font-semibold text-white/80 group-hover:text-brand-gold">
+                    <Icon className="h-3.5 w-3.5 text-gray-400 transition-colors duration-300 group-hover:text-brand-gold md:h-4 md:w-4" />
+                    <span className="text-xs font-semibold text-white/80 group-hover:text-brand-gold md:text-sm">
                       {label}
                     </span>
                   </a>
@@ -209,44 +214,50 @@ export default async function Footer() {
         </div>
       </div>
 
+      {/* Bottom bar — compact + centered on mobile; original row on lg */}
       <div className="relative z-10 border-t border-white/10 bg-black/50 backdrop-blur-[2px]">
-        <div className="mx-auto flex w-full max-w-[1600px] flex-col items-center gap-5 px-4 py-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] text-base sm:gap-6 sm:px-6 sm:py-8 lg:flex-row lg:justify-between lg:px-9">
-          <div className="flex w-full max-w-sm flex-col items-center gap-3 text-center text-gray-400 sm:max-w-none sm:flex-row sm:text-left">
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-brand-gold/30 bg-black/70">
-              <Phone className="h-4 w-4 text-brand-gold" />
+        <div className="mx-auto flex w-full max-w-[1600px] flex-col items-center gap-3 px-4 py-5 text-center md:gap-6 md:px-6 md:py-8 lg:flex-row lg:items-center lg:justify-between lg:px-9 lg:text-left">
+          <div className="flex items-center justify-center gap-2.5 text-gray-400 md:gap-3 lg:justify-start">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-brand-gold/30 bg-black/70 md:h-11 md:w-11">
+              <Phone className="h-3.5 w-3.5 text-brand-gold md:h-4 md:w-4" />
             </div>
-            <div className="flex min-w-0 flex-col">
-              <span className="type-meta uppercase text-gray-500">Customer Care Hotline</span>
-              <span className="type-meta mt-0.5 text-gray-400">
+            <div className="min-w-0 text-left">
+              <p className="text-[0.6rem] font-bold uppercase tracking-[0.14em] text-gray-500 md:text-[1.05rem] md:tracking-[0.04em]">
+                Customer Care Hotline
+              </p>
+              <p className="mt-0.5 text-[0.65rem] text-gray-400 md:text-[1.05rem]">
                 {siteConfig.contact.hours[0]
                   ? `${siteConfig.contact.hours[0].day} — ${siteConfig.contact.hours[0].time}`
                   : 'Monday — Friday — 9:00 AM — 6:00 PM'}
-              </span>
+              </p>
               <a
                 href={`tel:${siteConfig.contact.phoneTel}`}
-                className="mt-1 whitespace-nowrap text-lg font-bold tracking-wide text-white transition-all duration-300 hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] hover:bg-clip-text hover:text-transparent sm:text-xl"
+                className="mt-0.5 inline-block text-sm font-bold tracking-wide text-white transition-all duration-300 hover:text-brand-gold md:mt-1 md:text-xl md:hover:bg-[linear-gradient(135deg,#AA7C11_0%,#D4AF37_45%,#F3E5AB_100%)] md:hover:bg-clip-text md:hover:text-transparent"
               >
                 {siteConfig.contact.phone}
               </a>
             </div>
           </div>
 
-          <div className="type-meta order-last max-w-[18rem] text-center text-gray-500 sm:max-w-none lg:order-none">
-            <span className="inline-block px-2 leading-relaxed">
-              Copyright &copy; {new Date().getFullYear()}{' '}
-              <Link
-                href="/admin/login"
-                className="text-gray-500 no-underline transition-colors hover:text-brand-gold/80"
-                aria-label="Staff login"
-              >
-                {siteConfig.name}
-              </Link>
-              . All Rights Reserved.
-            </span>
-          </div>
+          <p className="order-last max-w-[16rem] text-[0.65rem] leading-relaxed text-gray-500 md:max-w-none md:text-[1.05rem] lg:order-none">
+            Copyright &copy; {new Date().getFullYear()}{' '}
+            <Link
+              href="/admin/login"
+              className="text-gray-500 no-underline transition-colors hover:text-brand-gold/80"
+              aria-label="Staff login"
+            >
+              {siteConfig.name}
+            </Link>
+            . All Rights Reserved.
+          </p>
 
-          <div className="type-meta flex items-center justify-center gap-2 text-center text-gray-500">
-            <LiveClock />
+          <div className="text-[0.65rem] text-gray-500 md:text-[1.05rem]">
+            <span className="md:hidden">
+              <LiveClock compact />
+            </span>
+            <span className="hidden md:inline">
+              <LiveClock />
+            </span>
           </div>
         </div>
       </div>

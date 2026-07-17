@@ -10,13 +10,13 @@ export const fallbackSiteConfig = {
     whatsapp: '94712409519',
     whatsappQrUrl: 'https://wa.me/94712409519',
     address: {
-      line1: 'No. 123, Marine Drive',
-      line2: 'Colombo 03, Sri Lanka',
-      full: 'No. 123, Marine Drive, Colombo 03, Sri Lanka',
+      line1: 'QZERO International Pvt Ltd',
+      line2: 'Habarakada, Sri Lanka',
+      full: 'QZERO International Pvt Ltd, Habarakada, Sri Lanka',
     },
-    mapsUrl: 'https://maps.google.com/?q=Marine+Drive+Colombo+03+Sri+Lanka',
+    mapsUrl: 'https://maps.app.goo.gl/2X8vp5rAEF1UZMfM8',
     mapsEmbedUrl:
-      'https://maps.google.com/maps?q=Marine+Drive+Colombo+03+Sri+Lanka&output=embed',
+      'https://maps.google.com/maps?q=V2C5%2B84X+Qzero+International+Pvt+Ltd,+Habarakada&output=embed',
     hours: [
       { day: 'Monday — Friday', time: '9:00 AM — 6:00 PM' },
       { day: 'Saturday', time: '10:00 AM — 4:00 PM' },

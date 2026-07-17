@@ -55,16 +55,16 @@ const SettingsSchema = new Schema<ISettings>(
       phone: { type: String, default: '+94 712 409 519' },
       phoneTel: { type: String, default: '+94712409519' },
       whatsapp: { type: String, default: '94712409519' },
-      addressLine1: { type: String, default: 'No. 123, Marine Drive' },
-      addressLine2: { type: String, default: 'Colombo 03, Sri Lanka' },
+      addressLine1: { type: String, default: 'QZERO International Pvt Ltd' },
+      addressLine2: { type: String, default: 'Habarakada, Sri Lanka' },
       mapsUrl: {
         type: String,
-        default: 'https://maps.google.com/?q=Marine+Drive+Colombo+03+Sri+Lanka',
+        default: 'https://maps.app.goo.gl/2X8vp5rAEF1UZMfM8',
       },
       mapsEmbedUrl: {
         type: String,
         default:
-          'https://maps.google.com/maps?q=Marine+Drive+Colombo+03+Sri+Lanka&output=embed',
+          'https://maps.google.com/maps?q=V2C5%2B84X+Qzero+International+Pvt+Ltd,+Habarakada&output=embed',
       },
       hours: {
         type: [HourSchema],

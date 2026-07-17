@@ -30,6 +30,7 @@ export default function LifestyleHero({
         fill
         priority
         sizes="100vw"
+        quality={85}
         className="object-cover"
         style={{ objectPosition }}
       />

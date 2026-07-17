@@ -175,7 +175,7 @@ select:-webkit-autofill {
   animation: whatsapp-orbit-spin 12s linear infinite reverse;
 }
 
-/* Hero carousel ken-burns zoom effect */
+/* Hero carousel ken-burns zoom effect — softer on mobile to reduce crop */
 @keyframes ken-burns {
   0% {
     transform: scale(1);
@@ -185,8 +185,23 @@ select:-webkit-autofill {
   }
 }
 
+@keyframes ken-burns-mobile {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.03);
+  }
+}
+
 .hero-ken-burns {
-  animation: ken-burns 8s ease-out forwards;
+  animation: ken-burns-mobile 8s ease-out forwards;
+}
+
+@media (min-width: 640px) {
+  .hero-ken-burns {
+    animation-name: ken-burns;
+  }
 }
 
 @keyframes hero-progress-fill {

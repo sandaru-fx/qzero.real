@@ -28,7 +28,8 @@ export default function VehicleCard({ vehicle, priority = false }: VehicleCardPr
           sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, 50vw"
           priority={priority}
           loading={priority ? undefined : 'lazy'}
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+          quality={85}
+          className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105 sm:group-hover:scale-110"
         />
         {vehicle.isFeatured && (
           <span className="absolute left-2 top-2 rounded-full border border-brand-gold/30 bg-black/60 px-2 py-0.5 text-[0.6rem] font-bold uppercase tracking-wide text-brand-gold backdrop-blur-md sm:left-3 sm:top-3 sm:px-3 sm:py-1 sm:text-xs">

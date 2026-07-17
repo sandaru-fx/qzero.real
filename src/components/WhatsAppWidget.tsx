@@ -20,7 +20,7 @@ export default function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: str
       )}
       target="_blank"
       rel="noopener noreferrer"
-      className="group fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_0_28px_rgba(37,211,102,0.45)] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-[#20bd5a] hover:shadow-[0_0_36px_rgba(37,211,102,0.6)] sm:h-[4.5rem] sm:w-[4.5rem]"
+      className="group fixed bottom-5 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_0_28px_rgba(37,211,102,0.45)] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-[#20bd5a] hover:shadow-[0_0_36px_rgba(37,211,102,0.6)] sm:bottom-6 sm:right-6 sm:h-[4.5rem] sm:w-[4.5rem]"
       aria-label="Chat with us on WhatsApp"
     >
       {/* Rotating ring around the icon */}

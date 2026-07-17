@@ -10,18 +10,23 @@ const HERO_SLIDES = [
   {
     src: "/lifestyle/import-hero.png",
     alt: "Happy customers receiving keys in the QZERO showroom",
+    // People + keys: keep faces in frame on tall phones
+    position: "object-[center_32%] sm:object-[center_28%]",
   },
   {
     src: "/lifestyle/about-what-drives-us.png",
     alt: "Family choosing their next vehicle with our team",
+    position: "object-[center_42%] sm:object-[center_35%]",
   },
   {
-    src: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1600&q=75",
+    src: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1920&q=85",
     alt: "Premium vehicle in bright daylight",
+    position: "object-[center_45%] sm:object-center",
   },
   {
-    src: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1600&q=75",
+    src: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=1920&q=85",
     alt: "Luxury SUV under clear skies",
+    position: "object-[center_40%] sm:object-[center_35%]",
   },
 ];
 
@@ -60,7 +65,6 @@ export default function HeroCarousel() {
     return () => window.clearInterval(timer);
   }, [paused]);
 
-  // Warm the next slide shortly after first paint
   useEffect(() => {
     const id = window.setTimeout(() => {
       setMountedSlides((prev) => new Set(prev).add(1));
@@ -92,20 +96,21 @@ export default function HeroCarousel() {
               sizes="100vw"
               priority={i === 0}
               loading={i === 0 ? "eager" : "lazy"}
-              className={`object-cover object-[center_28%] brightness-[1.06] contrast-[1.03] saturate-[1.04] ${
+              quality={85}
+              className={`object-cover ${slide.position} brightness-[1.04] contrast-[1.02] saturate-[1.03] sm:brightness-[1.06] sm:contrast-[1.03] sm:saturate-[1.04] ${
                 active ? "hero-ken-burns" : ""
               }`}
-              quality={75}
             />
           </div>
         );
       })}
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/50 via-black/15 to-transparent" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-black/70 via-transparent to-black/5" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-brand-black/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/55 via-black/20 to-black/10 sm:from-black/50 sm:via-black/15 sm:to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-black/80 via-transparent to-black/20 sm:from-brand-black/70 sm:to-black/5" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-brand-black to-transparent sm:h-28 sm:from-brand-black/80" />
 
-      <div className="absolute bottom-28 left-1/2 z-20 flex w-[min(280px,70vw)] -translate-x-1/2 flex-col items-center gap-3 sm:bottom-32">
+      {/* Dots sit low so they don't collide with CTAs on short phones */}
+      <div className="absolute bottom-5 left-1/2 z-20 flex w-[min(280px,70vw)] -translate-x-1/2 flex-col items-center gap-2.5 sm:bottom-8 sm:gap-3">
         <div className="h-[2px] w-full overflow-hidden rounded-full bg-white/15">
           <div
             key={progressKey}

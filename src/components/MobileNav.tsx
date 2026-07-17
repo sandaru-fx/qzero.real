@@ -1,5 +1,6 @@
 'use client';
 
+/** Mobile drawer portals to document.body so header backdrop-blur cannot clip it. */
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';

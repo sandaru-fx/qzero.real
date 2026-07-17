@@ -15,7 +15,7 @@ const HERO_SLIDES = [
   {
     src: "/lifestyle/about-what-drives-us.jpg",
     alt: "Family choosing their next vehicle with our team",
-    position: "object-[center_40%] sm:object-center",
+    position: "object-[center_38%] sm:object-center",
   },
   {
     src: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=2400&q=90",
@@ -96,7 +96,7 @@ export default function HeroCarousel() {
               priority={i === 0}
               loading={i === 0 ? "eager" : "lazy"}
               quality={90}
-              className={`object-cover ${slide.position} brightness-[1.05] contrast-[1.04] saturate-[1.05] sm:brightness-[1.06] ${
+              className={`object-cover ${slide.position} brightness-[1.06] contrast-[1.04] saturate-[1.05] ${
                 active ? "hero-ken-burns" : ""
               }`}
             />
@@ -104,11 +104,12 @@ export default function HeroCarousel() {
         );
       })}
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-black/15 sm:from-black/50 sm:via-black/15 sm:to-transparent" />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-black/85 via-transparent to-black/25 sm:from-brand-black/70 sm:to-black/5" />
+      {/* Mobile split: light veil only. Desktop: stronger cinematic overlays for text contrast */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10 sm:from-brand-black/70 sm:via-transparent sm:to-black/5" />
+      <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-black/50 via-black/15 to-transparent sm:block" />
 
-      <div className="absolute bottom-2.5 left-1/2 z-20 flex w-[min(240px,65vw)] -translate-x-1/2 flex-col items-center gap-1.5 sm:bottom-8 sm:w-[min(280px,70vw)] sm:gap-3">
-        <div className="h-[2px] w-full overflow-hidden rounded-full bg-white/15">
+      <div className="absolute bottom-3 left-1/2 z-20 flex w-[min(240px,65vw)] -translate-x-1/2 flex-col items-center gap-1.5 sm:bottom-8 sm:w-[min(280px,70vw)] sm:gap-3">
+        <div className="h-[2px] w-full overflow-hidden rounded-full bg-white/20">
           <div
             key={progressKey}
             className={`h-full origin-left rounded-full bg-brand-gold ${
@@ -127,7 +128,7 @@ export default function HeroCarousel() {
               className={`h-2 rounded-full transition-all duration-500 ${
                 i === selectedIndex
                   ? "w-8 bg-brand-gold"
-                  : "w-2 bg-white/40 hover:bg-white/65"
+                  : "w-2 bg-white/45 hover:bg-white/70"
               }`}
             />
           ))}

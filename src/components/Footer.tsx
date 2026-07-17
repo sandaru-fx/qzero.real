@@ -89,17 +89,17 @@ export default async function Footer() {
 
   return (
     <footer className="relative overflow-hidden border-t border-white/5 bg-[#050505] font-sans">
-      <div className="footer-bg-mask pointer-events-none absolute inset-y-0 left-0 z-0 w-full max-w-3xl opacity-35 md:w-[58%] md:opacity-100 lg:w-[52%]">
+      <div className="footer-bg-mask pointer-events-none absolute inset-y-0 left-0 z-0 w-full max-w-3xl md:w-[58%] lg:w-[52%]">
         <Image
           src={lifestyleImages.footer}
           alt=""
           fill
           sizes="(max-width: 768px) 100vw, 52vw"
-          className="object-cover object-[center_30%] opacity-70 md:opacity-90"
+          className="object-cover object-[center_28%] opacity-85 md:opacity-90"
           priority={false}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/80 to-black/40 md:via-transparent md:to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/45 to-black/25 md:via-transparent md:to-black/20" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_60%,rgba(212,175,55,0.12),transparent_55%)]" />
       </div>
 

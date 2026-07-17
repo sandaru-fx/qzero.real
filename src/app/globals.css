@@ -194,13 +194,14 @@ select:-webkit-autofill {
   }
 }
 
+/* No zoom on phones — keeps the full showroom scene in frame */
 .hero-ken-burns {
-  animation: ken-burns-mobile 8s ease-out forwards;
+  animation: none;
 }
 
 @media (min-width: 640px) {
   .hero-ken-burns {
-    animation-name: ken-burns;
+    animation: ken-burns 8s ease-out forwards;
   }
 }
 

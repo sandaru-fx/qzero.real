@@ -4,7 +4,7 @@ export const lifestyleImages = {
     'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1600&q=80',
   aboutHero: '/lifestyle/about-hero.png',
   /** Happy family + advisor in showroom — What drives us band */
-  aboutFamily: '/lifestyle/about-what-drives-us.png',
+  aboutFamily: '/lifestyle/about-what-drives-us.jpg',
   contactHero:
     'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1600&q=80',
   contactSide:
@@ -15,5 +15,5 @@ export const lifestyleImages = {
   homeTrust:
     'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1600&q=80',
   /** Key handover — Import concierge hero */
-  importHero: '/lifestyle/import-hero.png',
+  importHero: '/lifestyle/import-hero.jpg',
 } as const;

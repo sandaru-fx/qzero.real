@@ -133,11 +133,15 @@ export default function MobileNav({ phone, phoneTel }: MobileNavProps) {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="relative z-[201] flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white transition-colors hover:border-brand-gold/40 hover:text-brand-gold"
+        className="relative z-[201] flex h-12 w-12 items-center justify-center rounded-full border-2 border-brand-gold text-brand-gold transition-colors hover:bg-brand-gold/10"
         aria-label={open ? 'Close menu' : 'Open menu'}
         aria-expanded={open}
       >
-        {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        {open ? (
+          <X className="h-8 w-8" strokeWidth={2.75} />
+        ) : (
+          <Menu className="h-8 w-8" strokeWidth={2.75} />
+        )}
       </button>
       {drawer}
     </div>

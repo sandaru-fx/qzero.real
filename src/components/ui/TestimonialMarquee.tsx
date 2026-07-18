@@ -16,12 +16,7 @@ type TestimonialMarqueeProps = {
 export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [autoplay] = useState(() =>
-    Autoplay({
-      // ~2× slower on phones so slides don't rush; desktop stays readable too
-      delay: typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches ? 10000 : 7000,
-      stopOnInteraction: false,
-      stopOnMouseEnter: true,
-    })
+    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -31,6 +26,8 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
       skipSnaps: false,
       containScroll: false,
       dragFree: false,
+      // Embla default duration is 25 — ~2× slower slide motion
+      duration: 50,
     },
     [autoplay]
   );
@@ -148,7 +145,7 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
                       y: active ? -6 : 12,
                       zIndex: active ? 20 : 1,
                     }}
-                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
                     className={`relative will-change-transform ${active ? 'z-20' : 'z-[1]'}`}
                   >
                     <ReviewCard review={review} emphasized={active} />

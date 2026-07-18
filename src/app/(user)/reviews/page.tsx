@@ -25,8 +25,8 @@ export default async function ReviewsPage() {
         eyebrow="Client stories"
         title="What our clients say"
         description="Honest feedback from buyers who trusted QZERO with their next vehicle — from first inquiry to the keys in hand."
-        objectPosition="center 8%"
-        minHeight="min-h-[72svh] sm:min-h-[80svh] lg:min-h-[85svh]"
+        objectPosition="center 28%"
+        minHeight="sm:min-h-[80svh] lg:min-h-[85svh]"
       />
 
       <section className={`${SITE_SHELL} py-12 sm:py-16`}>

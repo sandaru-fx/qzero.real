@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "seed": "node scripts/seed-vehicles.mjs",
-    "seed:more": "node scripts/seed-more-vehicles.mjs"
+    "seed:more": "node scripts/seed-more-vehicles.mjs",
+    "seed:reviews": "node scripts/seed-reviews.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",

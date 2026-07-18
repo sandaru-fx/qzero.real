@@ -54,13 +54,14 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
 
   return (
     <section className="relative overflow-hidden border-y border-white/5 bg-[#050505] py-14 sm:py-20">
+      {/* Cool showroom light — no warm brown cast */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(212,175,55,0.07),transparent_58%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_35%,rgba(255,255,255,0.04),transparent_55%)]"
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[min(90vw,720px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.09),transparent_68%)] blur-2xl"
+        className="pointer-events-none absolute left-1/2 top-[55%] h-[380px] w-[min(90vw,640px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.08),transparent_70%)] blur-3xl"
       />
 
       <div className="relative mx-auto mb-10 flex w-full max-w-[1600px] flex-col gap-5 px-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between sm:px-6 lg:px-9">
@@ -70,7 +71,7 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/35 bg-white/[0.03] px-4 py-2 text-sm text-[#D4AF37] backdrop-blur-md">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-4 py-2 text-sm text-brand-gold backdrop-blur-md">
             <Quote className="h-4 w-4" />
             Client stories
           </div>
@@ -132,13 +133,13 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
               return (
                 <div
                   key={review.id}
-                  className="min-w-0 shrink-0 grow-0 basis-[78%] px-2.5 sm:basis-[52%] md:basis-[40%] lg:basis-[34%] xl:basis-[30%]"
+                  className="min-w-0 shrink-0 grow-0 basis-[86%] px-3 sm:basis-[62%] md:basis-[48%] lg:basis-[42%] xl:basis-[38%]"
                 >
                   <motion.div
                     animate={{
-                      scale: active ? 1.06 : 0.88,
-                      opacity: active ? 1 : 0.48,
-                      y: active ? -6 : 14,
+                      scale: active ? 1.08 : 0.9,
+                      opacity: active ? 1 : 0.5,
+                      y: active ? -10 : 16,
                       zIndex: active ? 20 : 1,
                     }}
                     transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}

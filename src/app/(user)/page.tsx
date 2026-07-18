@@ -26,7 +26,7 @@ export default async function HomePage() {
     getFeaturedVehicles(4),
     getVehicles({ limit: 8 }),
     getSiteConfig(),
-    getFeaturedReviews(10),
+    getFeaturedReviews(5),
   ]);
 
   const displayVehicles =

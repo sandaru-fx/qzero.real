@@ -75,7 +75,7 @@ const demoReviews = [
     rating: 5,
     imageUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=400&q=80',
-    isFeatured: false,
+    isFeatured: true,
   },
   {
     clientName: 'Ruwan Abeysekera',
@@ -85,7 +85,7 @@ const demoReviews = [
     rating: 5,
     imageUrl:
       'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
-    isFeatured: false,
+    isFeatured: true,
   },
   {
     clientName: 'Shehani Cooray',

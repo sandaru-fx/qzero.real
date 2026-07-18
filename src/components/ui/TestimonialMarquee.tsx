@@ -136,7 +136,7 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
               return (
                 <div
                   key={review.id}
-                  className="min-w-0 shrink-0 grow-0 basis-[86%] px-3 sm:basis-[62%] md:basis-[48%] lg:basis-[42%] xl:basis-[38%]"
+                  className="min-w-0 shrink-0 grow-0 basis-[86%] px-3 sm:basis-[68%] md:basis-[54%] lg:basis-[48%] xl:basis-[44%]"
                 >
                   <motion.div
                     animate={{
@@ -148,7 +148,7 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
                     transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
                     className={`relative will-change-transform ${active ? 'z-20' : 'z-[1]'}`}
                   >
-                    <ReviewCard review={review} emphasized={active} />
+                    <ReviewCard review={review} emphasized={active} size="page" />
                   </motion.div>
                 </div>
               );

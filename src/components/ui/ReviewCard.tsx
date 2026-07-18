@@ -56,7 +56,7 @@ export default function ReviewCard({
       className={`group/card relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border-2 backdrop-blur-md transition-[border-color,box-shadow] duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] ${borderClasses} ${
         hasBg ? 'bg-black' : 'bg-black/55 hover:bg-black/65'
       } ${
-        isPage ? 'min-h-[360px] p-9 sm:min-h-[400px] sm:p-11' : 'min-h-[280px] p-8 sm:min-h-[320px] sm:p-10'
+        isPage ? 'min-h-[380px] p-9 sm:min-h-[420px] sm:p-11' : 'min-h-[300px] p-8 sm:min-h-[340px] sm:p-10'
       } ${emphasized ? 'opacity-100' : 'opacity-75'} ${className}`}
     >
       {hasBg ? (

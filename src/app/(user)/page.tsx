@@ -8,7 +8,9 @@ import HomeLifestyleBand from '@/components/home/HomeLifestyleBand';
 import ScrollReveal from '@/components/motion/ScrollReveal';
 import { getFeaturedVehicles, getVehicles } from '@/actions/search';
 import { getSiteConfig } from '@/actions/settings';
+import { getFeaturedReviews } from '@/actions/review';
 import { SITE_SHELL } from '@/config/layout';
+import TestimonialMarquee from '@/components/ui/TestimonialMarquee';
 
 export const revalidate = 60;
 
@@ -20,10 +22,11 @@ const processSteps = [
 ];
 
 export default async function HomePage() {
-  const [featuredVehicles, latestVehicles, siteConfig] = await Promise.all([
+  const [featuredVehicles, latestVehicles, siteConfig, featuredReviews] = await Promise.all([
     getFeaturedVehicles(4),
     getVehicles({ limit: 8 }),
     getSiteConfig(),
+    getFeaturedReviews(10),
   ]);
 
   const displayVehicles =
@@ -84,6 +87,8 @@ export default async function HomePage() {
           </div>
         )}
       </section>
+
+      {featuredReviews.length > 0 ? <TestimonialMarquee reviews={featuredReviews} /> : null}
 
       <ScrollReveal>
         <section className="border-y border-brand-line bg-black py-14 sm:py-16">

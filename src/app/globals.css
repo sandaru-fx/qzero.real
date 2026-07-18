@@ -388,6 +388,23 @@ select:-webkit-autofill {
   pointer-events: none;
 }
 
+@keyframes review-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.review-marquee {
+  animation: review-marquee 42s linear infinite;
+}
+
+.group:hover .review-marquee {
+  animation-play-state: paused;
+}
+
 /* Accessibility - respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -401,7 +418,8 @@ select:-webkit-autofill {
   .hero-content-animate,
   .micro-bump,
   .promo-hero-zoom,
-  .shimmer {
+  .shimmer,
+  .review-marquee {
     animation: none !important;
   }
 

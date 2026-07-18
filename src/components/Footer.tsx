@@ -8,8 +8,8 @@ import LiveClock from './LiveClock';
 const quickLinks = [
   { label: 'Home', href: '/' },
   { label: 'Showroom', href: '/vehicles' },
-  { label: 'International', href: '/international' },
   { label: 'Promotions', href: '/promotions' },
+  { label: 'Reviews', href: '/reviews' },
 ];
 
 const infoLinks = [

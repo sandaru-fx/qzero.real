@@ -17,6 +17,7 @@ import {
   Percent,
   ExternalLink,
   Plus,
+  Star,
 } from 'lucide-react';
 import { logoutAdmin } from '@/actions/auth';
 
@@ -26,7 +27,10 @@ const mainNav = [
   { label: 'Inquiries', href: '/admin/inquiries', icon: MessageSquare },
 ];
 
-const contentNav = [{ label: 'Promotions', href: '/admin/promotions', icon: Percent }];
+const contentNav = [
+  { label: 'Promotions', href: '/admin/promotions', icon: Percent },
+  { label: 'Reviews', href: '/admin/reviews', icon: Star },
+];
 
 const systemNav = [{ label: 'Settings', href: '/admin/settings', icon: Settings }];
 
@@ -42,6 +46,9 @@ function getBreadcrumbs(pathname: string) {
   }
   if (pathname.startsWith('/admin/promotions')) {
     return [{ label: 'Admin', href: '/admin' }, { label: 'Promotions' }];
+  }
+  if (pathname.startsWith('/admin/reviews')) {
+    return [{ label: 'Admin', href: '/admin' }, { label: 'Reviews' }];
   }
   if (pathname.startsWith('/admin/settings')) {
     return [{ label: 'Admin', href: '/admin' }, { label: 'Settings' }];

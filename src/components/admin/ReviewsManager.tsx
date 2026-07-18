@@ -281,7 +281,7 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
           </div>
 
           <div>
-            <label className={labelClasses}>Photo (optional)</label>
+            <label className={labelClasses}>Card background image (optional)</label>
             <div className="flex flex-wrap items-center gap-4">
               {form.imageUrl ? (
                 <div className="relative h-16 w-16 overflow-hidden rounded-full border border-brand-gold/40">

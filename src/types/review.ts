@@ -25,4 +25,6 @@ export type ClientReviewInput = {
   vehicleName: string;
   reviewText: string;
   rating: number;
+  /** Optional — used as full card background when approved */
+  imageUrl?: string;
 };

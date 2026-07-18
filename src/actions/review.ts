@@ -136,12 +136,14 @@ export async function submitClientReview(input: ClientReviewInput) {
       throw new Error('Please write a review of at least 20 characters.');
     }
 
+    const imageUrl = input.imageUrl?.trim() || '';
+
     const created = await Review.create({
       clientName,
       vehicleName,
       reviewText,
       rating,
-      imageUrl: '',
+      imageUrl,
       isFeatured: false,
       isApproved: false,
     });

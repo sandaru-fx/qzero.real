@@ -65,15 +65,14 @@ export default function ReviewCard({
             src={review.imageUrl}
             alt=""
             fill
-            className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:scale-[1.04]"
+            className="object-cover brightness-[1.12] contrast-[1.05] saturate-[1.05] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:scale-[1.04]"
             sizes="(max-width: 768px) 100vw, 420px"
           />
-          {/* Readability scrim — keeps text legible over any photo */}
+          {/* Light scrim — photo stays bright; soft fade only where text sits */}
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-t from-black via-black/78 to-black/45"
+            className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-black/10"
           />
-          <div aria-hidden className="absolute inset-0 bg-black/25" />
         </>
       ) : (
         <div

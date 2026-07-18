@@ -16,7 +16,7 @@ type TestimonialMarqueeProps = {
 export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [autoplay] = useState(() =>
-    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
+    Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })
   );
 
   const [emblaRef, emblaApi] = useEmblaCarousel(

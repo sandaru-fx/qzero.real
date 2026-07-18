@@ -49,7 +49,7 @@ export default function ReviewCard({
             }
           : undefined
       }
-      className={`group/card relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-white/20 bg-black/55 shadow-[0_24px_60px_rgba(0,0,0,0.55)] backdrop-blur-md transition-[border-color,box-shadow,background-color] duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand-gold/70 hover:bg-black/65 hover:shadow-[0_28px_70px_rgba(0,0,0,0.65)] ${
+      className={`group/card relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border-2 border-white/20 bg-black/55 shadow-[0_24px_60px_rgba(0,0,0,0.55)] backdrop-blur-md transition-[border-color,box-shadow,background-color] duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand-gold hover:bg-black/65 hover:shadow-[0_0_0_1px_rgba(212,175,55,0.55),0_28px_70px_rgba(0,0,0,0.65),0_0_36px_rgba(212,175,55,0.28)] ${
         isPage ? 'min-h-[360px] p-9 sm:min-h-[400px] sm:p-11' : 'min-h-[280px] p-8 sm:min-h-[320px] sm:p-10'
       } ${emphasized ? 'opacity-100' : 'opacity-75'} ${className}`}
     >
@@ -57,6 +57,12 @@ export default function ReviewCard({
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.07] via-transparent to-transparent"
+      />
+
+      {/* Stronger gold edge on hover */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-brand-gold/0 transition-all duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:opacity-100 group-hover/card:ring-brand-gold/70"
       />
 
       <div

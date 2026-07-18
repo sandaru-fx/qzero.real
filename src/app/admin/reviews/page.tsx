@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { ExternalLink, Star } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { protectAdminRoute } from '@/lib/auth';
-import { getReviews } from '@/actions/review';
+import { getAdminReviews } from '@/actions/review';
 import ReviewsManager from '@/components/admin/ReviewsManager';
 import AdminPageHeader, { AdminPanel } from '@/components/admin/AdminPageHeader';
 
@@ -9,15 +9,16 @@ export const revalidate = 0;
 
 export default async function AdminReviewsPage() {
   await protectAdminRoute();
-  const reviews = await getReviews();
+  const reviews = await getAdminReviews();
   const featuredCount = reviews.filter((r) => r.isFeatured).length;
+  const pendingCount = reviews.filter((r) => !r.isApproved).length;
 
   return (
     <div className="mx-auto max-w-6xl space-y-8">
       <AdminPageHeader
         eyebrow="Content"
         title="Reviews"
-        description="Add client testimonials, feature them on the homepage marquee, and manage the public Reviews page."
+        description="Manage client testimonials — approve public submissions, edit, feature on homepage, or delete."
         actions={
           <Link
             href="/reviews"
@@ -36,15 +37,12 @@ export default async function AdminReviewsPage() {
           <p className="relative z-10 mt-1 text-3xl font-bold text-white">{reviews.length}</p>
         </div>
         <div className="admin-stat-card">
-          <p className="relative z-10 text-base font-medium text-brand-muted">Featured</p>
-          <p className="relative z-10 mt-1 text-3xl font-bold text-brand-gold">{featuredCount}</p>
+          <p className="relative z-10 text-base font-medium text-brand-muted">Pending approval</p>
+          <p className="relative z-10 mt-1 text-3xl font-bold text-amber-300">{pendingCount}</p>
         </div>
         <div className="admin-stat-card">
-          <p className="relative z-10 flex items-center gap-2 text-base font-medium text-brand-muted">
-            <Star className="h-4 w-4 text-brand-gold" />
-            Public URL
-          </p>
-          <p className="relative z-10 mt-1 text-lg font-semibold text-brand-gold">/reviews</p>
+          <p className="relative z-10 text-base font-medium text-brand-muted">Featured</p>
+          <p className="relative z-10 mt-1 text-3xl font-bold text-brand-gold">{featuredCount}</p>
         </div>
       </div>
 

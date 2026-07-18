@@ -3,9 +3,25 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { CheckCircle2, Loader2, Plus, Star, Trash2, UploadCloud, X } from 'lucide-react';
+import {
+  BadgeCheck,
+  CheckCircle2,
+  Edit2,
+  Loader2,
+  Plus,
+  Star,
+  Trash2,
+  UploadCloud,
+  X,
+} from 'lucide-react';
 import type { ReviewFormInput, ReviewView } from '@/types/review';
-import { addReview, deleteReview, toggleFeaturedStatus } from '@/actions/review';
+import {
+  addReview,
+  deleteReview,
+  toggleApprovedStatus,
+  toggleFeaturedStatus,
+  updateReview,
+} from '@/actions/review';
 import { uploadVehicleImage } from '@/actions/upload';
 
 type ReviewsManagerProps = {
@@ -19,6 +35,7 @@ const emptyForm: ReviewFormInput = {
   rating: 5,
   imageUrl: '',
   isFeatured: true,
+  isApproved: true,
 };
 
 const inputClasses =
@@ -28,12 +45,16 @@ const labelClasses = 'mb-2 block text-sm font-medium text-brand-muted';
 export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
   const router = useRouter();
   const [formOpen, setFormOpen] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState<ReviewFormInput>(emptyForm);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
+  const [approvingId, setApprovingId] = useState<string | null>(null);
   const [toast, setToast] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const pendingCount = reviews.filter((r) => !r.isApproved).length;
 
   useEffect(() => {
     if (!toast) return;
@@ -42,12 +63,28 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
   }, [toast]);
 
   const openCreate = () => {
+    setEditingId(null);
     setForm(emptyForm);
+    setFormOpen(true);
+  };
+
+  const openEdit = (review: ReviewView) => {
+    setEditingId(review.id);
+    setForm({
+      clientName: review.clientName,
+      vehicleName: review.vehicleName,
+      reviewText: review.reviewText,
+      rating: review.rating,
+      imageUrl: review.imageUrl,
+      isFeatured: review.isFeatured,
+      isApproved: review.isApproved,
+    });
     setFormOpen(true);
   };
 
   const closeForm = () => {
     setFormOpen(false);
+    setEditingId(null);
     setForm(emptyForm);
   };
 
@@ -68,14 +105,18 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
-    const res = await addReview(form);
+    const payload: ReviewFormInput = { ...form, isApproved: form.isApproved !== false };
+    const res = editingId ? await updateReview(editingId, payload) : await addReview(payload);
     setSaving(false);
     if (res.success) {
       closeForm();
-      setToast({ type: 'success', text: 'Review Added Successfully!' });
+      setToast({
+        type: 'success',
+        text: editingId ? 'Review updated successfully!' : 'Review Added Successfully!',
+      });
       router.refresh();
     } else {
-      setToast({ type: 'error', text: res.error || 'Failed to add review.' });
+      setToast({ type: 'error', text: res.error || 'Save failed.' });
     }
   };
 
@@ -92,14 +133,29 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
     }
   };
 
-  const handleToggle = async (id: string) => {
+  const handleToggleFeatured = async (id: string) => {
     setTogglingId(id);
     const res = await toggleFeaturedStatus(id);
     setTogglingId(null);
     if (res.success) {
       setToast({
         type: 'success',
-        text: res.isFeatured ? 'Now featured on homepage.' : 'Removed from homepage marquee.',
+        text: res.isFeatured ? 'Now featured on homepage.' : 'Removed from homepage.',
+      });
+      router.refresh();
+    } else {
+      setToast({ type: 'error', text: res.error || 'Update failed.' });
+    }
+  };
+
+  const handleToggleApproved = async (id: string) => {
+    setApprovingId(id);
+    const res = await toggleApprovedStatus(id);
+    setApprovingId(null);
+    if (res.success) {
+      setToast({
+        type: 'success',
+        text: res.isApproved ? 'Review approved — now live.' : 'Review set to pending.',
       });
       router.refresh();
     } else {
@@ -124,12 +180,7 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
             <X className="mt-0.5 h-5 w-5 shrink-0 text-red-400" />
           )}
           <p className="text-sm font-semibold leading-snug">{toast.text}</p>
-          <button
-            type="button"
-            onClick={() => setToast(null)}
-            className="ml-auto shrink-0 opacity-70 hover:opacity-100"
-            aria-label="Dismiss"
-          >
+          <button type="button" onClick={() => setToast(null)} className="ml-auto shrink-0 opacity-70" aria-label="Dismiss">
             <X className="h-4 w-4" />
           </button>
         </div>
@@ -137,8 +188,7 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
 
       <div className="flex flex-wrap items-center justify-between gap-3">
         <p className="text-sm text-brand-muted">
-          {reviews.length} review{reviews.length === 1 ? '' : 's'} · featured ones power the homepage
-          marquee
+          {reviews.length} total · {pendingCount} pending approval · featured power the homepage
         </p>
         <button
           type="button"
@@ -156,12 +206,10 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
           className="space-y-4 rounded-2xl border border-brand-gold/25 bg-black/40 p-5 sm:p-6"
         >
           <div className="flex items-center justify-between gap-3">
-            <h3 className="text-lg font-semibold text-white">New client review</h3>
-            <button
-              type="button"
-              onClick={closeForm}
-              className="rounded-full border border-white/10 p-2 text-white/70 hover:border-brand-gold/40 hover:text-brand-gold"
-            >
+            <h3 className="text-lg font-semibold text-white">
+              {editingId ? 'Edit review' : 'New client review'}
+            </h3>
+            <button type="button" onClick={closeForm} className="rounded-full border border-white/10 p-2 text-white/70">
               <X className="h-4 w-4" />
             </button>
           </div>
@@ -173,7 +221,6 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
                 className={inputClasses}
                 value={form.clientName}
                 onChange={(e) => setForm((p) => ({ ...p, clientName: e.target.value }))}
-                placeholder="e.g. Kasun Perera"
                 required
               />
             </div>
@@ -183,7 +230,6 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
                 className={inputClasses}
                 value={form.vehicleName}
                 onChange={(e) => setForm((p) => ({ ...p, vehicleName: e.target.value }))}
-                placeholder="e.g. 2022 Toyota Land Cruiser"
                 required
               />
             </div>
@@ -195,23 +241,16 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
               className={`${inputClasses} min-h-[120px] resize-y`}
               value={form.reviewText}
               onChange={(e) => setForm((p) => ({ ...p, reviewText: e.target.value }))}
-              placeholder="What did the client say about their experience?"
               required
             />
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-3">
             <div>
               <label className={labelClasses}>Rating</label>
               <div className="flex items-center gap-1.5">
                 {[1, 2, 3, 4, 5].map((n) => (
-                  <button
-                    key={n}
-                    type="button"
-                    onClick={() => setForm((p) => ({ ...p, rating: n }))}
-                    className="rounded-lg p-1.5 transition-colors hover:bg-white/5"
-                    aria-label={`${n} stars`}
-                  >
+                  <button key={n} type="button" onClick={() => setForm((p) => ({ ...p, rating: n }))}>
                     <Star
                       className={`h-6 w-6 ${
                         n <= form.rating ? 'fill-brand-gold text-brand-gold' : 'text-white/25'
@@ -221,17 +260,24 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
                 ))}
               </div>
             </div>
-            <div className="flex items-end">
-              <label className="inline-flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-[#0A0A0A] px-4 py-3">
-                <input
-                  type="checkbox"
-                  checked={form.isFeatured}
-                  onChange={(e) => setForm((p) => ({ ...p, isFeatured: e.target.checked }))}
-                  className="h-4 w-4 accent-[#D4AF37]"
-                />
-                <span className="text-sm font-medium text-white">Feature on homepage marquee</span>
-              </label>
-            </div>
+            <label className="inline-flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-[#0A0A0A] px-4 py-3">
+              <input
+                type="checkbox"
+                checked={Boolean(form.isApproved)}
+                onChange={(e) => setForm((p) => ({ ...p, isApproved: e.target.checked }))}
+                className="h-4 w-4 accent-[#D4AF37]"
+              />
+              <span className="text-sm font-medium text-white">Approved (live)</span>
+            </label>
+            <label className="inline-flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-[#0A0A0A] px-4 py-3">
+              <input
+                type="checkbox"
+                checked={form.isFeatured}
+                onChange={(e) => setForm((p) => ({ ...p, isFeatured: e.target.checked }))}
+                className="h-4 w-4 accent-[#D4AF37]"
+              />
+              <span className="text-sm font-medium text-white">Featured homepage</span>
+            </label>
           </div>
 
           <div>
@@ -266,13 +312,13 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
               disabled={saving || uploading}
               className="inline-flex items-center gap-2 rounded-full gold-gradient px-6 py-3 text-sm font-bold text-black disabled:opacity-60"
             >
-              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-              {saving ? 'Saving…' : 'Publish review'}
+              {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : editingId ? <Edit2 className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+              {saving ? 'Saving…' : editingId ? 'Save changes' : 'Publish review'}
             </button>
             <button
               type="button"
               onClick={closeForm}
-              className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white/80 hover:border-white/30"
+              className="rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white/80"
             >
               Cancel
             </button>
@@ -286,8 +332,8 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
             <tr>
               <th className="px-4 py-3 font-semibold">Client</th>
               <th className="px-4 py-3 font-semibold">Vehicle</th>
-              <th className="hidden px-4 py-3 font-semibold md:table-cell">Review</th>
-              <th className="px-4 py-3 font-semibold">Rating</th>
+              <th className="hidden px-4 py-3 font-semibold lg:table-cell">Review</th>
+              <th className="px-4 py-3 font-semibold">Status</th>
               <th className="px-4 py-3 font-semibold">Featured</th>
               <th className="px-4 py-3 font-semibold">Actions</th>
             </tr>
@@ -296,7 +342,7 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
             {reviews.length === 0 ? (
               <tr>
                 <td colSpan={6} className="px-4 py-10 text-center text-brand-muted">
-                  No reviews yet. Add your first client testimonial.
+                  No reviews yet.
                 </td>
               </tr>
             ) : (
@@ -306,33 +352,44 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
                     <div className="flex items-center gap-3">
                       <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-full border border-brand-gold/30 bg-black">
                         {review.imageUrl ? (
-                          <Image
-                            src={review.imageUrl}
-                            alt=""
-                            fill
-                            className="object-cover"
-                            sizes="40px"
-                          />
+                          <Image src={review.imageUrl} alt="" fill className="object-cover" sizes="40px" />
                         ) : (
                           <span className="flex h-full w-full items-center justify-center text-xs font-bold text-brand-gold">
                             {review.clientName.charAt(0)}
                           </span>
                         )}
                       </div>
-                      <span className="font-semibold text-white">{review.clientName}</span>
+                      <div>
+                        <p className="font-semibold text-white">{review.clientName}</p>
+                        <p className="text-xs text-brand-gold">{review.rating}/5</p>
+                      </div>
                     </div>
                   </td>
                   <td className="px-4 py-4 text-gray-300">{review.vehicleName}</td>
-                  <td className="hidden max-w-xs px-4 py-4 text-gray-400 md:table-cell">
+                  <td className="hidden max-w-xs px-4 py-4 text-gray-400 lg:table-cell">
                     <p className="line-clamp-2">{review.reviewText}</p>
                   </td>
-                  <td className="px-4 py-4 text-brand-gold">{review.rating}/5</td>
                   <td className="px-4 py-4">
                     <button
                       type="button"
-                      onClick={() => handleToggle(review.id)}
-                      disabled={togglingId === review.id}
-                      className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${
+                      onClick={() => handleToggleApproved(review.id)}
+                      disabled={approvingId === review.id}
+                      className={`inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${
+                        review.isApproved
+                          ? 'bg-emerald-500/15 text-emerald-300'
+                          : 'bg-amber-500/15 text-amber-300'
+                      }`}
+                    >
+                      <BadgeCheck className="h-3.5 w-3.5" />
+                      {approvingId === review.id ? '…' : review.isApproved ? 'Live' : 'Pending'}
+                    </button>
+                  </td>
+                  <td className="px-4 py-4">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleFeatured(review.id)}
+                      disabled={togglingId === review.id || !review.isApproved}
+                      className={`rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide disabled:opacity-40 ${
                         review.isFeatured
                           ? 'bg-brand-gold/20 text-brand-gold'
                           : 'border border-white/15 text-white/50 hover:border-brand-gold/40 hover:text-brand-gold'
@@ -342,19 +399,29 @@ export default function ReviewsManager({ reviews }: ReviewsManagerProps) {
                     </button>
                   </td>
                   <td className="px-4 py-4">
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(review.id)}
-                      disabled={deletingId === review.id}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-red-500/30 px-3 py-1.5 text-xs font-semibold text-red-300 hover:bg-red-500/10 disabled:opacity-50"
-                    >
-                      {deletingId === review.id ? (
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                      ) : (
-                        <Trash2 className="h-3.5 w-3.5" />
-                      )}
-                      Delete
-                    </button>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() => openEdit(review)}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-xs font-semibold text-white hover:border-brand-gold/40 hover:text-brand-gold"
+                      >
+                        <Edit2 className="h-3.5 w-3.5" />
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(review.id)}
+                        disabled={deletingId === review.id}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-red-500/30 px-3 py-1.5 text-xs font-semibold text-red-300 hover:bg-red-500/10 disabled:opacity-50"
+                      >
+                        {deletingId === review.id ? (
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        ) : (
+                          <Trash2 className="h-3.5 w-3.5" />
+                        )}
+                        Delete
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))

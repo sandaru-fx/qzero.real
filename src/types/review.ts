@@ -6,6 +6,7 @@ export type ReviewView = {
   rating: number;
   imageUrl: string;
   isFeatured: boolean;
+  isApproved: boolean;
   createdAt: string;
 };
 
@@ -16,4 +17,12 @@ export type ReviewFormInput = {
   rating: number;
   imageUrl: string;
   isFeatured: boolean;
+  isApproved?: boolean;
+};
+
+export type ClientReviewInput = {
+  clientName: string;
+  vehicleName: string;
+  reviewText: string;
+  rating: number;
 };

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getReviews } from '@/actions/review';
 import ReviewsExplorer from '@/components/ui/ReviewsExplorer';
+import ClientReviewForm from '@/components/ui/ClientReviewForm';
 import LifestyleHero from '@/components/LifestyleHero';
 import { lifestyleImages } from '@/data/lifestyle';
 import { SITE_SHELL } from '@/config/layout';
@@ -30,6 +31,10 @@ export default async function ReviewsPage() {
 
       <section className={`${SITE_SHELL} py-12 sm:py-16`}>
         <ReviewsExplorer reviews={reviews} />
+      </section>
+
+      <section className={`${SITE_SHELL} border-t border-white/5 pb-16 pt-4 sm:pb-20`}>
+        <ClientReviewForm />
       </section>
     </div>
   );

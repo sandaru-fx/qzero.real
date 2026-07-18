@@ -7,6 +7,8 @@ export interface IReview {
   rating: number;
   imageUrl: string;
   isFeatured: boolean;
+  /** Public site only shows approved reviews. Client submissions start as false. */
+  isApproved: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -19,6 +21,7 @@ const ReviewSchema = new Schema<IReview>(
     rating: { type: Number, required: true, min: 1, max: 5, default: 5 },
     imageUrl: { type: String, default: '' },
     isFeatured: { type: Boolean, default: false, index: true },
+    isApproved: { type: Boolean, default: true, index: true },
   },
   { timestamps: true }
 );

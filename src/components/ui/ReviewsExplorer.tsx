@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Search } from 'lucide-react';
+import { ArrowRight, ChevronDown, Search, SlidersHorizontal } from 'lucide-react';
 import { motion } from 'framer-motion';
 import type { ReviewView } from '@/types/review';
 import ReviewCard from '@/components/ui/ReviewCard';
@@ -13,8 +13,8 @@ type ReviewsExplorerProps = {
 
 type SortKey = 'newest' | 'oldest';
 
-const filterControlClass =
-  'rounded-full border border-white/15 bg-[#0a0a0a] px-5 py-4 text-base font-semibold text-white outline-none transition-colors focus:border-brand-gold/50 sm:text-lg';
+const selectClass =
+  'w-full appearance-none rounded-xl border border-white/15 bg-black/60 py-3.5 pl-4 pr-11 text-base font-semibold text-white outline-none transition-all duration-300 hover:border-brand-gold/40 focus:border-brand-gold/60 focus:ring-1 focus:ring-brand-gold/30 sm:text-[1.05rem]';
 
 function extractBrand(vehicleName: string) {
   const known = [
@@ -92,51 +92,97 @@ export default function ReviewsExplorer({ reviews }: ReviewsExplorerProps) {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
-        <label className="relative min-w-0 flex-1">
-          <Search className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-white/40" />
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search by name, vehicle, or keyword…"
-            className="w-full rounded-full border border-white/15 bg-black/40 py-4 pl-14 pr-5 text-base font-semibold text-white outline-none transition-colors placeholder:text-white/40 focus:border-brand-gold/50 sm:text-lg"
-          />
-        </label>
+    <div className="space-y-10">
+      <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-white/[0.06] to-black/40 p-5 shadow-[0_24px_60px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:p-6 lg:p-7">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_0%_0%,rgba(212,175,55,0.08),transparent_45%)]"
+        />
 
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:w-auto lg:min-w-[34rem]">
-          <select
-            value={brand}
-            onChange={(e) => setBrand(e.target.value)}
-            className={filterControlClass}
-          >
-            <option value="all">All brands</option>
-            {brands.map((b) => (
-              <option key={b} value={b}>
-                {b}
-              </option>
-            ))}
-          </select>
+        <div className="relative mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="inline-flex items-center gap-2 text-brand-gold">
+            <SlidersHorizontal className="h-4 w-4" />
+            <span className="text-xs font-bold uppercase tracking-[0.22em]">Refine stories</span>
+          </div>
+          <p className="text-sm font-semibold text-white/45">
+            Showing <span className="text-brand-gold">{filtered.length}</span> of {reviews.length}
+          </p>
+        </div>
 
-          <select
-            value={rating}
-            onChange={(e) => setRating(e.target.value)}
-            className={filterControlClass}
-          >
-            <option value="all">All ratings</option>
-            <option value="5">5 stars</option>
-            <option value="4">4+ stars</option>
-            <option value="3">3+ stars</option>
-          </select>
+        <div className="relative grid gap-4 lg:grid-cols-[1.4fr_1fr]">
+          <label className="group relative block">
+            <span className="mb-2 block text-[0.7rem] font-bold uppercase tracking-[0.18em] text-white/40">
+              Search
+            </span>
+            <span className="relative block">
+              <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/35 transition-colors group-focus-within:text-brand-gold" />
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Name, vehicle, or keyword…"
+                className="w-full rounded-xl border border-white/15 bg-black/60 py-3.5 pl-12 pr-4 text-base font-semibold text-white outline-none transition-all duration-300 placeholder:text-white/35 hover:border-brand-gold/40 focus:border-brand-gold/60 focus:ring-1 focus:ring-brand-gold/30 sm:text-[1.05rem]"
+              />
+            </span>
+          </label>
 
-          <select
-            value={sort}
-            onChange={(e) => setSort(e.target.value as SortKey)}
-            className={filterControlClass}
-          >
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-          </select>
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            <label className="block">
+              <span className="mb-2 block text-[0.7rem] font-bold uppercase tracking-[0.18em] text-white/40">
+                Brand
+              </span>
+              <span className="relative block">
+                <select
+                  value={brand}
+                  onChange={(e) => setBrand(e.target.value)}
+                  className={selectClass}
+                >
+                  <option value="all">All brands</option>
+                  {brands.map((b) => (
+                    <option key={b} value={b}>
+                      {b}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-gold/80" />
+              </span>
+            </label>
+
+            <label className="block">
+              <span className="mb-2 block text-[0.7rem] font-bold uppercase tracking-[0.18em] text-white/40">
+                Rating
+              </span>
+              <span className="relative block">
+                <select
+                  value={rating}
+                  onChange={(e) => setRating(e.target.value)}
+                  className={selectClass}
+                >
+                  <option value="all">All ratings</option>
+                  <option value="5">5 stars</option>
+                  <option value="4">4+ stars</option>
+                  <option value="3">3+ stars</option>
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-gold/80" />
+              </span>
+            </label>
+
+            <label className="block">
+              <span className="mb-2 block text-[0.7rem] font-bold uppercase tracking-[0.18em] text-white/40">
+                Sort
+              </span>
+              <span className="relative block">
+                <select
+                  value={sort}
+                  onChange={(e) => setSort(e.target.value as SortKey)}
+                  className={selectClass}
+                >
+                  <option value="newest">Newest</option>
+                  <option value="oldest">Oldest</option>
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-gold/80" />
+              </span>
+            </label>
+          </div>
         </div>
       </div>
 

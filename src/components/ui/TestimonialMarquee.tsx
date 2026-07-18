@@ -126,7 +126,8 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
         onMouseEnter={() => autoplay.stop()}
         onMouseLeave={() => autoplay.play()}
       >
-        <div className="overflow-hidden py-6" ref={emblaRef}>
+        {/* Extra vertical padding so scaled active cards keep a full gold border (no clipped top edge) */}
+        <div className="overflow-hidden py-12 sm:py-14" ref={emblaRef}>
           <div className="flex touch-pan-y">
             {reviews.map((review, index) => {
               const active = index === selectedIndex;
@@ -137,9 +138,9 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
                 >
                   <motion.div
                     animate={{
-                      scale: active ? 1.08 : 0.9,
+                      scale: active ? 1.06 : 0.92,
                       opacity: active ? 1 : 0.5,
-                      y: active ? -10 : 16,
+                      y: active ? -6 : 12,
                       zIndex: active ? 20 : 1,
                     }}
                     transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}

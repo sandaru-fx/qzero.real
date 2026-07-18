@@ -38,18 +38,22 @@ export default function ReviewCard({
   const isPage = size === 'page';
   const hasBg = Boolean(review.imageUrl?.trim());
 
+  const borderClasses = emphasized
+    ? 'border-brand-gold shadow-[0_0_0_1px_rgba(212,175,55,0.45),0_24px_60px_rgba(0,0,0,0.55),0_0_28px_rgba(212,175,55,0.22)]'
+    : 'border-white/20 shadow-[0_24px_60px_rgba(0,0,0,0.55)] hover:border-brand-gold hover:shadow-[0_0_0_1px_rgba(212,175,55,0.55),0_28px_70px_rgba(0,0,0,0.65),0_0_36px_rgba(212,175,55,0.28)]';
+
   return (
     <motion.article
       whileHover={
         interactive
           ? {
-              y: -8,
-              scale: 1.02,
+              y: -4,
+              scale: 1.015,
               transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
             }
           : undefined
       }
-      className={`group/card relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border-2 border-white/20 shadow-[0_24px_60px_rgba(0,0,0,0.55)] backdrop-blur-md transition-[border-color,box-shadow] duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-brand-gold hover:shadow-[0_0_0_1px_rgba(212,175,55,0.55),0_28px_70px_rgba(0,0,0,0.65),0_0_36px_rgba(212,175,55,0.28)] ${
+      className={`group/card relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border-2 backdrop-blur-md transition-[border-color,box-shadow] duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] ${borderClasses} ${
         hasBg ? 'bg-black' : 'bg-black/55 hover:bg-black/65'
       } ${
         isPage ? 'min-h-[360px] p-9 sm:min-h-[400px] sm:p-11' : 'min-h-[280px] p-8 sm:min-h-[320px] sm:p-10'
@@ -74,18 +78,23 @@ export default function ReviewCard({
       ) : (
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/[0.07] via-transparent to-transparent"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand-gold/[0.06] via-transparent to-transparent"
         />
       )}
 
+      {/* Continuous gold edge on all 4 sides (including top) when active / hovered */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 ring-2 ring-inset ring-brand-gold/0 transition-all duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/card:opacity-100 group-hover/card:ring-brand-gold/70"
+        className={`pointer-events-none absolute inset-0 rounded-2xl ring-2 ring-inset transition-opacity duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          emphasized
+            ? 'opacity-100 ring-brand-gold/80'
+            : 'opacity-0 ring-brand-gold/0 group-hover/card:opacity-100 group-hover/card:ring-brand-gold/70'
+        }`}
       />
 
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/[0.08] to-transparent opacity-0 group-hover/card:animate-[review-shimmer_1.1s_ease-out]"
+        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-brand-gold/[0.08] to-transparent opacity-0 group-hover/card:animate-[review-shimmer_1.1s_ease-out]"
       />
 
       <div className="relative min-w-0">

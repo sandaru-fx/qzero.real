@@ -398,25 +398,17 @@ select:-webkit-autofill {
   pointer-events: none;
 }
 
-@keyframes review-marquee {
-  from {
-    transform: translateX(0);
+@keyframes review-shimmer {
+  0% {
+    transform: translateX(-120%);
+    opacity: 0;
   }
-  to {
-    transform: translateX(-50%);
+  15% {
+    opacity: 1;
   }
-}
-
-/* Fallback if theme token isn't picked up */
-.animate-marquee,
-.review-marquee {
-  animation: marquee 40s linear infinite;
-}
-
-@supports not (animation-name: marquee) {
-  .animate-marquee,
-  .review-marquee {
-    animation-name: review-marquee;
+  100% {
+    transform: translateX(120%);
+    opacity: 0;
   }
 }
 
@@ -433,14 +425,10 @@ select:-webkit-autofill {
   .hero-content-animate,
   .micro-bump,
   .promo-hero-zoom,
-  .shimmer {
-    animation: none !important;
-  }
-
-  /* Keep a very slow drift so testimonials never look like a frozen strip */
+  .shimmer,
   .animate-marquee,
   .review-marquee {
-    animation: marquee 120s linear infinite !important;
+    animation: none !important;
   }
 
   .scroll-reveal {

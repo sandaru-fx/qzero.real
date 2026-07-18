@@ -1,5 +1,11 @@
+'use client';
+
+import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Quote } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Quote } from 'lucide-react';
+import useEmblaCarousel from 'embla-carousel-react';
+import Autoplay from 'embla-carousel-autoplay';
+import { motion } from 'framer-motion';
 import type { ReviewView } from '@/types/review';
 import ReviewCard from '@/components/ui/ReviewCard';
 
@@ -8,50 +14,148 @@ type TestimonialMarqueeProps = {
 };
 
 export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps) {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [autoplay] = useState(() =>
+    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
+  );
+
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      align: 'center',
+      skipSnaps: false,
+      containScroll: false,
+      dragFree: false,
+    },
+    [autoplay]
+  );
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on('select', onSelect);
+    emblaApi.on('reInit', onSelect);
+    return () => {
+      emblaApi.off('select', onSelect);
+      emblaApi.off('reInit', onSelect);
+    };
+  }, [emblaApi, onSelect]);
+
   if (!reviews.length) return null;
 
-  // Two identical sequences → seamless -50% loop
-  const sequence = reviews.length === 1 ? [reviews[0], reviews[0], reviews[0]] : reviews;
-  const loop = [...sequence, ...sequence];
-
   return (
-    <section className="relative overflow-hidden border-y border-white/5 bg-gradient-to-b from-[#050505] via-black to-[#050505] py-12 sm:py-16">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(212,175,55,0.08),transparent_55%)]" />
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-20 w-16 bg-gradient-to-r from-[#050505] to-transparent sm:w-28" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-20 w-16 bg-gradient-to-l from-[#050505] to-transparent sm:w-28" />
+    <section className="relative overflow-hidden border-y border-white/5 bg-[#050505] py-14 sm:py-20">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(212,175,55,0.07),transparent_58%)]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[min(90vw,720px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.09),transparent_68%)] blur-2xl"
+      />
 
-      <div className="relative mx-auto mb-8 flex w-full max-w-[1600px] flex-col gap-4 px-4 sm:mb-10 sm:flex-row sm:items-end sm:justify-between sm:px-6 lg:px-9">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand-gold/40 bg-white/5 px-4 py-2 text-sm text-brand-gold backdrop-blur-md">
+      <div className="relative mx-auto mb-10 flex w-full max-w-[1600px] flex-col gap-5 px-4 sm:mb-12 sm:flex-row sm:items-end sm:justify-between sm:px-6 lg:px-9">
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/35 bg-white/[0.03] px-4 py-2 text-sm text-[#D4AF37] backdrop-blur-md">
             <Quote className="h-4 w-4" />
             Client stories
           </div>
-          <h2 className="mt-4 font-[family-name:var(--font-display)] text-3xl font-semibold text-white sm:text-4xl">
+          <h2 className="mt-5 font-[family-name:var(--font-display)] text-[2.1rem] font-semibold leading-[1.1] tracking-[-0.02em] text-white sm:text-4xl lg:text-[2.75rem]">
             What our clients say
           </h2>
-          <p className="mt-3 max-w-xl text-base text-white/70">
-            Real handovers. Real families. Trust earned one delivery at a time.
+          <p className="mt-4 max-w-xl text-base font-medium leading-relaxed text-white/65">
+            Verified buyers. Quiet confidence. The standard behind every QZERO handover.
           </p>
-        </div>
-        <Link
-          href="/reviews"
-          className="btn-micro inline-flex items-center gap-2 self-start rounded-full border border-brand-line bg-white/5 px-5 py-3 text-base font-semibold text-white backdrop-blur-md hover:border-brand-gold/60 hover:text-brand-gold sm:self-auto"
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.65, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+          className="flex items-center gap-3"
         >
-          All reviews
-          <ArrowRight className="h-4 w-4" />
-        </Link>
+          <div className="hidden items-center gap-2 sm:flex">
+            <button
+              type="button"
+              onClick={() => emblaApi?.scrollPrev()}
+              aria-label="Previous review"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-300 hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => emblaApi?.scrollNext()}
+              aria-label="Next review"
+              className="flex h-11 w-11 items-center justify-center rounded-full border border-white/15 text-white/70 transition-all duration-300 hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+            >
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+          <Link
+            href="/reviews"
+            className="group/btn relative inline-flex items-center gap-2 overflow-hidden px-1 py-2 text-base font-semibold text-white"
+          >
+            <span className="relative">
+              All reviews
+              <span className="absolute -bottom-0.5 left-0 h-px w-full origin-left scale-x-0 bg-[#D4AF37] transition-transform duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/btn:scale-x-100" />
+            </span>
+            <ArrowRight className="h-4 w-4 transition-transform duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/btn:translate-x-1" />
+          </Link>
+        </motion.div>
       </div>
 
-      {/* Infinite marquee — pauses while hovered */}
-      <div className="group relative z-10 overflow-hidden">
-        <div className="animate-marquee flex w-max gap-6 pr-6 group-hover:[animation-play-state:paused]">
-          {loop.map((review, index) => (
-            <div
-              key={`${review.id}-${index}`}
-              className="w-[min(88vw,360px)] shrink-0 sm:w-[380px]"
-            >
-              <ReviewCard review={review} />
-            </div>
+      <div className="relative" onMouseEnter={() => autoplay.stop()} onMouseLeave={() => autoplay.play()}>
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex touch-pan-y">
+            {reviews.map((review, index) => {
+              const active = index === selectedIndex;
+              return (
+                <div
+                  key={review.id}
+                  className="min-w-0 shrink-0 grow-0 basis-[88%] px-2 sm:basis-[70%] md:basis-[48%] lg:basis-[38%] xl:basis-[32%]"
+                >
+                  <motion.div
+                    animate={{
+                      scale: active ? 1 : 0.9,
+                      opacity: active ? 1 : 0.55,
+                      y: active ? 0 : 10,
+                    }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    className="will-change-transform"
+                  >
+                    <ReviewCard review={review} emphasized={active} />
+                  </motion.div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mt-8 flex items-center justify-center gap-2">
+          {reviews.map((review, index) => (
+            <button
+              key={review.id}
+              type="button"
+              aria-label={`Go to review ${index + 1}`}
+              onClick={() => emblaApi?.scrollTo(index)}
+              className={`h-1.5 rounded-full transition-all duration-350 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                index === selectedIndex
+                  ? 'w-8 bg-[#D4AF37]'
+                  : 'w-1.5 bg-white/25 hover:bg-white/45'
+              }`}
+            />
           ))}
         </div>
       </div>

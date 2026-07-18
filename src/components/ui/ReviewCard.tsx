@@ -88,7 +88,7 @@ export default function ReviewCard({
 
         <div className="min-w-0 flex-1 pt-0.5">
           <div className="flex flex-wrap items-center gap-2">
-            <h3 className="truncate font-[family-name:var(--font-display)] text-xl font-semibold tracking-tight text-white">
+            <h3 className="truncate text-lg font-semibold tracking-tight text-white sm:text-xl">
               {review.clientName}
             </h3>
             <span className="inline-flex items-center gap-1 rounded-full border border-[#D4AF37]/35 bg-[#D4AF37]/10 px-2 py-0.5 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-[#D4AF37]">
@@ -106,7 +106,7 @@ export default function ReviewCard({
         <Stars rating={review.rating} />
       </div>
 
-      <p className="relative mt-5 text-[0.98rem] font-medium leading-[1.75] tracking-[0.01em] text-white/72">
+      <p className="relative mt-5 text-base font-medium leading-[1.75] text-white/92 sm:text-lg sm:leading-[1.8]">
         “{review.reviewText}”
       </p>
     </motion.article>

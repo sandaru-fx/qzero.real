@@ -40,11 +40,15 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
     onSelect();
     emblaApi.on('select', onSelect);
     emblaApi.on('reInit', onSelect);
+    // Start on middle slide so left + right peeks show immediately
+    if (reviews.length >= 3) {
+      emblaApi.scrollTo(1, true);
+    }
     return () => {
       emblaApi.off('select', onSelect);
       emblaApi.off('reInit', onSelect);
     };
-  }, [emblaApi, onSelect]);
+  }, [emblaApi, onSelect, reviews.length]);
 
   if (!reviews.length) return null;
 
@@ -70,10 +74,10 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
             <Quote className="h-4 w-4" />
             Client stories
           </div>
-          <h2 className="mt-5 font-[family-name:var(--font-display)] text-[2.1rem] font-semibold leading-[1.1] tracking-[-0.02em] text-white sm:text-4xl lg:text-[2.75rem]">
+          <h2 className="mt-4 text-3xl font-semibold text-white sm:text-4xl">
             What our clients say
           </h2>
-          <p className="mt-4 max-w-xl text-base font-medium leading-relaxed text-white/65">
+          <p className="mt-3 max-w-xl text-base text-white/70">
             Verified buyers. Quiet confidence. The standard behind every QZERO handover.
           </p>
         </motion.div>
@@ -116,24 +120,29 @@ export default function TestimonialMarquee({ reviews }: TestimonialMarqueeProps)
         </motion.div>
       </div>
 
-      <div className="relative" onMouseEnter={() => autoplay.stop()} onMouseLeave={() => autoplay.play()}>
-        <div className="overflow-hidden" ref={emblaRef}>
+      <div
+        className="relative px-2 sm:px-4"
+        onMouseEnter={() => autoplay.stop()}
+        onMouseLeave={() => autoplay.play()}
+      >
+        <div className="overflow-hidden py-6" ref={emblaRef}>
           <div className="flex touch-pan-y">
             {reviews.map((review, index) => {
               const active = index === selectedIndex;
               return (
                 <div
                   key={review.id}
-                  className="min-w-0 shrink-0 grow-0 basis-[88%] px-2 sm:basis-[70%] md:basis-[48%] lg:basis-[38%] xl:basis-[32%]"
+                  className="min-w-0 shrink-0 grow-0 basis-[78%] px-2.5 sm:basis-[52%] md:basis-[40%] lg:basis-[34%] xl:basis-[30%]"
                 >
                   <motion.div
                     animate={{
-                      scale: active ? 1 : 0.9,
-                      opacity: active ? 1 : 0.55,
-                      y: active ? 0 : 10,
+                      scale: active ? 1.06 : 0.88,
+                      opacity: active ? 1 : 0.48,
+                      y: active ? -6 : 14,
+                      zIndex: active ? 20 : 1,
                     }}
                     transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-                    className="will-change-transform"
+                    className={`relative will-change-transform ${active ? 'z-20' : 'z-[1]'}`}
                   >
                     <ReviewCard review={review} emphasized={active} />
                   </motion.div>

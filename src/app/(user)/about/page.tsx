@@ -55,7 +55,7 @@ export default async function AboutPage() {
         title="A premium automotive experience, online and offline."
         description={`${siteConfig.name} is a high-end showroom and import partner for buyers who expect clear information, trusted guidance, and a refined experience from first inquiry to final handover.`}
         objectPosition="32% 12%"
-        minHeight="min-h-[72svh] sm:min-h-[80svh] lg:min-h-[85svh]"
+        minHeight="sm:min-h-[80svh] lg:min-h-[85svh]"
       />
 
       <section className="mx-auto w-full max-w-[1600px] px-4 py-16 sm:px-6 lg:px-9">

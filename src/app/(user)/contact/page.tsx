@@ -72,7 +72,7 @@ export default async function ContactPage({
         title="Get in Touch"
         description="Whether you're sourcing a specific vehicle or exploring our showroom with family, our concierge team is ready to assist — clearly and personally."
         objectPosition="center 18%"
-        minHeight="min-h-[72svh] sm:min-h-[80svh] lg:min-h-[85svh]"
+        minHeight="sm:min-h-[80svh] lg:min-h-[85svh]"
       >
         <div className="mt-20 max-w-md sm:mt-24 lg:mt-28">
           <div className="flex items-center gap-2.5">

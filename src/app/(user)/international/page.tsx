@@ -51,7 +51,7 @@ export default function InternationalPage() {
         title="Bespoke Automotive Sourcing"
         description="A direct pipeline from the world's most trusted auction houses in Japan, the United Kingdom, and Australia — curated, inspected, and delivered to your doorstep with white-glove precision."
         objectPosition="center 8%"
-        minHeight="min-h-[72svh] sm:min-h-[80svh] lg:min-h-[85svh]"
+        minHeight="sm:min-h-[80svh] lg:min-h-[85svh]"
       />
 
       <section className="mx-auto w-full max-w-[1600px] px-4 py-20 sm:px-6 lg:px-9">

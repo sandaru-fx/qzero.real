@@ -8,6 +8,16 @@
   --color-brand-gold: #D4AF37;
   --color-brand-gold-light: #F3E5AB;
   --color-brand-gold-dark: #AA7C11;
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 :root {
@@ -397,12 +407,17 @@ select:-webkit-autofill {
   }
 }
 
+/* Fallback if theme token isn't picked up */
+.animate-marquee,
 .review-marquee {
-  animation: review-marquee 42s linear infinite;
+  animation: marquee 40s linear infinite;
 }
 
-.group:hover .review-marquee {
-  animation-play-state: paused;
+@supports not (animation-name: marquee) {
+  .animate-marquee,
+  .review-marquee {
+    animation-name: review-marquee;
+  }
 }
 
 /* Accessibility - respect reduced motion */
@@ -418,9 +433,14 @@ select:-webkit-autofill {
   .hero-content-animate,
   .micro-bump,
   .promo-hero-zoom,
-  .shimmer,
-  .review-marquee {
+  .shimmer {
     animation: none !important;
+  }
+
+  /* Keep a very slow drift so testimonials never look like a frozen strip */
+  .animate-marquee,
+  .review-marquee {
+    animation: marquee 120s linear infinite !important;
   }
 
   .scroll-reveal {

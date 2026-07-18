@@ -13,7 +13,7 @@ function Stars({ rating }: { rating: number }) {
       {Array.from({ length: 5 }).map((_, i) => (
         <Star
           key={i}
-          className={`h-3.5 w-3.5 sm:h-4 sm:w-4 ${
+          className={`h-4 w-4 ${
             i < rating ? 'fill-[#D4AF37] text-[#D4AF37]' : 'text-white/20'
           }`}
         />
@@ -27,10 +27,10 @@ export default function ReviewCard({ review, className = '' }: ReviewCardProps) 
 
   return (
     <article
-      className={`rounded-2xl border border-[#D4AF37]/35 bg-white/[0.04] p-5 shadow-[0_12px_40px_rgba(0,0,0,0.35)] backdrop-blur-md sm:p-6 ${className}`}
+      className={`rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur-md transition-all duration-300 hover:-translate-y-2 hover:border-[#D4AF37] hover:shadow-[0_0_20px_rgba(212,175,55,0.15)] ${className}`}
     >
       <div className="flex items-center gap-3">
-        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-[#D4AF37]/45 bg-black">
+        <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-[#D4AF37]/50 bg-black/40 shadow-[0_0_16px_rgba(212,175,55,0.12)]">
           {review.imageUrl ? (
             <Image
               src={review.imageUrl}
@@ -46,8 +46,8 @@ export default function ReviewCard({ review, className = '' }: ReviewCardProps) 
           )}
         </div>
         <div className="min-w-0">
-          <p className="truncate font-semibold text-white">{review.clientName}</p>
-          <p className="truncate text-xs text-[#D4AF37]/85 sm:text-sm">{review.vehicleName}</p>
+          <p className="truncate text-base font-semibold text-white">{review.clientName}</p>
+          <p className="truncate text-sm text-[#D4AF37]/90">{review.vehicleName}</p>
         </div>
       </div>
 
@@ -55,7 +55,7 @@ export default function ReviewCard({ review, className = '' }: ReviewCardProps) 
         <Stars rating={review.rating} />
       </div>
 
-      <p className="mt-3 text-sm leading-relaxed text-white/80 sm:text-[0.95rem]">
+      <p className="mt-4 text-[0.95rem] font-medium leading-relaxed text-white/75">
         “{review.reviewText}”
       </p>
     </article>

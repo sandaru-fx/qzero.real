@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { Car, Plus, Sparkles, TrendingUp, MessageSquare, ArrowUpRight } from 'lucide-react';
+import { Car, Plus, Sparkles, MessageSquare, ArrowUpRight, MessageCircle } from 'lucide-react';
 import { getVehicles } from '@/actions/search';
 import { getInquiries } from '@/actions/inquiry';
+import { getWhatsAppClickStats } from '@/actions/whatsapp-clicks';
 import { protectAdminRoute } from '@/lib/auth';
 import InventoryTable from '@/components/admin/InventoryTable';
 import DashboardCharts from '@/components/admin/DashboardCharts';
@@ -21,9 +22,10 @@ function getWeekAgo() {
 export default async function AdminDashboardPage() {
   await protectAdminRoute();
 
-  const [vehicles, inquiries] = await Promise.all([
+  const [vehicles, inquiries, waStats] = await Promise.all([
     getVehicles({ limit: 48 }),
     getInquiries(),
+    getWhatsAppClickStats(),
   ]);
 
   const featuredCount = vehicles.filter((v) => v.isFeatured).length;
@@ -53,13 +55,12 @@ export default async function AdminDashboardPage() {
       trendPositive: featuredCount > 0,
     },
     {
-      label: 'Available Stock',
-      value: vehicles.length,
-      trend: 'Live on showroom',
-      icon: TrendingUp,
-      href: '/vehicles',
-      trendPositive: true,
-      external: true,
+      label: 'WhatsApp Clicks Today',
+      value: waStats.todayTotal,
+      trend: `${waStats.weekTotal} this week`,
+      icon: MessageCircle,
+      href: '/admin',
+      trendPositive: waStats.todayTotal > 0,
     },
     {
       label: 'New Inquiries',
@@ -113,20 +114,6 @@ export default async function AdminDashboardPage() {
             </>
           );
 
-          if (stat.external) {
-            return (
-              <a
-                key={stat.label}
-                href={stat.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="admin-stat-card group block"
-              >
-                {CardInner}
-              </a>
-            );
-          }
-
           return (
             <Link key={stat.label} href={stat.href} className="admin-stat-card group block">
               {CardInner}
@@ -134,6 +121,47 @@ export default async function AdminDashboardPage() {
           );
         })}
       </div>
+
+      <AdminPanel>
+        <div className="mb-6">
+          <h2 className="text-xl font-bold tracking-tight text-white sm:text-2xl">
+            WhatsApp interest
+          </h2>
+          <p className="mt-1 text-base font-medium text-brand-muted">
+            Button clicks on the site — not confirmed sent messages. Floating icon and vehicle
+            Inquire are tracked separately.
+          </p>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="rounded-xl border border-white/10 bg-black/30 p-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-brand-muted">
+              Today · Floating icon
+            </p>
+            <p className="mt-2 text-3xl font-extrabold text-white">{waStats.todayFloating}</p>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-black/30 p-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-brand-muted">
+              Today · Vehicle inquire
+            </p>
+            <p className="mt-2 text-3xl font-extrabold text-white">{waStats.todayVehicleInquire}</p>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-black/30 p-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-brand-muted">
+              This week · Total
+            </p>
+            <p className="mt-2 text-3xl font-extrabold text-brand-gold">{waStats.weekTotal}</p>
+            <p className="mt-1 text-sm text-white/50">
+              Icon {waStats.weekFloating} · Vehicle {waStats.weekVehicleInquire}
+            </p>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-black/30 p-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-brand-muted">
+              All time
+            </p>
+            <p className="mt-2 text-3xl font-extrabold text-white">{waStats.allTimeTotal}</p>
+          </div>
+        </div>
+      </AdminPanel>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_1.6fr]">
         <AdminPanel>

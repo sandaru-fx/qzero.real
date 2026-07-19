@@ -16,6 +16,7 @@ import ImageGallery from '@/components/ImageGallery';
 import VehicleCard from '@/components/VehicleCard';
 import ShareVehicleButton from '@/components/ShareVehicleButton';
 import StickyVehicleCta from '@/components/StickyVehicleCta';
+import TrackedWhatsAppLink from '@/components/TrackedWhatsAppLink';
 import { getVehicleBySlug, getRelatedVehicles } from '@/actions/search';
 import { formatPrice } from '@/utils/formatPrice';
 import { buildWhatsAppUrl } from '@/config/site';
@@ -193,15 +194,15 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
             <p className="type-muted mt-1">Get in touch with us for more details, pricing, and availability.</p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3 sm:justify-end">
-            <a
+            <TrackedWhatsAppLink
               href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+              source="vehicle_inquire"
+              vehicleSlug={vehicle.slug}
               className="group inline-flex h-14 items-center gap-3 rounded-full gold-gradient px-8 text-lg font-bold text-black shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-brand-gold/40 sm:h-16 sm:px-10 sm:text-xl"
             >
               <MessageCircle className="h-6 w-6 transition-transform group-hover:scale-110 sm:h-7 sm:w-7" />
               Inquire via WhatsApp
-            </a>
+            </TrackedWhatsAppLink>
             <ShareVehicleButton title={title} slug={vehicle.slug} whatsappUrl={shareWhatsAppUrl} />
           </div>
         </section>
@@ -222,6 +223,7 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
 
       <StickyVehicleCta
         title={title}
+        vehicleSlug={vehicle.slug}
         whatsappUrl={whatsappUrl}
         contactHref={`/contact?vehicle=${encodeURIComponent(`${vehicle.year} ${vehicle.brand} ${vehicle.model}`)}&inquiry=Vehicle%20Purchase`}
       />

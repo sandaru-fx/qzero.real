@@ -5,8 +5,6 @@ import WhatsAppClick from '@/models/WhatsAppClick';
 import { protectServerAction } from '@/lib/auth';
 import type { WhatsAppClickSource, WhatsAppClickStats } from '@/types/whatsapp-click';
 
-export type { WhatsAppClickStats };
-
 function startOfDay(d = new Date()) {
   const x = new Date(d);
   x.setHours(0, 0, 0, 0);

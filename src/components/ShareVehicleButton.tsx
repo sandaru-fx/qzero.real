@@ -10,7 +10,7 @@ type ShareVehicleButtonProps = {
 };
 
 const secondaryBtn =
-  'inline-flex h-12 items-center justify-center gap-2 rounded-full border border-white/20 px-6 text-base font-semibold text-white transition-colors hover:border-brand-gold/50 hover:text-brand-gold';
+  'inline-flex h-14 items-center justify-center gap-2.5 rounded-full border border-white/20 px-7 text-lg font-semibold text-white transition-colors hover:border-brand-gold/50 hover:text-brand-gold sm:h-16 sm:px-9 sm:text-xl';
 
 export default function ShareVehicleButton({ title, slug, whatsappUrl }: ShareVehicleButtonProps) {
   const [copied, setCopied] = useState(false);
@@ -33,7 +33,7 @@ export default function ShareVehicleButton({ title, slug, whatsappUrl }: ShareVe
   return (
     <>
       <button type="button" onClick={handleCopyLink} className={secondaryBtn}>
-        {copied ? <Check className="h-4 w-4 text-brand-gold" /> : <Link2 className="h-4 w-4" />}
+        {copied ? <Check className="h-5 w-5 text-brand-gold sm:h-6 sm:w-6" /> : <Link2 className="h-5 w-5 sm:h-6 sm:w-6" />}
         {copied ? 'Copied' : 'Copy Link'}
       </button>
       <a
@@ -43,7 +43,7 @@ export default function ShareVehicleButton({ title, slug, whatsappUrl }: ShareVe
         className={secondaryBtn}
         aria-label={`Share ${title} on WhatsApp`}
       >
-        <MessageCircle className="h-4 w-4" />
+        <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6" />
         Share
       </a>
     </>

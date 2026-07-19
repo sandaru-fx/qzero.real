@@ -197,17 +197,11 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex h-12 items-center gap-2.5 rounded-full gold-gradient px-7 text-base font-bold text-black shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-brand-gold/40"
+              className="group inline-flex h-14 items-center gap-3 rounded-full gold-gradient px-8 text-lg font-bold text-black shadow-lg shadow-brand-gold/20 transition-all duration-300 hover:scale-[1.02] hover:shadow-brand-gold/40 sm:h-16 sm:px-10 sm:text-xl"
             >
-              <MessageCircle className="h-5 w-5 transition-transform group-hover:scale-110" />
+              <MessageCircle className="h-6 w-6 transition-transform group-hover:scale-110 sm:h-7 sm:w-7" />
               Inquire via WhatsApp
             </a>
-            <Link
-              href={`/contact?vehicle=${encodeURIComponent(`${vehicle.year} ${vehicle.brand} ${vehicle.model}`)}&inquiry=Vehicle%20Purchase`}
-              className="inline-flex h-12 items-center rounded-full border border-white/20 px-6 text-base font-semibold text-white transition-colors hover:border-brand-gold/50 hover:text-brand-gold"
-            >
-              Contact form
-            </Link>
             <ShareVehicleButton title={title} slug={vehicle.slug} whatsappUrl={shareWhatsAppUrl} />
           </div>
         </section>

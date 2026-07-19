@@ -295,6 +295,8 @@ function VehicleSearchContent({
         </div>
       )}
 
+      {/* Set true to bring back Cars / SUV / Double Cab category icons */}
+      {false && (
       <div className="mb-8 flex flex-wrap items-end justify-center gap-x-8 gap-y-6 sm:gap-x-12 lg:gap-x-16">
         {categories.map((category) => {
           const active = activeCategory === category.id;
@@ -323,6 +325,7 @@ function VehicleSearchContent({
           );
         })}
       </div>
+      )}
 
       <div className="relative z-[1] overflow-visible rounded-2xl border border-white/10 bg-black/40 p-4 shadow-2xl shadow-black/40 backdrop-blur-md sm:p-6">
         {showTextSearch && (

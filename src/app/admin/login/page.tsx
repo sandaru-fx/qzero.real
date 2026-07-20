@@ -70,7 +70,8 @@ export default function AdminLoginPage() {
               autoComplete="username"
               className="h-14 rounded-xl border border-white/10 bg-black/80 px-4 text-base font-medium text-white outline-none transition-all placeholder:text-brand-muted/50 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
               type="email"
-              placeholder="admin@qzero.lk"
+              placeholder="Enter your email"
+              autoComplete="email"
             />
           </label>
 

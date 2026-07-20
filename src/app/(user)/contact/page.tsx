@@ -79,7 +79,7 @@ export default async function ContactPage({
         objectPosition="center 18%"
         minHeight="sm:min-h-[80svh] lg:min-h-[85svh]"
         aside={
-          <div className="ml-auto space-y-7 text-center sm:max-w-md sm:text-right lg:max-w-lg">
+          <div className="w-full space-y-7 text-center sm:text-right">
             <a
               href={buildWhatsAppUrl(
                 ownerWhatsAppDigits,

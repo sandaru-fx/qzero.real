@@ -77,7 +77,9 @@ export default function LifestyleHero({
           </div>
 
           {aside ? (
-            <div className="w-full shrink-0 sm:w-auto sm:max-w-md sm:pb-1">{aside}</div>
+            <div className="ml-auto w-full shrink-0 sm:w-auto sm:max-w-lg sm:self-end sm:pb-2 lg:mr-2 xl:mr-6">
+              {aside}
+            </div>
           ) : null}
         </div>
       </div>

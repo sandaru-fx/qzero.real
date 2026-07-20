@@ -79,7 +79,7 @@ export default async function ContactPage({
         objectPosition="center 18%"
         minHeight="sm:min-h-[80svh] lg:min-h-[85svh]"
         aside={
-          <div className="space-y-7 text-center sm:text-right">
+          <div className="ml-auto space-y-7 text-center sm:max-w-md sm:text-right lg:max-w-lg">
             <a
               href={buildWhatsAppUrl(
                 ownerWhatsAppDigits,
@@ -87,12 +87,12 @@ export default async function ContactPage({
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block rounded-2xl border border-white/15 bg-black/45 px-5 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-6 sm:py-6"
+              className="group block rounded-2xl border border-white/15 bg-black/45 px-5 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-7 sm:py-6"
             >
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-gold sm:text-base">
                 Owner · WhatsApp
               </p>
-              <p className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-white transition-colors group-hover:text-brand-gold sm:text-4xl lg:text-5xl">
+              <p className="mt-3 font-[family-name:var(--font-luxury)] text-3xl font-semibold tracking-[0.02em] text-white transition-colors group-hover:text-brand-gold sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
                 {ownerWhatsAppDisplay}
               </p>
             </a>
@@ -103,12 +103,12 @@ export default async function ContactPage({
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block rounded-2xl border border-white/15 bg-black/45 px-5 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-6 sm:py-6"
+              className="group block rounded-2xl border border-white/15 bg-black/45 px-5 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-7 sm:py-6"
             >
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-gold sm:text-base">
                 Manager · WhatsApp
               </p>
-              <p className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-white transition-colors group-hover:text-brand-gold sm:text-4xl lg:text-5xl">
+              <p className="mt-3 font-[family-name:var(--font-luxury)] text-3xl font-semibold tracking-[0.02em] text-white transition-colors group-hover:text-brand-gold sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
                 {managerWhatsAppDisplay}
               </p>
             </a>

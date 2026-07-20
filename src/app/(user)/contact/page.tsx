@@ -79,7 +79,7 @@ export default async function ContactPage({
         objectPosition="center 18%"
         minHeight="sm:min-h-[80svh] lg:min-h-[85svh]"
         aside={
-          <div className="w-full space-y-7 text-center sm:text-right">
+          <div className="w-full space-y-7 text-left">
             <a
               href={buildWhatsAppUrl(
                 ownerWhatsAppDigits,
@@ -87,7 +87,7 @@ export default async function ContactPage({
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block rounded-2xl border border-white/15 bg-black/45 px-5 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-7 sm:py-6"
+              className="group block rounded-2xl border border-white/15 bg-black/45 px-4 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-5 sm:py-6"
             >
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-gold sm:text-base">
                 Owner · WhatsApp
@@ -103,7 +103,7 @@ export default async function ContactPage({
               )}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block rounded-2xl border border-white/15 bg-black/45 px-5 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-7 sm:py-6"
+              className="group block rounded-2xl border border-white/15 bg-black/45 px-4 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-5 sm:py-6"
             >
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-gold sm:text-base">
                 Manager · WhatsApp

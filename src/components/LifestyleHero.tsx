@@ -76,7 +76,7 @@ export default function LifestyleHero({
         </div>
 
         {aside ? (
-          <div className="mt-10 w-full sm:absolute sm:bottom-14 sm:right-6 sm:mt-0 sm:w-[min(100%,26rem)] lg:bottom-16 lg:right-9 xl:right-12">
+          <div className="mt-10 w-full sm:absolute sm:bottom-14 sm:right-6 sm:mt-0 sm:w-[min(100%,30rem)] lg:bottom-16 lg:right-9 xl:right-12">
             {aside}
           </div>
         ) : null}

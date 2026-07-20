@@ -92,7 +92,7 @@ export default async function ContactPage({
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-gold sm:text-base">
                 Owner · WhatsApp
               </p>
-              <p className="mt-3 font-[family-name:var(--font-luxury)] text-3xl font-semibold tracking-[0.02em] text-white transition-colors group-hover:text-brand-gold sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+              <p className="mt-3 whitespace-nowrap font-[family-name:var(--font-luxury)] text-[1.65rem] font-semibold tracking-[0.02em] text-white transition-colors group-hover:text-brand-gold sm:text-3xl lg:text-[2.35rem] lg:leading-tight">
                 {ownerWhatsAppDisplay}
               </p>
             </a>
@@ -108,7 +108,7 @@ export default async function ContactPage({
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-gold sm:text-base">
                 Manager · WhatsApp
               </p>
-              <p className="mt-3 font-[family-name:var(--font-luxury)] text-3xl font-semibold tracking-[0.02em] text-white transition-colors group-hover:text-brand-gold sm:text-4xl lg:text-[2.75rem] lg:leading-tight">
+              <p className="mt-3 whitespace-nowrap font-[family-name:var(--font-luxury)] text-[1.65rem] font-semibold tracking-[0.02em] text-white transition-colors group-hover:text-brand-gold sm:text-3xl lg:text-[2.35rem] lg:leading-tight">
                 {managerWhatsAppDisplay}
               </p>
             </a>

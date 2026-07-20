@@ -67,11 +67,10 @@ export default function AdminLoginPage() {
             <input
               name="email"
               required
-              autoComplete="username"
+              autoComplete="email"
               className="h-14 rounded-xl border border-white/10 bg-black/80 px-4 text-base font-medium text-white outline-none transition-all placeholder:text-brand-muted/50 focus:border-brand-gold focus:ring-2 focus:ring-brand-gold/20"
               type="email"
               placeholder="Enter your email"
-              autoComplete="email"
             />
           </label>
 

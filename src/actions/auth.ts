@@ -10,6 +10,7 @@ import {
   ADMIN_SESSION_MAX_AGE_SEC,
   createAdminSessionToken,
 } from '@/lib/session';
+import { rateLimitAdminLogin } from '@/lib/rate-limit';
 
 const WEAK_DEFAULTS = new Set(['qzero123', 'admin', 'password', '123456', 'admin123']);
 
@@ -45,6 +46,11 @@ async function ensureBootstrapAdmin() {
 }
 
 export async function loginAdmin(formData: FormData) {
+  const limited = await rateLimitAdminLogin();
+  if (!limited.ok) {
+    return { success: false, error: limited.error };
+  }
+
   const email = String(formData.get('email') || '')
     .trim()
     .toLowerCase();

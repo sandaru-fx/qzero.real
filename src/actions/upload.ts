@@ -3,6 +3,7 @@
 import cloudinary from '@/lib/cloudinary';
 import { UploadApiResponse } from 'cloudinary';
 import { protectServerAction } from '@/lib/auth';
+import { rateLimitPublicForm } from '@/lib/rate-limit';
 
 const MAX_REVIEW_IMAGE_BYTES = 5 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif']);
@@ -47,6 +48,11 @@ export async function uploadVehicleImage(formData: FormData) {
 /** Public: optional photo for client review submissions (card background). */
 export async function uploadReviewImage(formData: FormData) {
   try {
+    const limited = await rateLimitPublicForm('review-upload');
+    if (!limited.ok) {
+      return { success: false as const, error: limited.error };
+    }
+
     const file = formData.get('file') as File | null;
     if (!file) {
       return { success: false as const, error: 'No file provided.' };

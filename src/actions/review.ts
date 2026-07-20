@@ -6,6 +6,7 @@ import connectToDatabase from '@/lib/mongodb';
 import Review from '@/models/Review';
 import { protectServerAction } from '@/lib/auth';
 import type { ClientReviewInput, ReviewFormInput, ReviewView } from '@/types/review';
+import { rateLimitPublicForm } from '@/lib/rate-limit';
 
 type LeanReview = {
   _id: Types.ObjectId | string;
@@ -124,6 +125,11 @@ export async function addReview(input: ReviewFormInput) {
 /** Public client submission — pending until admin approves */
 export async function submitClientReview(input: ClientReviewInput) {
   try {
+    const limited = await rateLimitPublicForm('review');
+    if (!limited.ok) {
+      return { success: false as const, error: limited.error };
+    }
+
     await connectToDatabase();
     const clientName = input.clientName?.trim() || '';
     const vehicleName = input.vehicleName?.trim() || '';

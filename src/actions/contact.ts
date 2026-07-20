@@ -4,6 +4,7 @@ import { Resend } from 'resend';
 import { getSiteConfig } from '@/actions/settings';
 import connectToDatabase from '@/lib/mongodb';
 import Inquiry from '@/models/Inquiry';
+import { rateLimitPublicForm } from '@/lib/rate-limit';
 
 export type ContactFormState = {
   success: boolean;
@@ -20,6 +21,11 @@ export async function submitContactForm(
   _prevState: ContactFormState,
   formData: FormData
 ): Promise<ContactFormState> {
+  const limited = await rateLimitPublicForm('contact');
+  if (!limited.ok) {
+    return { success: false, error: limited.error };
+  }
+
   const siteConfig = await getSiteConfig();
   const name = (formData.get('name') as string)?.trim();
   const email = (formData.get('email') as string)?.trim();

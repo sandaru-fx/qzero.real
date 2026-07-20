@@ -85,8 +85,8 @@ export default function SettingsManager({
       setPasswordMessage({ type: 'error', text: 'New passwords do not match.' });
       return;
     }
-    if (passwords.new.length < 6) {
-      setPasswordMessage({ type: 'error', text: 'Password must be at least 6 characters.' });
+    if (passwords.new.length < 10) {
+      setPasswordMessage({ type: 'error', text: 'Password must be at least 10 characters.' });
       return;
     }
 

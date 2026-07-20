@@ -1,26 +1,25 @@
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
+import {
+  ADMIN_SESSION_COOKIE,
+  verifyAdminSessionToken,
+} from '@/lib/session';
 
 /**
- * Validates the admin session. 
- * Note: In a production app, replace this with NextAuth `getServerSession` or Supabase `createClient().auth.getSession()`.
+ * Validates the signed admin session cookie (HMAC).
+ * Rejects legacy forgeable value `"authenticated"`.
  */
 export async function requireAdminAuth() {
   const cookieStore = await cookies();
-  
-  // Checking for a generic session cookie. If not present, throw or redirect.
-  // We use a mock check here to ensure the logic works before a DB auth provider is linked.
-  const sessionCookie = cookieStore.get('qzero_admin_session');
+  const sessionCookie = cookieStore.get(ADMIN_SESSION_COOKIE);
 
-  // If we require strict security but have no auth DB yet, we enforce the check.
-  // For development/mock purposes, if you want to bypass, uncomment the true return.
-  // return true; 
+  if (!sessionCookie?.value) return false;
 
-  if (!sessionCookie || sessionCookie.value !== 'authenticated') {
-    return false;
-  }
-  
-  return true;
+  // Old forgeable cookie — treat as logged out
+  if (sessionCookie.value === 'authenticated') return false;
+
+  const session = verifyAdminSessionToken(sessionCookie.value);
+  return Boolean(session);
 }
 
 export async function protectAdminRoute() {

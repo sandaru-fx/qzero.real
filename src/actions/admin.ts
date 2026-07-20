@@ -3,7 +3,7 @@
 import connectToDatabase from '@/lib/mongodb';
 import Admin from '@/models/Admin';
 import { protectServerAction } from '@/lib/auth';
-import { hashPassword } from '@/lib/password';
+import { hashPassword, verifyPassword } from '@/lib/password';
 
 export async function getAdminEmail() {
   try {
@@ -22,16 +22,20 @@ export async function changePassword(currentPassword: string, newPassword: strin
     await protectServerAction();
     await connectToDatabase();
 
+    if (!newPassword || newPassword.length < 10) {
+      return { success: false, error: 'New password must be at least 10 characters.' };
+    }
+
     const admin = await Admin.findOne();
     if (!admin) {
       return { success: false, error: 'Admin account not found.' };
     }
 
-    if (admin.passwordHash !== hashPassword(currentPassword)) {
+    if (!(await verifyPassword(currentPassword, admin.passwordHash))) {
       return { success: false, error: 'Current password is incorrect.' };
     }
 
-    admin.passwordHash = hashPassword(newPassword);
+    admin.passwordHash = await hashPassword(newPassword);
     await admin.save();
 
     return { success: true };
@@ -56,7 +60,7 @@ export async function changeAdminEmail(currentPassword: string, newEmail: string
       return { success: false, error: 'Admin account not found.' };
     }
 
-    if (admin.passwordHash !== hashPassword(currentPassword)) {
+    if (!(await verifyPassword(currentPassword, admin.passwordHash))) {
       return { success: false, error: 'Current password is incorrect.' };
     }
 

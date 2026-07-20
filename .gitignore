@@ -32,6 +32,13 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# secrets / credential dumps — never commit
+Acc_Details.txt
+**/Acc_Details.txt
+*credentials*
+*secrets*.txt
 
 # vercel
 .vercel

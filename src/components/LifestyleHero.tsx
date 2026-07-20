@@ -11,6 +11,8 @@ type LifestyleHeroProps = {
   /** Desktop min-height only — mobile uses a landscape photo band so the full scene shows */
   minHeight?: string;
   children?: ReactNode;
+  /** Optional right-side block (desktop) / below copy (mobile) */
+  aside?: ReactNode;
 };
 
 export default function LifestyleHero({
@@ -22,6 +24,7 @@ export default function LifestyleHero({
   objectPosition = 'center 35%',
   minHeight = 'sm:min-h-[58svh]',
   children,
+  aside,
 }: LifestyleHeroProps) {
   return (
     <section
@@ -51,24 +54,30 @@ export default function LifestyleHero({
 
       {/*
         Mobile: solid dark panel under the photo.
-        Desktop: copy overlaid on the image (left-aligned).
+        Desktop: copy overlaid on the image (left-aligned + optional aside).
       */}
       <div className="relative z-10 border-t border-white/10 bg-[#070707] px-4 pb-10 pt-8 sm:absolute sm:inset-0 sm:flex sm:flex-col sm:justify-end sm:border-0 sm:bg-transparent sm:px-6 sm:pb-14 sm:pt-28 lg:px-9 lg:pb-16">
-        <div className="mx-auto w-full max-w-[1600px] text-center sm:mx-auto sm:text-left">
-          {breadcrumbs && (
-            <p className="type-meta mb-4 text-white/50">{breadcrumbs}</p>
-          )}
-          <p className="text-sm font-bold uppercase tracking-[0.3em] text-brand-gold">{eyebrow}</p>
-          <h1 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-white sm:mx-0 sm:text-5xl lg:text-6xl mx-auto">
-            {title}
-          </h1>
-          {description && (
-            <p className="type-body mx-auto mt-4 max-w-2xl text-gray-300 sm:mx-0 sm:mt-5 sm:text-gray-200">
-              {description}
-            </p>
-          )}
-          {children ? (
-            <div className="mx-auto mt-6 max-w-2xl sm:mx-0">{children}</div>
+        <div className="mx-auto flex w-full max-w-[1600px] flex-col gap-10 sm:flex-row sm:items-end sm:justify-between sm:gap-12">
+          <div className="min-w-0 flex-1 text-center sm:text-left">
+            {breadcrumbs && (
+              <p className="type-meta mb-4 text-white/50">{breadcrumbs}</p>
+            )}
+            <p className="text-sm font-bold uppercase tracking-[0.3em] text-brand-gold">{eyebrow}</p>
+            <h1 className="mx-auto mt-4 max-w-3xl text-3xl font-bold tracking-tight text-white sm:mx-0 sm:text-5xl lg:text-6xl">
+              {title}
+            </h1>
+            {description && (
+              <p className="type-body mx-auto mt-4 max-w-2xl text-gray-300 sm:mx-0 sm:mt-5 sm:text-gray-200">
+                {description}
+              </p>
+            )}
+            {children ? (
+              <div className="mx-auto mt-6 max-w-2xl sm:mx-0">{children}</div>
+            ) : null}
+          </div>
+
+          {aside ? (
+            <div className="w-full shrink-0 sm:w-auto sm:max-w-md sm:pb-1">{aside}</div>
           ) : null}
         </div>
       </div>

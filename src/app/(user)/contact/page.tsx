@@ -63,6 +63,11 @@ export default async function ContactPage({
     },
   ];
 
+  const ownerWhatsAppDisplay = '+81 80-9566-1550';
+  const ownerWhatsAppDigits = '818095661550';
+  const managerWhatsAppDisplay = siteConfig.contact.phone;
+  const managerWhatsAppDigits = siteConfig.contact.whatsapp;
+
   return (
     <div className="min-h-screen bg-brand-black">
       <LifestyleHero
@@ -73,9 +78,45 @@ export default async function ContactPage({
         description="Whether you're sourcing a specific vehicle or exploring our showroom with family, our concierge team is ready to assist — clearly and personally."
         objectPosition="center 18%"
         minHeight="sm:min-h-[80svh] lg:min-h-[85svh]"
+        aside={
+          <div className="space-y-7 text-center sm:text-right">
+            <a
+              href={buildWhatsAppUrl(
+                ownerWhatsAppDigits,
+                'Hello QZERO International (Owner), I would like to inquire about your vehicles.'
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block rounded-2xl border border-white/15 bg-black/45 px-5 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-6 sm:py-6"
+            >
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-gold sm:text-base">
+                Owner · WhatsApp
+              </p>
+              <p className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-white transition-colors group-hover:text-brand-gold sm:text-4xl lg:text-5xl">
+                {ownerWhatsAppDisplay}
+              </p>
+            </a>
+            <a
+              href={buildWhatsAppUrl(
+                managerWhatsAppDigits,
+                'Hello QZERO International (Manager), I would like to inquire about your vehicles.'
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group block rounded-2xl border border-white/15 bg-black/45 px-5 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-6 sm:py-6"
+            >
+              <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-gold sm:text-base">
+                Manager · WhatsApp
+              </p>
+              <p className="mt-3 font-[family-name:var(--font-display)] text-3xl font-bold tracking-tight text-white transition-colors group-hover:text-brand-gold sm:text-4xl lg:text-5xl">
+                {managerWhatsAppDisplay}
+              </p>
+            </a>
+          </div>
+        }
       >
-        <div className="mt-20 max-w-md sm:mt-24 lg:mt-28">
-          <div className="flex items-center gap-2.5">
+        <div className="mt-8 max-w-md sm:mt-10 lg:mt-12">
+          <div className="flex items-center justify-center gap-2.5 sm:justify-start">
             <Clock className="h-4 w-4 text-brand-gold" />
             <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-gold">
               Operating Hours

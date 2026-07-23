@@ -1,36 +1,126 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Qzero International — Digital Showroom
 
-## Getting Started
+Official website for **Qzero International Pvt Ltd** — premium vehicle showroom, import guidance, and client concierge.
 
-First, run the development server:
+- **Live site:** [https://qzero.lk](https://qzero.lk)
+- **Stack:** Next.js (App Router), MongoDB, Cloudinary, Vercel
+
+---
+
+## Features
+
+### Public site
+- Home, showroom / vehicle listings, promotions, reviews, about, contact
+- Vehicle detail pages with WhatsApp inquiry
+- Client review submission (admin approval before publish)
+- SEO: metadata, Open Graph, `sitemap.xml`, `robots.txt`
+
+### Admin (`/admin`)
+- Inventory CRUD, promotions, reviews moderation
+- Inquiries, site settings
+- Signed session auth + bcrypt passwords
+- WhatsApp click interest stats on the dashboard
+
+---
+
+## Getting started
+
+### 1. Install
+
+```bash
+npm install
+```
+
+### 2. Environment
+
+Copy `.env.example` → `.env.local` and fill in values:
+
+| Variable | Purpose |
+|----------|---------|
+| `MONGODB_URI` | MongoDB connection string |
+| `SESSION_SECRET` | Admin session signing (min 32 chars, **required in production**) |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | First admin bootstrap (only if DB has no admin) |
+| `CLOUDINARY_*` | Image uploads |
+| `KV_REST_API_URL` / `KV_REST_API_TOKEN` | Rate limiting (Upstash / Vercel KV) |
+| `RESEND_API_KEY` | Optional contact email delivery |
+
+Generate a session secret:
+
+```bash
+node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))"
+```
+
+### 3. Run locally
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).  
+Admin: [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## Useful scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run seed                 # seed sample vehicles
+npm run seed:more            # more sample vehicles
+npm run seed:reviews         # sample reviews
+npm run seed:reviews:featured
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## Project structure (high level)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+src/app/(user)/     # Public pages
+src/app/admin/      # Admin dashboard
+src/actions/        # Server actions
+src/components/     # UI + admin components
+src/models/         # Mongoose models
+src/config/         # Site config / layout
+public/             # Static assets, favicon, lifestyle images
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Deploy (Vercel)
+
+1. Connect the GitHub repo (`qzero.real`) to Vercel  
+2. Add the same env vars under **Settings → Environment Variables**  
+3. Attach custom domain **qzero.lk** / **www.qzero.lk**  
+4. After deploy, verify:
+   - https://qzero.lk/robots.txt  
+   - https://qzero.lk/sitemap.xml  
+
+---
+
+## SEO / Search Console
+
+1. Confirm meta tags on the live homepage  
+2. Submit `https://www.qzero.lk` (or apex) in [Google Search Console](https://search.google.com/search-console)  
+3. Submit sitemap: `sitemap.xml`  
+4. Indexing can take a few days  
+
+---
+
+## Security notes
+
+- Never commit `.env.local` or credential dumps  
+- Production requires a strong `SESSION_SECRET`  
+- Public forms and admin login are IP rate-limited when KV is configured  
+
+---
+
+## License
+
+Private project for Qzero International Pvt Ltd. All rights reserved.

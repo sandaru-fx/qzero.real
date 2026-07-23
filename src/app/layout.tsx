@@ -87,6 +87,14 @@ export const metadata: Metadata = {
     images: ['/lifestyle/import-hero.jpg'],
   },
   category: 'automotive',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/qzero-logo.png', sizes: '192x192', type: 'image/png' },
+    ],
+    shortcut: '/favicon.svg',
+    apple: [{ url: '/qzero-logo.png', sizes: '180x180', type: 'image/png' }],
+  },
 };
 
 export default function RootLayout({

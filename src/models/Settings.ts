@@ -48,10 +48,10 @@ const SettingsSchema = new Schema<ISettings>(
         type: String,
         default: 'Premium Automotive Showroom & Import Partner',
       },
-      url: { type: String, default: 'https://qzerointernational.com' },
+      url: { type: String, default: 'https://qzero.lk' },
     },
     contact: {
-      email: { type: String, default: 'info@qzerointernational.com' },
+      email: { type: String, default: 'info@qzero.lk' },
       phone: { type: String, default: '+94 712 409 519' },
       phoneTel: { type: String, default: '+94712409519' },
       whatsapp: { type: String, default: '94712409519' },

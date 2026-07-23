@@ -1,10 +1,10 @@
 export const fallbackSiteConfig = {
   name: 'QZERO International',
   tagline: 'Premium Automotive Showroom & Import Partner',
-  url: 'https://qzerointernational.com',
+  url: 'https://qzero.lk',
 
   contact: {
-    email: 'info@qzerointernational.com',
+    email: 'info@qzero.lk',
     phone: '+94 712 409 519',
     phoneTel: '+94712409519',
     whatsapp: '94712409519',

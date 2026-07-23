@@ -29,7 +29,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://qzerointernational.com"),
+  metadataBase: new URL("https://qzero.lk"),
   title: {
     default: "QZERO International | Premium Vehicle Showroom",
     template: "%s | QZERO International",

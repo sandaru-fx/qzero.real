@@ -40,14 +40,25 @@ function withDefaults(raw: Partial<ISettings> | null): SettingsPayload {
     ? fallbackSiteConfig.social.facebook
     : (fb as string);
 
+  const legacySiteUrl = 'https://qzerointernational.com';
+  const legacyEmail = 'info@qzerointernational.com';
+  const rawUrl = raw?.site?.url?.trim();
+  const rawEmail = contact?.email?.trim();
+
   return {
     site: {
       name: raw?.site?.name || fallbackSiteConfig.name,
       tagline: raw?.site?.tagline || fallbackSiteConfig.tagline,
-      url: raw?.site?.url || fallbackSiteConfig.url,
+      url:
+        !rawUrl || rawUrl === legacySiteUrl || rawUrl.includes('qzerointernational.com')
+          ? fallbackSiteConfig.url
+          : rawUrl,
     },
     contact: {
-      email: contact?.email || fallbackSiteConfig.contact.email,
+      email:
+        !rawEmail || rawEmail === legacyEmail || rawEmail.endsWith('@qzerointernational.com')
+          ? fallbackSiteConfig.contact.email
+          : rawEmail,
       phone: contact?.phone || fallbackSiteConfig.contact.phone,
       phoneTel: contact?.phoneTel || fallbackSiteConfig.contact.phoneTel,
       whatsapp: contact?.whatsapp || fallbackSiteConfig.contact.whatsapp,

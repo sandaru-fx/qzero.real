@@ -29,13 +29,64 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://qzero.lk"),
+  metadataBase: new URL('https://qzero.lk'),
   title: {
-    default: "QZERO International | Premium Vehicle Showroom",
-    template: "%s | QZERO International",
+    default: 'Qzero International Pvt Ltd | Premium Vehicles Sri Lanka',
+    template: '%s | Qzero International Pvt Ltd',
   },
   description:
-    "Premium vehicle showroom and import partner for high-end automotive buyers.",
+    'Premium vehicle exporter and consumer products provider based in Sri Lanka.',
+  keywords: [
+    'Qzero International',
+    'Qzero International Pvt Ltd',
+    'Vehicle Exporter Sri Lanka',
+    'Qzero.lk',
+    'Premium vehicles',
+    'Sri Lanka vehicle export',
+  ],
+  authors: [{ name: 'Qzero International Pvt Ltd', url: 'https://qzero.lk' }],
+  creator: 'Qzero International Pvt Ltd',
+  publisher: 'Qzero International Pvt Ltd',
+  applicationName: 'Qzero International',
+  alternates: {
+    canonical: 'https://qzero.lk',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+      'max-video-preview': -1,
+    },
+  },
+  openGraph: {
+    type: 'website',
+    locale: 'en_LK',
+    url: 'https://qzero.lk',
+    siteName: 'Qzero International Pvt Ltd',
+    title: 'Qzero International Pvt Ltd | Premium Vehicles Sri Lanka',
+    description:
+      'Premium vehicle exporter and consumer products provider based in Sri Lanka.',
+    images: [
+      {
+        url: '/lifestyle/import-hero.jpg',
+        width: 1600,
+        height: 900,
+        alt: 'Qzero International Pvt Ltd — premium vehicles Sri Lanka',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Qzero International Pvt Ltd | Premium Vehicles Sri Lanka',
+    description:
+      'Premium vehicle exporter and consumer products provider based in Sri Lanka.',
+    images: ['/lifestyle/import-hero.jpg'],
+  },
+  category: 'automotive',
 };
 
 export default function RootLayout({

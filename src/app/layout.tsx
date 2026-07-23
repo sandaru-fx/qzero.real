@@ -89,11 +89,13 @@ export const metadata: Metadata = {
   category: 'automotive',
   icons: {
     icon: [
+      { url: '/qzero-favicon.png', type: 'image/png', sizes: '512x512' },
+      { url: '/favicon-48.png', type: 'image/png', sizes: '48x48' },
+      { url: '/favicon-32.png', type: 'image/png', sizes: '32x32' },
       { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/qzero-logo.png', sizes: '192x192', type: 'image/png' },
     ],
-    shortcut: '/favicon.svg',
-    apple: [{ url: '/qzero-logo.png', sizes: '180x180', type: 'image/png' }],
+    shortcut: '/qzero-favicon.png',
+    apple: [{ url: '/apple-icon.png', sizes: '180x180', type: 'image/png' }],
   },
 };
 

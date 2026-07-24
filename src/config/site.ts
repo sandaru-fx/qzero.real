@@ -7,8 +7,8 @@ export const fallbackSiteConfig = {
     email: 'info@qzero.lk',
     phone: '+94 712 409 519',
     phoneTel: '+94712409519',
-    whatsapp: '94712409519',
-    whatsappQrUrl: 'https://wa.me/94712409519',
+    whatsapp: '818095661550',
+    whatsappQrUrl: 'https://wa.me/818095661550',
     address: {
       line1: 'QZERO International Pvt Ltd',
       line2: 'Habarakada, Sri Lanka',

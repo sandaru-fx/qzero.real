@@ -54,7 +54,7 @@ const SettingsSchema = new Schema<ISettings>(
       email: { type: String, default: 'info@qzero.lk' },
       phone: { type: String, default: '+94 712 409 519' },
       phoneTel: { type: String, default: '+94712409519' },
-      whatsapp: { type: String, default: '94712409519' },
+      whatsapp: { type: String, default: '818095661550' },
       addressLine1: { type: String, default: 'QZERO International Pvt Ltd' },
       addressLine2: { type: String, default: 'Habarakada, Sri Lanka' },
       mapsUrl: {

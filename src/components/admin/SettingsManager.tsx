@@ -222,7 +222,7 @@ export default function SettingsManager({
                 />
               </div>
               <div>
-                <label className={labelClasses}>WhatsApp Number (e.g. 94712409519)</label>
+                <label className={labelClasses}>WhatsApp Number (e.g. 818095661550)</label>
                 <input
                   type="text"
                   value={settings.contact.whatsapp}

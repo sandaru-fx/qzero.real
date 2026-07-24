@@ -118,7 +118,9 @@ export async function getSiteConfig() {
     ? fallbackSiteConfig.contact.phoneTel
     : dbSettings.contact.phoneTel;
   const whatsapp =
-    !dbSettings.contact.whatsapp || dbSettings.contact.whatsapp === '94770000000'
+    !dbSettings.contact.whatsapp ||
+    dbSettings.contact.whatsapp === '94770000000' ||
+    dbSettings.contact.whatsapp === '94712409519'
       ? fallbackSiteConfig.contact.whatsapp
       : dbSettings.contact.whatsapp;
 

@@ -73,8 +73,9 @@ export default async function ContactPage({
 
   const ownerWhatsAppDisplay = '+81 80-9566-1550';
   const ownerWhatsAppDigits = '818095661550';
-  const managerWhatsAppDisplay = siteConfig.contact.phone;
-  const managerWhatsAppDigits = siteConfig.contact.whatsapp;
+  // Manager stays on the Sri Lanka line; floating/widget WhatsApp uses siteConfig (Owner JP).
+  const managerWhatsAppDisplay = '+94 712 409 519';
+  const managerWhatsAppDigits = '94712409519';
 
   return (
     <div className="min-h-screen bg-brand-black">

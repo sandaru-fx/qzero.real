@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import type { Metadata } from 'next';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import Hero from '@/components/Hero';
 import VehicleCard from '@/components/VehicleCard';
@@ -11,8 +12,22 @@ import { getSiteConfig } from '@/actions/settings';
 import { getFeaturedReviews } from '@/actions/review';
 import { SITE_SHELL } from '@/config/layout';
 import TestimonialMarquee from '@/components/ui/TestimonialMarquee';
+import { pageMetadata } from '@/lib/seo';
 
 export const revalidate = 60;
+
+export const metadata: Metadata = pageMetadata({
+  title: 'Premium Vehicles Sri Lanka',
+  description:
+    'Qzero International Pvt Ltd — premium vehicle showroom and import partner in Sri Lanka. Browse curated cars, clear import guidance, and concierge support.',
+  path: '/',
+  keywords: [
+    'Qzero International Pvt Ltd',
+    'Premium vehicles Sri Lanka',
+    'Vehicle exporter Sri Lanka',
+    'Imported cars Habarakada',
+  ],
+});
 
 const processSteps = [
   'Select or request',

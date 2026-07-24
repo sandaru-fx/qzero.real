@@ -4,13 +4,21 @@ import type { Metadata } from 'next';
 import LifestyleHero from '@/components/LifestyleHero';
 import { getSiteConfig } from '@/actions/settings';
 import { lifestyleImages } from '@/data/lifestyle';
+import { pageMetadata } from '@/lib/seo';
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteConfig = await getSiteConfig();
-  return {
-    title: 'About',
-    description: `Learn about ${siteConfig.name} — premium automotive showroom and import partner in Sri Lanka.`,
-  };
+  return pageMetadata({
+    title: 'About Us',
+    description: `Meet ${siteConfig.name} — Sri Lanka’s premium automotive showroom and import partner. Curated vehicles, clear import process, and trusted client care since 2018.`,
+    path: '/about',
+    keywords: [
+      'About Qzero International',
+      'Qzero International Pvt Ltd',
+      'Vehicle importer Sri Lanka',
+      'Premium car showroom Habarakada',
+    ],
+  });
 }
 
 const values = [

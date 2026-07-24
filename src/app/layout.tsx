@@ -72,9 +72,9 @@ export const metadata: Metadata = {
       'Premium vehicle exporter and consumer products provider based in Sri Lanka.',
     images: [
       {
-        url: '/lifestyle/import-hero.jpg',
-        width: 1600,
-        height: 900,
+        url: '/og-default.jpg',
+        width: 1200,
+        height: 630,
         alt: 'Qzero International Pvt Ltd — premium vehicles Sri Lanka',
       },
     ],
@@ -84,7 +84,7 @@ export const metadata: Metadata = {
     title: 'Qzero International Pvt Ltd | Premium Vehicles Sri Lanka',
     description:
       'Premium vehicle exporter and consumer products provider based in Sri Lanka.',
-    images: ['/lifestyle/import-hero.jpg'],
+    images: ['/og-default.jpg'],
   },
   category: 'automotive',
   icons: {

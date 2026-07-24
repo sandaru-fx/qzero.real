@@ -7,13 +7,21 @@ import LifestyleHero from '@/components/LifestyleHero';
 import { buildWhatsAppUrl } from '@/config/site';
 import { getSiteConfig } from '@/actions/settings';
 import { lifestyleImages } from '@/data/lifestyle';
+import { pageMetadata } from '@/lib/seo';
 
 export async function generateMetadata(): Promise<Metadata> {
   const siteConfig = await getSiteConfig();
-  return {
+  return pageMetadata({
     title: 'Contact',
-    description: `Get in touch with ${siteConfig.name} for vehicle inquiries and import services.`,
-  };
+    description: `Contact ${siteConfig.name} in Habarakada for vehicle inquiries, WhatsApp concierge, and import services. Call, email, or visit our showroom.`,
+    path: '/contact',
+    keywords: [
+      'Contact Qzero International',
+      'Qzero Habarakada',
+      'Vehicle inquiry Sri Lanka',
+      'WhatsApp car dealer Sri Lanka',
+    ],
+  });
 }
 
 export default async function ContactPage({

@@ -5,15 +5,24 @@ import VehicleCard from '@/components/VehicleCard';
 import VehicleSearchSection from '@/components/VehicleSearchSection';
 import Pagination from '@/components/Pagination';
 import { getVehicles, getVehicleCount } from '@/actions/search';
+import { pageMetadata } from '@/lib/seo';
 
 export const revalidate = 60;
 
 const PAGE_SIZE = 12;
 
-export const metadata: Metadata = {
-  title: 'Showroom',
-  description: 'Browse the QZERO International premium vehicle collection.',
-};
+export const metadata: Metadata = pageMetadata({
+  title: 'Vehicles Showroom',
+  description:
+    'Browse the Qzero International premium vehicle collection — imported cars and SUVs with transparent pricing, inspection details, and expert guidance in Sri Lanka.',
+  path: '/vehicles',
+  keywords: [
+    'Buy cars Sri Lanka',
+    'Imported vehicles Sri Lanka',
+    'Qzero showroom',
+    'Premium used cars Habarakada',
+  ],
+});
 
 type VehiclesPageProps = {
   searchParams: Promise<{

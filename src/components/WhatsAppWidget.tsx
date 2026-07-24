@@ -31,7 +31,7 @@ export default function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: str
   if (!mounted) return null;
 
   return (
-    <div className="fixed bottom-5 right-4 z-40 flex flex-col items-center gap-2 sm:bottom-6 sm:right-6 sm:gap-2.5">
+    <div className="fixed bottom-10 right-4 z-40 flex flex-col items-center gap-3 sm:bottom-14 sm:right-6 sm:gap-3.5">
       {/* Main — Japan Owner number */}
       <TrackedWhatsAppLink
         href={buildWhatsAppUrl(
@@ -60,17 +60,17 @@ export default function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: str
         <WhatsAppGlyph className="relative z-10 h-9 w-9 sm:h-10 sm:w-10" />
       </TrackedWhatsAppLink>
 
-      {/* Secondary — Sri Lanka Manager icon (~25% of main); expanded hit area for taps */}
+      {/* Secondary — Sri Lanka Manager (~half of main, clearly smaller) */}
       <TrackedWhatsAppLink
         href={buildWhatsAppUrl(
           MANAGER_WHATSAPP_DIGITS,
           'Hello QZERO International, I would like to inquire about your vehicles.'
         )}
         source="floating"
-        className="relative flex h-[0.875rem] w-[0.875rem] items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_0_12px_rgba(37,211,102,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#20bd5a] before:absolute before:-inset-3 before:content-[''] sm:h-[1.125rem] sm:w-[1.125rem]"
+        className="relative flex h-8 w-8 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_0_16px_rgba(37,211,102,0.4)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#20bd5a] sm:h-10 sm:w-10"
         ariaLabel="WhatsApp +94 712 409 519"
       >
-        <WhatsAppGlyph className="relative z-10 h-[0.55rem] w-[0.55rem] sm:h-[0.7rem] sm:w-[0.7rem]" />
+        <WhatsAppGlyph className="relative z-10 h-5 w-5 sm:h-6 sm:w-6" />
       </TrackedWhatsAppLink>
     </div>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { buildWhatsAppUrl } from '@/config/site';
 import TrackedWhatsAppLink from '@/components/TrackedWhatsAppLink';
 
@@ -22,16 +22,17 @@ function WhatsAppGlyph({ className }: { className?: string }) {
 }
 
 export default function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: string }) {
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) return null;
+  const pathname = usePathname();
+  const isVehicleDetail = pathname.startsWith('/vehicles/');
 
   return (
-    <div className="fixed bottom-10 right-4 z-40 flex flex-col items-center gap-5 sm:bottom-14 sm:right-6 sm:gap-6">
+    <div
+      className={`fixed right-4 z-40 flex flex-col items-center gap-5 sm:right-6 sm:gap-6 ${
+        isVehicleDetail
+          ? 'bottom-[calc(6rem+env(safe-area-inset-bottom))] sm:bottom-[calc(7rem+env(safe-area-inset-bottom))] lg:bottom-14'
+          : 'bottom-10 sm:bottom-14'
+      }`}
+    >
       {/* Main — Japan Owner number */}
       <TrackedWhatsAppLink
         href={buildWhatsAppUrl(
@@ -40,7 +41,7 @@ export default function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: str
         )}
         source="floating"
         className="group relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_0_28px_rgba(37,211,102,0.45)] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-[#20bd5a] hover:shadow-[0_0_36px_rgba(37,211,102,0.6)] sm:h-[4.5rem] sm:w-[4.5rem]"
-        ariaLabel="Chat with us on WhatsApp"
+        ariaLabel="WhatsApp Owner +81 80-9566-1550"
       >
         <span
           aria-hidden
@@ -52,12 +53,15 @@ export default function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: str
         />
 
         <div className="absolute right-full mr-4 hidden whitespace-nowrap rounded-lg border border-white/10 bg-[#121212] px-4 py-2 text-sm font-medium text-white opacity-0 shadow-xl transition-all duration-300 group-hover:block group-hover:opacity-100 lg:block">
-          Chat with us!
+          Japan Owner
           <div className="absolute top-1/2 -right-1.5 -translate-y-1/2 border-y-4 border-l-4 border-y-transparent border-l-white/10" />
           <div className="absolute top-1/2 -right-1 -translate-y-1/2 border-y-[3px] border-l-[3px] border-y-transparent border-l-[#121212]" />
         </div>
 
         <WhatsAppGlyph className="relative z-10 h-9 w-9 sm:h-10 sm:w-10" />
+        <span className="absolute -right-2 -bottom-2 z-20 rounded-full border border-brand-gold/70 bg-black px-1.5 py-0.5 text-[10px] font-extrabold tracking-wider text-brand-gold shadow-lg sm:text-xs">
+          JP
+        </span>
       </TrackedWhatsAppLink>
 
       {/* Secondary — Sri Lanka Manager (~half of main) + matching orbit rings */}
@@ -68,7 +72,7 @@ export default function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: str
         )}
         source="floating"
         className="relative flex h-8 w-8 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_0_16px_rgba(37,211,102,0.4)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#20bd5a] sm:h-10 sm:w-10"
-        ariaLabel="WhatsApp +94 712 409 519"
+        ariaLabel="WhatsApp Manager +94 712 409 519"
       >
         <span
           aria-hidden
@@ -79,6 +83,9 @@ export default function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: str
           className="whatsapp-orbit-reverse pointer-events-none absolute -inset-0.5 rounded-full border border-[#25D366]/40 sm:-inset-1"
         />
         <WhatsAppGlyph className="relative z-10 h-5 w-5 sm:h-6 sm:w-6" />
+        <span className="absolute -right-2 -bottom-2 z-20 rounded-full border border-white/70 bg-black px-1.5 py-0.5 text-[9px] font-extrabold tracking-wider text-white shadow-lg sm:text-[10px]">
+          LK
+        </span>
       </TrackedWhatsAppLink>
     </div>
   );

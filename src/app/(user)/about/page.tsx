@@ -40,7 +40,7 @@ const values = [
 ];
 
 const milestones = [
-  { year: '2018', label: 'Founded in Colombo with a focus on premium imports' },
+  { year: '2018', label: 'Founded in Habarakada with a focus on premium imports' },
   { year: '2021', label: 'Expanded sourcing network across Japan, UK, and Australia' },
   { year: '2024', label: 'Launched digital showroom with full inventory transparency' },
 ];
@@ -48,7 +48,7 @@ const milestones = [
 const trustPoints = [
   { icon: Award, label: 'Verified vehicle records' },
   { icon: Users, label: 'Dedicated concierge team' },
-  { icon: Building2, label: 'Colombo showroom experience' },
+  { icon: Building2, label: 'Habarakada showroom experience' },
 ];
 
 export default async function AboutPage() {
@@ -115,7 +115,7 @@ export default async function AboutPage() {
           <h2 className="mt-4 text-3xl font-bold text-white">Built for discerning buyers</h2>
           <p className="type-muted mt-4 max-w-3xl">
             We combine global auction access, certified inspection, and white-glove delivery into one
-            premium workflow. Whether you are browsing our Colombo showroom with family or sourcing a
+            premium workflow. Whether you are browsing our Habarakada showroom with family or sourcing a
             specific vehicle from overseas, QZERO keeps the process transparent and human.
           </p>
 

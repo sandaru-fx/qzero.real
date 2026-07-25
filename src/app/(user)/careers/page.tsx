@@ -14,13 +14,13 @@ export async function generateMetadata(): Promise<Metadata> {
 const openings = [
   {
     title: 'Vehicle Sales Consultant',
-    type: 'Full-time · Colombo',
+    type: 'Full-time · Habarakada',
     description:
       'Guide clients through our premium showroom inventory and support test drive coordination.',
   },
   {
     title: 'Import Operations Coordinator',
-    type: 'Full-time · Colombo',
+    type: 'Full-time · Habarakada',
     description:
       'Manage sourcing, inspection reports, shipping updates, and customs documentation workflows.',
   },
@@ -63,7 +63,7 @@ export default async function CareersPage() {
           </div>
           <div className="rounded-xl border border-white/5 bg-brand-card p-6">
             <MapPin className="h-6 w-6 text-brand-gold" />
-            <p className="mt-4 text-lg font-semibold text-white">Colombo based</p>
+            <p className="mt-4 text-lg font-semibold text-white">Habarakada based</p>
             <p className="type-muted mt-2">{siteConfig.contact.address.line2}</p>
           </div>
         </div>

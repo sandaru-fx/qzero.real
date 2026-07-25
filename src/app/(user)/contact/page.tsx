@@ -4,6 +4,7 @@ import type { Metadata } from 'next';
 import ContactForm from '@/components/ContactForm';
 import ContactFaq from '@/components/ContactFaq';
 import LifestyleHero from '@/components/LifestyleHero';
+import TrackedWhatsAppLink from '@/components/TrackedWhatsAppLink';
 import { buildWhatsAppUrl } from '@/config/site';
 import { getSiteConfig } from '@/actions/settings';
 import { lifestyleImages } from '@/data/lifestyle';
@@ -89,13 +90,13 @@ export default async function ContactPage({
         minHeight="sm:min-h-[80svh] lg:min-h-[85svh]"
         aside={
           <div className="w-full space-y-7 text-left">
-            <a
+            <TrackedWhatsAppLink
               href={buildWhatsAppUrl(
                 ownerWhatsAppDigits,
                 'Hello QZERO International (Owner), I would like to inquire about your vehicles.'
               )}
-              target="_blank"
-              rel="noopener noreferrer"
+              source="contact_owner"
+              ariaLabel={`WhatsApp Owner ${ownerWhatsAppDisplay}`}
               className="group block rounded-2xl border border-white/15 bg-black/45 px-4 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-5 sm:py-6"
             >
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-gold sm:text-base">
@@ -104,14 +105,14 @@ export default async function ContactPage({
               <p className="mt-3 whitespace-nowrap font-[family-name:var(--font-luxury)] text-[1.65rem] font-semibold tracking-[0.02em] text-white transition-colors group-hover:text-brand-gold sm:text-3xl lg:text-[2.35rem] lg:leading-tight">
                 {ownerWhatsAppDisplay}
               </p>
-            </a>
-            <a
+            </TrackedWhatsAppLink>
+            <TrackedWhatsAppLink
               href={buildWhatsAppUrl(
                 managerWhatsAppDigits,
                 'Hello QZERO International (Manager), I would like to inquire about your vehicles.'
               )}
-              target="_blank"
-              rel="noopener noreferrer"
+              source="contact_manager"
+              ariaLabel={`WhatsApp Manager ${managerWhatsAppDisplay}`}
               className="group block rounded-2xl border border-white/15 bg-black/45 px-4 py-5 backdrop-blur-md transition-colors hover:border-brand-gold/50 sm:px-5 sm:py-6"
             >
               <p className="text-sm font-bold uppercase tracking-[0.22em] text-brand-gold sm:text-base">
@@ -120,7 +121,7 @@ export default async function ContactPage({
               <p className="mt-3 whitespace-nowrap font-[family-name:var(--font-luxury)] text-[1.65rem] font-semibold tracking-[0.02em] text-white transition-colors group-hover:text-brand-gold sm:text-3xl lg:text-[2.35rem] lg:leading-tight">
                 {managerWhatsAppDisplay}
               </p>
-            </a>
+            </TrackedWhatsAppLink>
           </div>
         }
       >

@@ -128,11 +128,11 @@ export default async function AdminDashboardPage() {
             WhatsApp interest
           </h2>
           <p className="mt-1 text-base font-medium text-brand-muted">
-            Button clicks on the site — not confirmed sent messages. Floating icon and vehicle
-            Inquire are tracked separately.
+            Button clicks on the site — not confirmed sent messages. Floating icon, vehicle
+            inquiries, and contact links are tracked separately.
           </p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           <div className="rounded-xl border border-white/10 bg-black/30 p-5">
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-brand-muted">
               Today · Floating icon
@@ -147,11 +147,18 @@ export default async function AdminDashboardPage() {
           </div>
           <div className="rounded-xl border border-white/10 bg-black/30 p-5">
             <p className="text-sm font-semibold uppercase tracking-[0.14em] text-brand-muted">
+              Today · Contact
+            </p>
+            <p className="mt-2 text-3xl font-extrabold text-white">{waStats.todayContact}</p>
+          </div>
+          <div className="rounded-xl border border-white/10 bg-black/30 p-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.14em] text-brand-muted">
               This week · Total
             </p>
             <p className="mt-2 text-3xl font-extrabold text-brand-gold">{waStats.weekTotal}</p>
             <p className="mt-1 text-sm text-white/50">
-              Icon {waStats.weekFloating} · Vehicle {waStats.weekVehicleInquire}
+              Icon {waStats.weekFloating} · Vehicle {waStats.weekVehicleInquire} · Contact{' '}
+              {waStats.weekContact}
             </p>
           </div>
           <div className="rounded-xl border border-white/10 bg-black/30 p-5">

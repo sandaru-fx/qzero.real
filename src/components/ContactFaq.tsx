@@ -14,7 +14,7 @@ const faqs = [
   {
     question: 'Can I visit the showroom with my family?',
     answer:
-      'Absolutely. Our Colombo showroom is set up for a calm, personal viewing experience — bring your family, take your time, and we’ll walk you through options without pressure.',
+      'Absolutely. Our Habarakada showroom is set up for a calm, personal viewing experience — bring your family, take your time, and we’ll walk you through options without pressure.',
   },
   {
     question: 'Do you help with vehicle imports as well as showroom stock?',

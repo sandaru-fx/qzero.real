@@ -18,7 +18,7 @@ export default function StickyVehicleCta({
   vehicleSlug,
 }: StickyVehicleCtaProps) {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/85 p-3 backdrop-blur-xl lg:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/85 p-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-xl lg:hidden">
       <div className="mx-auto flex max-w-[1600px] gap-2">
         <TrackedWhatsAppLink
           href={whatsappUrl}

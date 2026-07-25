@@ -5,6 +5,13 @@ import WhatsAppClick from '@/models/WhatsAppClick';
 import { protectServerAction } from '@/lib/auth';
 import type { WhatsAppClickSource, WhatsAppClickStats } from '@/types/whatsapp-click';
 
+const VALID_SOURCES: WhatsAppClickSource[] = [
+  'floating',
+  'vehicle_inquire',
+  'contact_owner',
+  'contact_manager',
+];
+
 function startOfDay(d = new Date()) {
   const x = new Date(d);
   x.setHours(0, 0, 0, 0);
@@ -24,7 +31,7 @@ export async function trackWhatsAppClick(input: {
 }) {
   try {
     const source = input.source;
-    if (source !== 'floating' && source !== 'vehicle_inquire') {
+    if (!VALID_SOURCES.includes(source)) {
       return { success: false as const };
     }
     await connectToDatabase();
@@ -44,9 +51,11 @@ export async function getWhatsAppClickStats(): Promise<WhatsAppClickStats> {
     todayTotal: 0,
     todayFloating: 0,
     todayVehicleInquire: 0,
+    todayContact: 0,
     weekTotal: 0,
     weekFloating: 0,
     weekVehicleInquire: 0,
+    weekContact: 0,
     allTimeTotal: 0,
   };
 
@@ -81,9 +90,13 @@ export async function getWhatsAppClickStats(): Promise<WhatsAppClickStats> {
       todayTotal: sum(todayRows),
       todayFloating: sum(todayRows, 'floating'),
       todayVehicleInquire: sum(todayRows, 'vehicle_inquire'),
+      todayContact:
+        sum(todayRows, 'contact_owner') + sum(todayRows, 'contact_manager'),
       weekTotal: sum(weekRows),
       weekFloating: sum(weekRows, 'floating'),
       weekVehicleInquire: sum(weekRows, 'vehicle_inquire'),
+      weekContact:
+        sum(weekRows, 'contact_owner') + sum(weekRows, 'contact_manager'),
       allTimeTotal,
     };
   } catch {

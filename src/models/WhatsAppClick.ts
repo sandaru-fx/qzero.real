@@ -14,7 +14,7 @@ const WhatsAppClickSchema = new Schema<IWhatsAppClick>(
   {
     source: {
       type: String,
-      enum: ['floating', 'vehicle_inquire'],
+      enum: ['floating', 'vehicle_inquire', 'contact_owner', 'contact_manager'],
       required: true,
       index: true,
     },

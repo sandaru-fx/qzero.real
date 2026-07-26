@@ -61,25 +61,25 @@ export default function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: str
         <WhatsAppGlyph className="relative z-10 h-9 w-9 sm:h-10 sm:w-10" />
       </TrackedWhatsAppLink>
 
-      {/* Secondary — Sri Lanka Manager (~half of main) + matching orbit rings */}
+      {/* Secondary — Sri Lanka Manager (same size as main) */}
       <TrackedWhatsAppLink
         href={buildWhatsAppUrl(
           MANAGER_WHATSAPP_DIGITS,
           'Hello QZERO International, I would like to inquire about your vehicles.'
         )}
         source="floating"
-        className="relative flex h-8 w-8 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_0_16px_rgba(37,211,102,0.4)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#20bd5a] sm:h-10 sm:w-10"
+        className="relative flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_0_28px_rgba(37,211,102,0.45)] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:bg-[#20bd5a] hover:shadow-[0_0_36px_rgba(37,211,102,0.6)] sm:h-[4.5rem] sm:w-[4.5rem]"
         ariaLabel="WhatsApp Manager +94 712 409 519"
       >
         <span
           aria-hidden
-          className="whatsapp-orbit pointer-events-none absolute -inset-1.5 rounded-full border-2 border-dashed border-[#25D366]/80 sm:-inset-2"
+          className="whatsapp-orbit pointer-events-none absolute -inset-2 rounded-full border-2 border-dashed border-[#25D366]/80 sm:-inset-2.5"
         />
         <span
           aria-hidden
-          className="whatsapp-orbit-reverse pointer-events-none absolute -inset-0.5 rounded-full border border-[#25D366]/40 sm:-inset-1"
+          className="whatsapp-orbit-reverse pointer-events-none absolute -inset-1 rounded-full border border-[#25D366]/40 sm:-inset-1.5"
         />
-        <WhatsAppGlyph className="relative z-10 h-5 w-5 sm:h-6 sm:w-6" />
+        <WhatsAppGlyph className="relative z-10 h-9 w-9 sm:h-10 sm:w-10" />
       </TrackedWhatsAppLink>
     </div>
   );

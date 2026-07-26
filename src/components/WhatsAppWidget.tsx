@@ -59,9 +59,6 @@ export default function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: str
         </div>
 
         <WhatsAppGlyph className="relative z-10 h-9 w-9 sm:h-10 sm:w-10" />
-        <span className="absolute -right-2 -bottom-2 z-20 rounded-full border border-brand-gold/70 bg-black px-1.5 py-0.5 text-[10px] font-extrabold tracking-wider text-brand-gold shadow-lg sm:text-xs">
-          JP
-        </span>
       </TrackedWhatsAppLink>
 
       {/* Secondary — Sri Lanka Manager (~half of main) + matching orbit rings */}
@@ -83,9 +80,6 @@ export default function WhatsAppWidget({ whatsappNumber }: { whatsappNumber: str
           className="whatsapp-orbit-reverse pointer-events-none absolute -inset-0.5 rounded-full border border-[#25D366]/40 sm:-inset-1"
         />
         <WhatsAppGlyph className="relative z-10 h-5 w-5 sm:h-6 sm:w-6" />
-        <span className="absolute -right-2 -bottom-2 z-20 rounded-full border border-white/70 bg-black px-1.5 py-0.5 text-[9px] font-extrabold tracking-wider text-white shadow-lg sm:text-[10px]">
-          LK
-        </span>
       </TrackedWhatsAppLink>
     </div>
   );

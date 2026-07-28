@@ -69,8 +69,8 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
             fill
             sizes="(min-width: 1024px) 58vw, 100vw"
             priority
-            quality={75}
-            className="object-cover"
+            quality={90}
+            className="object-contain object-center"
           />
 
           {galleryImages.length > 1 && (

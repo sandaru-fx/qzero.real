@@ -56,7 +56,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
 
   return (
     <>
-      <div className="overflow-hidden rounded-xl border border-white/5 bg-black">
+      <div className="mx-auto w-full max-w-3xl overflow-hidden rounded-xl border border-white/5 bg-black lg:max-w-4xl">
         <div
           className="relative aspect-[16/10] cursor-zoom-in"
           onTouchStart={onTouchStart}
@@ -67,7 +67,7 @@ export default function ImageGallery({ images, title }: ImageGalleryProps) {
             src={galleryImages[activeIndex]}
             alt={`${title} image ${activeIndex + 1}`}
             fill
-            sizes="(min-width: 1024px) 58vw, 100vw"
+            sizes="(min-width: 1024px) 896px, (min-width: 768px) 768px, 100vw"
             priority
             quality={90}
             className="object-contain object-center"

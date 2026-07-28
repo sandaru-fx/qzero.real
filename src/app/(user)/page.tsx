@@ -7,7 +7,7 @@ import VehicleCard from '@/components/VehicleCard';
 import VehicleSearchSection from '@/components/VehicleSearchSection';
 import HomeLifestyleBand from '@/components/home/HomeLifestyleBand';
 import ScrollReveal from '@/components/motion/ScrollReveal';
-import { getFeaturedVehicles, getVehicles } from '@/actions/search';
+import { getVehicles } from '@/actions/search';
 import { getSiteConfig } from '@/actions/settings';
 import { getFeaturedReviews } from '@/actions/review';
 import { SITE_SHELL } from '@/config/layout';
@@ -38,17 +38,13 @@ const processSteps = [
 ];
 
 export default async function HomePage() {
-  const [featuredVehicles, latestVehicles, siteConfig, featuredReviews] = await Promise.all([
-    getFeaturedVehicles(HOME_VEHICLE_MAX),
+  const [latestVehicles, siteConfig, featuredReviews] = await Promise.all([
     getVehicles({ limit: HOME_VEHICLE_MAX }),
     getSiteConfig(),
     getFeaturedReviews(5),
   ]);
 
-  const displayVehicles =
-    featuredVehicles.length > 0
-      ? featuredVehicles.slice(0, HOME_VEHICLE_MAX)
-      : latestVehicles.slice(0, HOME_VEHICLE_MAX);
+  const displayVehicles = latestVehicles.slice(0, HOME_VEHICLE_MAX);
 
   return (
     <>

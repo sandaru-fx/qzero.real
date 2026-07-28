@@ -15,6 +15,7 @@ import TestimonialMarquee from '@/components/ui/TestimonialMarquee';
 import { pageMetadata } from '@/lib/seo';
 
 export const revalidate = 60;
+const HOME_VEHICLE_MAX = 28;
 
 export const metadata: Metadata = pageMetadata({
   title: 'Premium Vehicles Sri Lanka',
@@ -38,16 +39,16 @@ const processSteps = [
 
 export default async function HomePage() {
   const [featuredVehicles, latestVehicles, siteConfig, featuredReviews] = await Promise.all([
-    getFeaturedVehicles(4),
-    getVehicles({ limit: 8 }),
+    getFeaturedVehicles(HOME_VEHICLE_MAX),
+    getVehicles({ limit: HOME_VEHICLE_MAX }),
     getSiteConfig(),
     getFeaturedReviews(5),
   ]);
 
   const displayVehicles =
     featuredVehicles.length > 0
-      ? featuredVehicles.slice(0, 4)
-      : latestVehicles.slice(0, 4);
+      ? featuredVehicles.slice(0, HOME_VEHICLE_MAX)
+      : latestVehicles.slice(0, HOME_VEHICLE_MAX);
 
   return (
     <>
@@ -225,3 +226,4 @@ export default async function HomePage() {
     </>
   );
 }
+

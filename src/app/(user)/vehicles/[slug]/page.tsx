@@ -63,13 +63,6 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
   const relatedVehicles = await getRelatedVehicles(vehicle, 3);
   const title = `${vehicle.brand} ${vehicle.model}`;
   const formattedPrice = formatPrice(vehicle.price);
-  const postedDate = vehicle.createdAt
-    ? new Date(vehicle.createdAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      })
-    : null;
 
   const whatsappMessage = `Hello QZERO International, I am interested in the ${vehicle.year} ${vehicle.brand} ${vehicle.model} priced at ${formattedPrice}. Is this vehicle still available?`;
   const whatsappUrl = buildWhatsAppUrl(siteConfig.contact.whatsapp, whatsappMessage);
@@ -116,18 +109,13 @@ export default async function VehicleDetailPage({ params }: VehicleDetailPagePro
             {vehicle.brand} {vehicle.model} {vehicle.year}{' '}
             {vehicle.grade && <span className="text-brand-gold">{vehicle.grade}</span>}
           </h1>
-          <div className="mt-3 flex flex-wrap items-center gap-4">
-            {postedDate && (
-              <p className="type-meta text-brand-muted">
-                Posted: <span className="text-gray-300">{postedDate}</span>
-              </p>
-            )}
-            {vehicle.isFeatured && (
+          {vehicle.isFeatured ? (
+            <div className="mt-3 flex flex-wrap items-center gap-4">
               <span className="type-meta rounded-full border border-brand-gold/30 bg-brand-gold/5 px-3 py-1 font-bold uppercase text-brand-gold">
                 Featured
               </span>
-            )}
-          </div>
+            </div>
+          ) : null}
           <p className="mt-5 text-4xl font-extrabold tracking-tight gold-text">{formattedPrice}</p>
         </div>
 
